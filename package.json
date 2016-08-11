@@ -1,0 +1,25 @@
+{
+  "name": "lack",
+  "version": "1.0.0",
+  "description": "This folder contains the starting code for the [Firebase: Build a Real Time Web Chat App Codelab](https://codelabs.developers.google.com/codelabs/firebase-web/).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node_modules/.bin/browserify scripts/main.js > .bundle.js",
+    "watch": "node_modules/.bin/watchify scripts/main.js -o .bundle.js -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/britneylovell1/lack.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/britneylovell1/lack/issues"
+  },
+  "homepage": "https://github.com/britneylovell1/lack#readme",
+  "devDependencies": {
+    "browserify": "^13.1.0",
+    "watchify": "^3.7.0"
+  }
+}
