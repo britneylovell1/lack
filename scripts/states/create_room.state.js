@@ -1,12 +1,6 @@
-var app = require('../app.js');
+// var angular = require('angular');
+// var app = angular.module('lack');
 
-app.config(function ($stateProvider) {
+// var createRoomState =
 
-  $stateProvider.state('createRoom', {
-    url: '/create-room',
-    templateUrl: './test.html',
-    controller: function ($scope) {
-      $scope.test = "Testing";
-    }
-  });
-});
+// module.exports = createRoomState;
