@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node_modules/.bin/browserify scripts/main.js > .bundle.js",
-    "watch": "node_modules/.bin/watchify scripts/main.js -o .bundle.js -v"
+    "watch": "node_modules/.bin/watchify scripts/main.js -o .bundle.js -v -d"
   },
   "repository": {
     "type": "git",

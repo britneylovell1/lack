@@ -1,4 +1,16 @@
 var angular = require('angular');
-var app = angular.module('lack', ['firebase', 'ui.router', 'angular-animate', 'angular-aria', 'ngMaterial']);
-
-module.exports = app;
+module.exports = angular.module('lack', [
+  require('angular-ui-router'),
+  require('angular-animate'),
+  require('angular-aria'),
+  require('angular-material')
+])
+.config(function ($stateProvider) {
+  $stateProvider.state('createRoom', {
+    url: '/create-room',
+    template: '<h1>Hi</h1>',
+    controller: function ($scope) {
+     console.log('changing state');
+    }
+  });
+});
