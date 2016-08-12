@@ -1,0 +1,15 @@
+<div>
+  <h1>My rooms</h1>
+  <h3>High priority</h3>
+  <ul>
+    <li ng-repeat="room in rooms | priority: high">
+      <a>{{ room.name }}</a>
+    </li>
+  </ul>
+  <h3>Low priority</h3>
+  <ul>
+    <li ng-repeat="room in rooms | priority: low">
+      <a>{{ room.name }}</a>
+    </li>
+  </ul>
+</div>
