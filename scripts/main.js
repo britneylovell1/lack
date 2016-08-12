@@ -1,6 +1,7 @@
 'use strict';
 
-var FriendlyChat = require('./friendlychat');
-window.onload = function() {
-  window.friendlyChat = new FriendlyChat();
-};
+// var FriendlyChat = require('./friendlychat');
+var app = require('./app.js');
+// window.onload = function() {
+//   window.friendlyChat = new FriendlyChat();
+// };
