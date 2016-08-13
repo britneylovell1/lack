@@ -6,12 +6,24 @@ module.exports = angular.module('lack', [
   require('angular-aria'),
   require('angular-material')
 ])
-.config(function ($stateProvider) {
-  $stateProvider.state('createRoom', {
-    url: '/create-room',
-    template: '<h1>Hi</h1>',
-    controller: function ($scope) {
-     console.log('changing state');
-    }
-  });
+
+//states:
+.config(require('./states/create_room.state.js'))
+.config(require('./states/landing.state.js'))
+.config(require('./states/login.state.js'))
+
+//directives:
+.directive('navbar', require('./directives/navbar.directive.js'))
+
+//prettify URLs:
+.config(function ($locationProvider) {
+  $locationProvider.html5Mode(true);
+})
+
+//set themes:
+.config(function($mdThemingProvider) {
+  $mdThemingProvider.theme('default')
+    .primaryPalette('orange')
+    .accentPalette('indigo');
 });
+
