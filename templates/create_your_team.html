@@ -1,20 +1,28 @@
 <div class="">
 	<h1>Create your team</h1>
-	<form class="">
-		Team Name: <input type="text" placeholder="Enter your team name" ng-model="team.name" ng-change="team.$save(team.name)"/><br />
-		Your Email: <input type="text" placeholder="Enter your email" ng-model="" /><br />
-		Your Username: <input type="text" placeholder="Create a username" ng-model="" /><br />
-		Password: <input type="text" placeholder="Create a password" ng-model="" /><br />
-		Invite Teammates: <input type="text" placeholder="Enter your teammates' emails" ng-model="" /><br />
-	</form>
-	<a ui-sref="" ng-click="">
-		<button>
+	<form id="create-team">
+
+		<label for="team_name">Team name: </label>
+			<input id="team_name" 
+					type="text" 
+					placeholder="Enter your team name" 
+					ng-model="team.name" />
+
+		<br>
+		<br>
+
+		<label for="team_members">Invite teammates: </label>
+			<input id="team_members"
+					type="text" 
+					placeholder="Enter your teammates' emails"
+					ng-model="team.members" />
+
+		<br>
+		<br>
+
+		<button type="submit" ng-click="saveTeam()">
 			Go to your team
 		</button>
-	</a>
-	<a ui-sref="" ng-click="">
-		<button>
-			Configure settings
-		</button>
-	</a>
+
+	</form>
 </div>
