@@ -13,4 +13,6 @@ module.exports = angular.module('lack', [
      console.log('changing state');
     }
   });
-});
+})
+.config(require('./states/create_your_team.state.js'))
+// .controller('createTeamCtrl', require('./controllers/create_your_team.controller.js'));

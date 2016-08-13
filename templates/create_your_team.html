@@ -1,7 +1,7 @@
 <div class="">
 	<h1>Create your team</h1>
 	<form class="">
-		Team Name: <input type="text" placeholder="Enter your team name" ng-model="team.name" /><br />
+		Team Name: <input type="text" placeholder="Enter your team name" ng-model="team.name" ng-change="team.$save(team.name)"/><br />
 		Your Email: <input type="text" placeholder="Enter your email" ng-model="" /><br />
 		Your Username: <input type="text" placeholder="Create a username" ng-model="" /><br />
 		Password: <input type="text" placeholder="Create a password" ng-model="" /><br />
