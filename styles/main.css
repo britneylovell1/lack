@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-html, body {
+/*html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
 }
+
+
 main, #messages-card {
   height: 100%;
   padding-bottom: 0;
@@ -198,5 +200,17 @@ main, #messages-card {
 .mdl-button .material-icons {
   top: -1px;
   margin-right: 5px;
+}*/
+
+html {
+  font-family: 'Raleway', sans-serif;
 }
 
+#hero {
+  font-size: 100px;
+  margin-bottom: 0px;
+}
+
+#offset {
+  margin-bottom: 100px;
+}
