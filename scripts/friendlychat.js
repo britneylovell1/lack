@@ -184,11 +184,6 @@ FriendlyChat.prototype.saveImageMessage = function(event) {
 };
 
 // Signs-in Friendly Chat.
-// FriendlyChat.prototype.signIn = function(googleUser) {
-//   // TODO(DEVELOPER): Sign in Firebase with credential from the Google user.
-// };
-
-// Signs-in Friendly Chat.
 FriendlyChat.prototype.signIn = function() {
   // Sign in Firebase using popup auth and Google as the identity provider.
   var provider = new firebase.auth.GoogleAuthProvider();
@@ -196,10 +191,6 @@ FriendlyChat.prototype.signIn = function() {
 };
 
 // Signs-out of Friendly Chat.
-// FriendlyChat.prototype.signOut = function() {
-//   // TODO(DEVELOPER): Sign out of Firebase.
-// };
-
 FriendlyChat.prototype.signOut = function() {
   // Sign out of Firebase.
   this.auth.signOut();

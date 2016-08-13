@@ -3,7 +3,8 @@ module.exports = angular.module('lack', [
   require('angular-ui-router'),
   require('angular-animate'),
   require('angular-aria'),
-  require('angular-material')
+  require('angular-material'),
+  require('angularfire')
 ])
 
 //states:

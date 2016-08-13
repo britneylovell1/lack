@@ -1,33 +1,30 @@
-var app = require('../app.js');
+var angular = require('angular');
+var app = angular.module('lack');
+var firebase = require('firebase');
 
-// create a team
-// email team members
-// set admin status
-// do we need to associate the user 
+// TODO:
+// create a team in firebase
+// clear input field + reset $scope.team
+// email team members (figure out how to do this)
+// set admin status for current user
+// associate each member (including current user) 
+	// to the team 
+// redirect to that team's state
 
+// old stuff
 app.factory('teamFactory', function() {
 
+	// helper function for createTeam
 	function assocMembers(members) {
 		// associate the each user to the team
-
 		members.forEach(function(member, teamKey) {
-
 			firebase.database().ref('/users').child(member).child('teams').push({
 				teamKey: true
 			});
-
 		});
 	}
 
-
-
-
 	return {
-		parseMembers: function(teamMembers) {
-			// figure out how teamMembers is passed before tackling this
-			// return an array of teamMembers ids
-		},
-
 		createTeam: function(teamName, teamMembers) {
 			// teamMembers needs to be an array 
 
