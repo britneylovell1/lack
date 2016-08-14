@@ -1,9 +1,15 @@
-<div layout="column" flex layout-fill layout-align="center center">
-    <h1>Welcome to Lack!</h1>
-    <h2>Sign up with Google to join {{ teamName }}</h2>
-    <a ui-sref="landing">
-      <md-button class="md-raised md-primary">
-          Sign up
-      </md-button>
-    </a>
+<div class="">
+	<h1>Welcome to Lack!</h1>
+	<div>
+		<form class="">
+			Create Username: <input type="text" placeholder="Your new username" ng-model="user.name" /><br />
+			Create Password: <input type="text" placeholder="Your password" ng-model="user.password" /><br />
+			Verify Password: <input type="text" placeholder="Your password" ng-model="user.verifyPassword" /><br />
+		</form>
+		<a ui-sref="" ng-click="">
+			<button>
+				Join {{ team.name }}
+			</button>
+		</a>
+	</div>
 </div>

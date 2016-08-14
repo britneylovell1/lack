@@ -1,10 +1,10 @@
 var angular = require('angular');
-
 module.exports = angular.module('lack', [
   require('angular-ui-router'),
   require('angular-animate'),
   require('angular-aria'),
-  require('angular-material')
+  require('angular-material'),
+  require('angularfire')
 ])
 
 //states:
@@ -16,6 +16,7 @@ module.exports = angular.module('lack', [
 .config(require('./states/join_team.state.js'))
 .config(require('./states/close_room.state.js'))
 .config(require('./states/home.state.js'))
+.config(require('./states/create_your_team.state.js'))
 
 //directives:
 .directive('navbar', require('./directives/navbar.directive.js'))
@@ -32,4 +33,3 @@ module.exports = angular.module('lack', [
     .primaryPalette('orange')
     .accentPalette('indigo');
 });
-

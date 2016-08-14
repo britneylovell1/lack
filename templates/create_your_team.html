@@ -1,0 +1,28 @@
+<div class="">
+	<h1>Create your team</h1>
+	<form id="create-team">
+
+		<label for="team_name">Team name: </label>
+			<input id="team_name" 
+					type="text" 
+					placeholder="Enter your team name" 
+					ng-model="team.name" />
+
+		<br>
+		<br>
+
+		<label for="team_members">Invite teammates: </label>
+			<input id="team_members"
+					type="text" 
+					placeholder="Enter your teammates' emails"
+					ng-model="team.members" />
+
+		<br>
+		<br>
+
+		<button type="submit" ng-click="saveTeam()">
+			Go to your team
+		</button>
+
+	</form>
+</div>
