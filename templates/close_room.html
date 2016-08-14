@@ -1,12 +1,23 @@
-<div>
-  <h1>Close {{ currentRoom.name }}</h1>
-  <form id="close-room">
-    <label for="notes">Notes: </label>
-    <textarea id="notes" ng-model="currentRoom.notes" placeholder="Enter meeting minutes, follow-ups, etc. here..."></textarea>
-    <br>
-    <label for="email-to">Email to: </label>
-    <textarea id="email-to" placeholder="{{ currentUser.email }}"></textarea>
-    <br>
-    <button type="submit">Close room</button>
-  </form>
+<div layout="column" flex layout-fill class="lackform">
+    <h1>Close {{ currentRoom.name }}</h1>
+    <form name="close-room-form">
+      <md-input-container class="md-block">
+        <label>Notes: </label>
+       <textarea id="notes" ng-model="currentRoom.notes" placeholder="Enter meeting minutes, follow-ups, etc. here..."></textarea>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Email to: </label>
+        <md-select multiple ng-model="room.members">
+          <md-option ng-repeat="member in allMembers" value="{{member}}">
+            {{member}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+      <br>
+      <a ui-sref="landing">
+        <md-button class="md-raised md-primary" layout-fill>
+            Close room
+        </md-button>
+      </a>
+    </form>
 </div>

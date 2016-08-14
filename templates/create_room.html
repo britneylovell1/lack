@@ -1,0 +1,35 @@
+<div layout="column" flex layout-fill class="lackform">
+    <h1>Create new room</h1>
+    <form name="new-room-form">
+      <md-input-container class="md-block">
+        <label>What is the name of this room?</label>
+        <input required ng-model="room.name" />
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>What is the objective of this room?</label>
+        <input required ng-model="room.objective" />
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Select teammates to invite</label>
+        <md-select required multiple ng-model="room.members">
+          <md-option ng-repeat="member in allMembers" value="{{member}}">
+            {{member}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+      <br>
+      <div>
+        <p>When should this room expire?</p>
+        <md-datepicker required ng-model="room.date" md-placeholder="Select a date"></md-datepicker>
+      </div>
+      <br>
+      <a>
+        <md-button class="md-raised md-primary" layout-fill>
+            Create room
+        </md-button>
+      </a>
+    </form>
+</div>
+
+
+

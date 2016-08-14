@@ -1,0 +1,23 @@
+<div layout="column" flex layout-fill class="lackform">
+    <h1>Create your team</h1>
+    <form name="new-team-form">
+      <md-input-container class="md-block">
+        <label>Team name</label>
+        <input required ng-model="team.name" />
+      </md-input-container>
+        <label>Send email invites to your teammates:</label>
+       	<md-chips ng-model="emails" readonly="false" md-require-match="false" placeholder="Enter emails..."></md-chips>
+      </md-input-container>
+      <br>
+      <a>
+        <md-button class="md-raised md-primary">
+            Go to your team
+        </md-button>
+      </a>
+      <a>
+        <md-button class="md-raised md-primary">
+            Configure settings
+        </md-button>
+      </a>
+    </form>
+</div>

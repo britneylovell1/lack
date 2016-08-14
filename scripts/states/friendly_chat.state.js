@@ -1,9 +1,8 @@
-var angular = require('angular');
-var app = angular.module('lack');
+// var angular = require('angular');
+// var app = angular.module('lack');
 
-module.exports = function ($stateProvider) {
-  $stateProvider.state('friendlyChat', {
-    url: '/friendly-chat',
-    template: '<h1>Friendly Chat</h1>'
-  })
-}
+// module.exports = function ($stateProvider) {
+//   $stateProvider.state('friendlyChat', {
+//     url: '/friendly-chat'
+//   })
+// }
