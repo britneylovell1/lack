@@ -6,8 +6,7 @@ module.exports = function () {
     restrict: 'E',
     templateUrl: '../templates/sidebar.html',
     scope: {
-      highPriRooms: '=',
-      lowPriRooms: '='
+     rooms: '=',
     }
   };
 };

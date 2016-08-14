@@ -11,7 +11,6 @@ module.exports = angular.module('lack', [
 .config(require('./states/create_room.state.js'))
 .config(require('./states/landing.state.js'))
 .config(require('./states/login.state.js'))
-.config(require('./states/create_team.state.js'))
 .config(require('./states/google_signup.state.js'))
 .config(require('./states/join_team.state.js'))
 .config(require('./states/close_room.state.js'))
@@ -31,5 +30,5 @@ module.exports = angular.module('lack', [
 .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('orange')
-    .accentPalette('indigo');
+    .accentPalette('amber');
 });

@@ -15,7 +15,7 @@ var createTeamState = function($stateProvider){
 			// clear input field + reset $scope.team
 			// email team members (figure out how to do this)
 			// set admin status for current user
-			// associate each member (including current user) to the team 
+			// associate each member (including current user) to the team
 			// redirect to that team's state
 
 			function createTeam() {
@@ -36,8 +36,10 @@ var createTeamState = function($stateProvider){
 			        alert('Team saved!');
 			      }).catch(function(error) {
 			        alert('Error!');
-			      });	
+			      });
 			};
+			//initialize empty array for Angular Material chips:
+			$scope.emails = [];
 		}
 	})
 }

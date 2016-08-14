@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" ng-app="lack">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <!-- prettyify URLs - comment back in before deployment: -->
@@ -35,14 +35,13 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
   <link rel="stylesheet" href="/styles/main.css">
 </head>
-<body>
+<body ng-app="lack" layout="column">
 
-  <div layout="column" flex layout-fill>
-  <navbar></navbar>
-    <md-content layout="column" flex layout-fill>
-      <ui-view layout="column" flex layout-fill id="offset"></ui-view>
-    </md-content>
-  </div>
+  <navbar>
+  </navbar>
+
+  <ui-view layout="row" flex id="offset">
+  </ui-view>
 
   <script src=".bundle.js"></script>
 </body>
