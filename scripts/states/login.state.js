@@ -9,8 +9,9 @@ module.exports = function ($stateProvider) {
     	// testing the controller
       // $scope.test = "login page";
 
-	    $scope.signIn = function() {
-				// Sign in Firebase using popup auth and Google as the identity provider.
+      // this is for first time users
+	    $scope.signUp = function() {
+				// Sign Up with Firebase using popup auth and Google as the identity provider.
 				$scope.authObj = $firebaseAuth();
 
 				$scope.authObj.$signInWithPopup("google")
@@ -34,6 +35,16 @@ module.exports = function ($stateProvider) {
 					console.error("Authentication failed:", error);
 				});
 		}
+
+
+		// use this somewhere
+		// $scope.authObj.$onAuthStateChanged(function(firebaseUser) {
+		//   if (firebaseUser) {
+		//     console.log("Signed in as:", firebaseUser.uid);
+		//   } else {
+		//     console.log("Signed out");
+		//   }
+		// });
 
 		// still need to redirect to different state
     }
