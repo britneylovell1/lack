@@ -21,6 +21,8 @@ module.exports = angular.module('lack', [
 .directive('navbar', require('./directives/navbar.directive.js'))
 .directive('sidebar', require('./directives/sidebar.directive.js'))
 
+.factory('roomFactory', require('./factories/create_room.factory.js'))
+
 //prettify URLs - comment back in for deployment:
 // .config(function ($locationProvider) {
 //   $locationProvider.html5Mode(true);
