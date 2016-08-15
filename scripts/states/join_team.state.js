@@ -4,7 +4,7 @@ var app = angular.module('lack');
 module.exports = function ($stateProvider) {
   $stateProvider.state('joinTeam', {
     url: '/join-team',
-    templateUrl: '/templates/join.team.html',
+    templateUrl: '/templates/join_team.html',
     controller: function ($scope, $location) {
       $scope.teamName = $location.search().teamName;
       $scope.teamId = $location.search().teamId;
