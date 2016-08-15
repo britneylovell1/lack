@@ -9,7 +9,7 @@ var createTeamState = function($stateProvider){
 		templateUrl: '../templates/create_your_team.html',
 
 		// future task: modularize the controller
-		controller: function($scope, $firebaseArray, $firebaseObject, $state) {
+		controller: function($scope, $firebaseArray, $firebaseObject, $state, EmailFactory) {
 			// TODO:
 			// create a team in firebase
 			// clear input field + reset $scope.team
@@ -33,6 +33,9 @@ var createTeamState = function($stateProvider){
 			// figure out how to parse/save the members with Material chips
 			$scope.saveTeam = function() {
 				$scope.team.emails = $scope.emails;
+
+				EmailFactory.sendInvitations($scope.team);
+
 				$scope.team.$save().then(function() {
 			        alert('Team saved!');
 			        $state.go('home');
