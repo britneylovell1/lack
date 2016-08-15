@@ -12,5 +12,6 @@ module.exports = function ($stateProvider) {
       // check to see if user is already in firebase
       // if user exists, add team to user (etc.)
       // if user does not exits, create new user
-  });
-};
+  	}
+	})
+})
