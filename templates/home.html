@@ -20,10 +20,10 @@
     </div>
     <div flex="20" layout="row">
       <md-input-container flex>
-        <form layout="row">
+        <form layout="row" ng-submit="saveMessage(message.text)">
           <label>Enter your message here</label>
-          <input ng-model="message.text">
-          <md-button ng-click="saveMessage(message.text)">
+          <input ng-model="message.text" flex flex-order="1">
+          <md-button flex-order="2">
             Send
           </md-button>
           </input>

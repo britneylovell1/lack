@@ -23,15 +23,9 @@ module.exports = function($stateProvider) {
           sender: 'Elisabeth',
           text: $scope.message.text
         });
+        $scope.message.text = '';
       };
 
-      $scope.saveMessages = function() {
-        $scope.messages.$save().then(function() {
-          console.log('Messages saved!');
-        }).catch(function(error) {
-          console.log(error);
-        });
-      };
     }
   });
 };
