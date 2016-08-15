@@ -26,6 +26,8 @@ module.exports = angular.module('lack', [
 //   $locationProvider.html5Mode(true);
 // })
 
+.factory('userFactory', require('./factories/user.factory.js'))
+
 //set themes:
 .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
