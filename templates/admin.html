@@ -1,0 +1,51 @@
+<!-- <div class="">
+	<div class="">
+		<form class="">
+			<h3>Add New Members</h3>
+			<textarea placeholder="Enter emails here" ng-model="" ></textarea><br/>
+		</form>
+		<a ui-sref="" ng-click="">
+			<button>
+				Invite members
+			</button>
+		</a>
+	</div>
+
+
+	<div class="">
+		<form class="">
+			<h3>Edit Current Members</h3>
+			<input class="" placeholder="search" /><br/>
+			<ul class="">
+				<li ng-repeat="member in members">
+					<a>{{ member.name }}</a>
+				</li>
+			</ul>
+			<a ui-sref="" ng-click="">
+				<button>
+					Make admin
+				</button>
+			</a>
+			<a ui-sref="" ng-click="">
+				<button>
+					Remove from team
+				</button>
+			</a>
+		</form>
+	</div>
+</div> -->
+
+<div layout="column" flex layout-fill class="lackform">
+    <h1>Admin Dashboard</h1>
+    <form id="edit-team">
+        <label>Invite new teammates:</label>
+       	<md-chips ng-model="newMemberEmails" readonly="false" md-require-match="false" placeholder="Enter emails..."></md-chips>
+      <br>
+      <a ng-click="inviteNewMembers()">
+        <md-button class="md-raised md-primary">
+            Send invites
+        </md-button>
+      </a>
+    </form>
+    <p ng-show="showSuccess">Your invitations are on their way!</p>
+</div>

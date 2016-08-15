@@ -12,6 +12,13 @@
       "firebase.json",
       "database-rules.json",
       "storage.rules"
-    ]
+    ],
+    "headers": [ {
+        "source" : "**",
+        "headers" : [ {
+          "key" : "Access-Control-Allow-Origin",
+          "value" : "*"
+        } ]
+    } ]
   }
 }
