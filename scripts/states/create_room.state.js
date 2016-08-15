@@ -1,47 +1,40 @@
 var angular = require('angular');
 var app = angular.module('lack');
+var firebase = require('firebase');
 
-module.exports = function ($stateProvider) {
+module.exports = function($stateProvider) {
   $stateProvider.state('createRoom', {
     url: '/create-room',
     templateUrl: '/templates/create_room.html',
-    // controller: function ($scope) {
-    //   $scope.allMembers = ['Maggie', 'Britney', 'Elisabeth'];
-    // }
-    // future task: modularize the controller
-	controller: function($scope, $firebaseArray, $firebaseObject, $state) {
-		// TODO:
-		// create a team in firebase
-		// clear input field + reset $scope.team
-		// email team members (figure out how to do this)
-		// set admin status for current user
-		// associate each member (including current user) to the team
-		// redirect to that team's state
+    controller: function($log, $scope, $firebaseObject, $state, roomFactory) {
 
-		function createTeam() {
-	      // create the team obj in firebase + get the reference to it
-	      var newTeamRef = firebase.database().ref('teams').push();
+      $scope.members = roomFactory.members;
 
-	      // return the team as a synchronized object
-	      return $firebaseObject(newTeamRef);
-	    }
 
-	    // this should be the new team obj.
-		$scope.team = createTeam();
+      $scope.querySearch = function(query) {
+        var results = query ? $scope.members.filter(roomFactory.createFilterFor(query)) : null;
+        return results;
+      };
 
-		// save team.name and team.members in firebase
-		// figure out how to parse/save the members with Material chips
-		$scope.saveTeam = function() {
-			$scope.team.emails = $scope.emails;
-			$scope.team.$save().then(function() {
-		        alert('Team saved!');
-		        $state.go('home');
-		      }).catch(function(error) {
-		        alert('Error!');
-		      });
-		};
-		//initialize empty array for Angular Material chips:
-		$scope.emails = [];
-	}
+      function createRoom() {
+        var newRoomRef = firebase.database().ref('rooms').push();
+        return $firebaseObject(newRoomRef);
+      }
+
+      $scope.room = createRoom();
+
+      // we'd want to lookup the members in the database and then send those with the room to the database
+      $scope.chipsmembers = [];
+
+      $scope.saveRoom = function() {
+        $scope.room.members = $scope.chipsmembers;
+        $scope.room.$save().then(function() {
+          alert('Room created!');
+          $state.go('home');
+        }).catch(function(error) {
+          alert('Error!');
+        });
+      };
+    }
   });
 };
