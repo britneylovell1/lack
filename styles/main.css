@@ -214,3 +214,27 @@ html {
 #offset {
   margin-bottom: 100px;
 }
+
+.lackform {
+  padding: 30px 400px;
+}
+
+.ng-scope {
+  height: 100%;
+}
+
+.fullheight {
+  height: 100vh;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.green {
+  background-color: green;
+}
+
+#sidebar {
+  height: 100vh;
+}

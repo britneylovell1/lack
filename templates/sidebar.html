@@ -1,15 +1,24 @@
-<div>
-  <h1>My rooms</h1>
-  <h3>High priority</h3>
-  <ul>
-    <li ng-repeat="room in rooms | priority: high">
-      <a>{{ room.name }}</a>
-    </li>
-  </ul>
-  <h3>Low priority</h3>
-  <ul>
-    <li ng-repeat="room in rooms | priority: low">
-      <a>{{ room.name }}</a>
-    </li>
-  </ul>
-</div>
+<md-sidenav id="sidebar"
+    class="md-sidenav-left"
+    md-component-id="left"
+    md-is-locked-open="true"
+    md-disable-backdrop>
+  <md-toolbar class="md-accent" md-whiteframe="4">
+    <h1 class="md-toolbar-tools">My rooms</h1>
+  </md-toolbar>
+  <md-content layout-padding>
+    <md-list>
+      <md-list-item ng-repeat="room in rooms">
+        <md-button>
+          {{ room.name }}
+        </md-button>
+      </md-list-item>
+    </md-list>
+    <a ui-sref="createRoom">
+      <md-button class="md-raised md-accent">
+        New room
+      </md-button>
+    </a>
+  </md-content>
+</md-sidenav>
+

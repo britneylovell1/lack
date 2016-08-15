@@ -4,9 +4,9 @@ var app = angular.module('lack');
 module.exports = function ($stateProvider) {
   $stateProvider.state('createRoom', {
     url: '/create-room',
-    template: '<h1>Hi {{ test }} </h1>',
+    templateUrl: '/templates/create_room.html',
     controller: function ($scope) {
-      $scope.test = "testing testing 123";
+      $scope.allMembers = ['Maggie', 'Britney', 'Elisabeth'];
     }
   });
 };

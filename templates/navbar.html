@@ -1,13 +1,23 @@
-<md-toolbar>
+<md-toolbar md-whiteframe="4">
   <div class="md-toolbar-tools">
     <a ui-sref="landing">
       <span>Lack</span>
     </a>
     <!-- fill up the space between left and right area -->
     <span flex></span>
-    <a ui-sref="login">
+     <a ui-sref="login">
       <md-button>
         Log in
+      </md-button>
+    </a>
+    <a ui-sref="landing" ng-hide="true">
+      <md-button>
+        Settings
+      </md-button>
+    </a>
+    <a ui-sref="landing" ng-hide="true">
+      <md-button>
+        Log out
       </md-button>
     </a>
   </div>
