@@ -10,7 +10,7 @@ module.exports = function ($stateProvider) {
       // $scope.test = "login page";
 
       // this is for first time users
-	    $scope.signUp = function() {
+	    $scope.signIn = function() {
 				// Sign Up with Firebase using popup auth and Google as the identity provider.
 				$scope.authObj = $firebaseAuth();
 
@@ -18,18 +18,6 @@ module.exports = function ($stateProvider) {
 				.then(function(result) {
 					console.log("Signed in as:", result.user.uid);
 					var userId = result.user.uid;
-					
-					// create new user or login the already created user
-					function createUser() {
-				      // create the user obj in firebase + get the reference to it
-				      var newUserRef = firebase.database().ref('users').child(userId);
-
-				      // return the team as a synchronized object
-				      return $firebaseObject(newUserRef);
-				    }
-
-
-
 				})
 				.catch(function(error) {
 					console.error("Authentication failed:", error);
