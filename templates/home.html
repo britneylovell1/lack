@@ -1,8 +1,8 @@
 <div layout="row" flex>
   <sidebar rooms="rooms">
   </sidebar>
-  <md-content layout="column" class="fullheight" flex>
-    <div flex="80">
+  <div flex>
+    <md-content flex="80">
       <div>
         <md-card ng-repeat="message in messages" layout="row">
           <md-card-title>
@@ -17,8 +17,8 @@
           </md-card-title>
         </md-card>
       </div>
-    </div>
-    <div flex="20" layout="row">
+    </md-content>
+    <div layout="row">
       <md-input-container flex>
         <form layout="row" ng-submit="saveMessage(message.text)">
           <label>Enter your message here</label>
@@ -30,6 +30,5 @@
         </form>
       </md-input-container>
     </div>
-  </md-content>
-</div>
+  </div>
 </div>
