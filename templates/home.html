@@ -2,7 +2,7 @@
   <sidebar rooms="rooms">
   </sidebar>
   <div flex>
-    <md-content flex="80">
+    <md-content id="out" flex="80">
       <div>
         <md-card ng-repeat="message in messages" layout="row">
           <md-card-title>
@@ -23,7 +23,7 @@
         <form layout="row" ng-submit="saveMessage(message.text)">
           <label>Enter your message here</label>
           <input ng-model="message.text" flex flex-order="1">
-          <md-button flex-order="2">
+          <md-button type="submit" flex-order="2">
             Send
           </md-button>
           </input>
