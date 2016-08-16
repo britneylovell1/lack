@@ -8,6 +8,10 @@ module.exports = function ($stateProvider) {
     controller: function ($scope, $location) {
       $scope.teamName = $location.search().teamName;
       $scope.teamId = $location.search().teamId;
+      $scope.email = $location.search().email;
+      console.log($scope.teamName, $scope.teamId, $scope.email);
     }
   });
 };
+
+

@@ -4,14 +4,15 @@ module.exports = angular.module('lack', [
   require('angular-animate'),
   require('angular-aria'),
   require('angular-material'),
-  require('angularfire')
+  require('angularfire'),
+  // require('angular-mocks')
 ])
 
 //states:
 .config(require('./states/create_room.state.js'))
 .config(require('./states/landing.state.js'))
 .config(require('./states/login.state.js'))
-.config(require('./states/google_signup.state.js'))
+// .config(require('./states/google_signup.state.js'))
 .config(require('./states/join_team.state.js'))
 .config(require('./states/close_room.state.js'))
 .config(require('./states/home.state.js'))
@@ -27,6 +28,9 @@ module.exports = angular.module('lack', [
 .factory('EmailFactory', require('./factories/email.factory.js'))
 .factory('roomFactory', require('./factories/create_room.factory.js'))
 .factory('AdminUserFactory', require('./factories/admin_user.factory.js'))
+
+//controllers:
+.controller('AdminController', require('./controllers/admin.controller.js'))
 
 //prettify URLs - comment back in for deployment:
 // .config(function ($locationProvider) {

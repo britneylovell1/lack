@@ -63,6 +63,8 @@ var sendEmail = function (email, teamId, teamName) {
                       + teamId +
                       '&teamName='
                       + teamName +
+                      '&email='
+                      + email +
                       '">here</a> to get started.</p>';
 
   transporter.sendMail(mailOptions, function(error, info){
