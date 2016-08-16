@@ -1,18 +1,24 @@
 <div layout="column" flex layout-fill class="lackform">
+
     <h1>Create your team</h1>
+
     <form id="create-team">
+
       <md-input-container class="md-block">
         <label>Team name</label>
         <input required ng-model="team.name" />
       </md-input-container>
+
         <label>Send email invites to your teammates:</label>
        	<md-chips ng-model="emails" readonly="false" md-require-match="false" placeholder="Enter emails..."></md-chips>
       </md-input-container>
+
       <br>
       <a ng-click="saveTeam()">
         <md-button class="md-raised md-primary">
             Sign up with Google to finish creating your team
         </md-button>
       </a>
+      
     </form>
 </div>

@@ -9,7 +9,7 @@ var createTeamState = function($stateProvider){
 		templateUrl: '../templates/create_your_team.html',
 
 		// future task: modularize the controller
-		controller: function($scope, $firebaseArray, $firebaseObject, $state, EmailFactory) {
+		controller: function($scope, $firebaseArray, $firebaseObject, $state, EmailFactory, UserFactory) {
 			// TODO:
 			// create a team in firebase
 			// clear input field + reset $scope.team
