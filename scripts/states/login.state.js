@@ -5,24 +5,16 @@ module.exports = function ($stateProvider) {
   $stateProvider.state('login', {
     url: '/login',
     templateUrl: '../templates/login.html',
-    controller: function ($scope, $firebaseAuth) {
-    	// testing the controller
-      $scope.test = "login page";
-
+    controller: function ($scope, $state, $firebaseAuth, $firebaseObject, UserFactory) {
 	    $scope.signIn = function() {
-				// Sign in Firebase using popup auth and Google as the identity provider.
-				$scope.authObj = $firebaseAuth();
+	    	UserFactory.login()
+	    	.then(function(home) {
+	    		if (home) $state.go('home');
+	    		else $state.go('landing');
+	    	});
+	    }
 
-				$scope.authObj.$signInWithPopup("google")
-				.then(function(result) {
-					console.log("Signed in as:", result.user.uid);
-				})
-				.catch(function(error) {
-					console.error("Authentication failed:", error);
-				});
-			}
-
-			// still need to redirect to different state
     }
+    
   });
 };

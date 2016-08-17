@@ -1,31 +1,35 @@
 <div layout="row" flex>
-    <sidebar rooms="rooms">
-    </sidebar>
-    <md-content layout="column" class="fullheight" flex>
+  <sidebar rooms="rooms">
+  </sidebar>
+  <md-content layout="column" class="fullheight" flex>
     <div flex="80">
       <div>
-        <md-card layout="row">
+        <md-card ng-repeat="message in messages" layout="row">
           <md-card-title>
             <md-card-title-media>
               <div class="md-media-sm card-media"></div>
             </md-card-title-media>
             <md-card-title-text>
-              <span class="md-headline">Sender name</span>
+              <span class="md-headline">{{ message.sender }}</span>
               <span class="md-subhead">Time</span>
-              <span class="md-subhead">Message</span>
+              <span class="md-subhead">{{ message.text }}</span>
             </md-card-title-text>
           </md-card-title>
         </md-card>
       </div>
     </div>
     <div flex="20" layout="row">
-     <md-input-container flex>
-      <label>Enter your message here</label>
-      <input></input>
-     </md-input-container>
+      <md-input-container flex>
+        <form layout="row">
+          <label>Enter your message here</label>
+          <input ng-model="message.text">
+          <md-button ng-click="saveMessage(message.text)">
+            Send
+          </md-button>
+          </input>
+        </form>
+      </md-input-container>
     </div>
-    </md-content>
-  </div>
+  </md-content>
 </div>
-
-
+</div>
