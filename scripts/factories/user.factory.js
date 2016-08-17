@@ -147,26 +147,25 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
       .then(function(result) {
       	var userId = result.user.uid;
       	var user = result.user;
-      	var home;
+      	// var home;
 
       	// if user is not in database (i.e. they haven't created an account through sign-up), redirect them so they do sign-up.
-      	userExists(userId)
+      	return userExists(userId)
       	.then(function(result) {
 
       		if(!result) {
       			alert('You do not have an account with us. Please make a team and sign up through Google');
 
       			// go to landing page
-      			home = false;
+      			return home = false;
       		}
       		else {
+
       			// go to home state
-		      	home = true;
+		      	return home = true;
       		}
 
       	})
-
-      	return home;
 
       })
       .catch(function(error) {
