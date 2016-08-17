@@ -19,7 +19,19 @@
   },
   "homepage": "https://github.com/britneylovell1/lack#readme",
   "devDependencies": {
+    "angular-mocks": "^1.5.8",
     "browserify": "^13.1.0",
+    "chai": "^3.5.0",
+    "karma": "^1.2.0",
+    "karma-browserify": "^5.1.0",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-mocha": "^1.1.1",
+    "mocha": "^3.0.2",
+    "mochify": "^2.18.1",
+    "mockfirebase": "^0.12.0",
+    "sinon": "^1.17.5",
+    "supertest": "^2.0.0",
     "watchify": "^3.7.0"
   },
   "dependencies": {

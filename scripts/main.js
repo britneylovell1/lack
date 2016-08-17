@@ -1,7 +1,8 @@
 'use strict';
 
-var FriendlyChat = require('./friendlychat');
 var app = require('./app.js');
+var initializeFirebase = require('./db.js');
+
 window.onload = function() {
-  window.friendlyChat = new FriendlyChat();
+  initializeFirebase();
 };
