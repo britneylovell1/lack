@@ -60,52 +60,52 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
   
 	return {
 
-		assocUserTeam: function(user, team) {
+		// assocUserTeam: function(user, team) {
 
-			// associate the users with the teams
-			var userInfo = {
-				userId: user.uid,
-				userName: user.displayName
-			};
+		// 	// associate the users with the teams
+		// 	var userInfo = {
+		// 		userId: user.uid,
+		// 		userName: user.displayName
+		// 	};
 
-			var teamId = team.id || team.$id
-			var teamInfo = {
-				teamId: teamId,
-				teamName: team.name
-			};
+		// 	var teamId = team.id || team.$id
+		// 	var teamInfo = {
+		// 		teamId: teamId,
+		// 		teamName: team.name
+		// 	};
 
-			// set up references
-			var userRef = firebase.database().ref().child('users/' + user.uid + '/teams');
-			var teamRef = firebase.database().ref().child('teams/' + teamId + '/users');
+		// 	// set up references
+		// 	var userRef = firebase.database().ref().child('users/' + user.uid + '/teams');
+		// 	var teamRef = firebase.database().ref().child('teams/' + teamId + '/users');
 
-			// wait for the user to be created in the database
-			firebase.database().ref().child('users/' + user.uid).once('child_added')
-			.then(function() {
+		// 	// wait for the user to be created in the database
+		// 	firebase.database().ref().child('users/' + user.uid).once('child_added')
+		// 	.then(function() {
 
-				// add team to 'users' model
-				$firebaseArray(userRef).$add(teamInfo);
+		// 		// add team to 'users' model
+		// 		$firebaseArray(userRef).$add(teamInfo);
 
-				// add user to 'teams' model
-				$firebaseArray(teamRef).$add(userInfo);
-			})
+		// 		// add user to 'teams' model
+		// 		$firebaseArray(teamRef).$add(userInfo);
+		// 	})
 
-			return user;
+		// 	return user;
 
-		},
+		// },
 
-		addTeamAdmin: function(user, team) {
-			// add a user as an admin on the teams model
-			var userInfo = {
-				userId: user.uid,
-				userName: user.displayName
-			};
-			var teamId = team.id || team.$id; 
+		// addTeamAdmin: function(user, team) {
+		// 	// add a user as an admin on the teams model
+		// 	var userInfo = {
+		// 		userId: user.uid,
+		// 		userName: user.displayName
+		// 	};
+		// 	var teamId = team.id || team.$id; 
 
-			var teamRef = firebase.database().ref().child('teams/' + teamId + '/admin');
+		// 	var teamRef = firebase.database().ref().child('teams/' + teamId + '/admin');
 
-			$firebaseArray(teamRef).$add(userInfo);
+		// 	$firebaseArray(teamRef).$add(userInfo);
 
-		},
+		// },
 
 		signIn: function() {
       // Sign in Firebase using popup auth and Google as the identity provider.
@@ -147,26 +147,25 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
       .then(function(result) {
       	var userId = result.user.uid;
       	var user = result.user;
-      	var home;
+      	// var home;
 
       	// if user is not in database (i.e. they haven't created an account through sign-up), redirect them so they do sign-up.
-      	userExists(userId)
+      	return userExists(userId)
       	.then(function(result) {
 
       		if(!result) {
       			alert('You do not have an account with us. Please make a team and sign up through Google');
 
       			// go to landing page
-      			home = false;
+      			return home = false;
       		}
       		else {
+
       			// go to home state
-		      	home = true;
+		      	return home = true;
       		}
 
       	})
-
-      	return home;
 
       })
       .catch(function(error) {
