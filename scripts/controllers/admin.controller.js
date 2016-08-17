@@ -17,10 +17,17 @@ module.exports = function ($scope, $rootScope, EmailFactory, AdminUserFactory, $
 
     var teamUsersRef = firebase.database().ref('teams').child(teamId + '/users');
     var membersArr = $firebaseArray(teamUsersRef);
+    var teamRef = firebase.database().ref('teams').child(teamId);
+    var teamObj = $firebaseObject(teamRef);
+
+    teamObj.$loaded().then(function () {
+      teamObj.$bindTo($rootScope, 'teamObj').then(function () {
+        console.log($rootScope.teamObj);
+      });
+    });
 
     membersArr.$loaded().then(function () {
       $rootScope.membersArr = membersArr;
-      console.log($rootScope.membersArr);
     });
 
   });
@@ -35,10 +42,8 @@ module.exports = function ($scope, $rootScope, EmailFactory, AdminUserFactory, $
   $scope.deleteSuccess = false;
 
   //adding new members:
-  $scope.teamObj = {name: 'ExampleName', $id: 'ExampleId'}; //TODO: get team info dynamically
-
   $scope.inviteNewMembers = function () {
-    $scope.teamObj.emails = $scope.newMemberEmails;
+    $rootScope.teamObj.emails = $scope.newMemberEmails;
     return EmailFactory.sendInvitations($scope.teamObj)
     .then(function (res) {
 
@@ -54,8 +59,11 @@ module.exports = function ($scope, $rootScope, EmailFactory, AdminUserFactory, $
 
   //editing existing member privileges:
   $scope.makeAdmin = function () {
-    console.log('Make admin.');
-    //TODO: use Britney's 'make-admin' function to add user id to team's admin array
+
+    var teamRef = firebase.database().ref().child('teams/' + $rootScope.teamObj.id + '/admin');
+
+    console.log($firebaseArray(teamRef));
+
 
     //update view:
     $scope.addSuccess = false;
