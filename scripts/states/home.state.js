@@ -16,22 +16,30 @@ module.exports = function($stateProvider) {
       }
 
       $scope.messages = createMessages();
-
       $scope.saveMessage = function(message) {
         var newMessageRef = firebase.database().ref('messages');
         newMessageRef.push({
           sender: 'Elisabeth',
-          text: $scope.message.text
+          text: message
         });
+        $scope.message.text = '';
+        message.input.$setPristine(true);
+      };
+      var out = document.getElementById("out");
+      var isScrolledToBottom = true;
+      out.addEventListener('scroll', function() { isScrolledToBottom = out.scrollHeight - out.clientHeight <= out.scrollTop + 1; });
+      $scope.scroller = function() {
+        // allow 1px inaccuracy by adding 1
+        // console.log(isScrolledToBottom);
+        // scroll to bottom if isScrolledToBotto
+        if (isScrolledToBottom) {
+          out.scrollTop = out.scrollHeight - out.clientHeight;
+        }
       };
 
-      $scope.saveMessages = function() {
-        $scope.messages.$save().then(function() {
-          console.log('Messages saved!');
-        }).catch(function(error) {
-          console.log(error);
-        });
-      };
+      $scope.messages.$watch(function() {
+        $scope.$$postDigest($scope.scroller);
+      });
     }
   });
 };

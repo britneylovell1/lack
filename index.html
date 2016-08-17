@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <!-- prettyify URLs - comment back in before deployment: -->
@@ -8,41 +9,34 @@
   <meta name="description" content="Learn how to use the Firebase platform on the Web">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lack</title>
-
   <!-- Disable tap highlight on IE -->
   <meta name="msapplication-tap-highlight" content="no">
-
   <!-- Web Application Manifest -->
   <link rel="manifest" href="manifest.json">
-
   <!-- Add to homescreen for Chrome on Android -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="application-name" content="Lack">
   <meta name="theme-color" content="#303F9F">
-
   <!-- Add to homescreen for Safari on iOS -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Lack">
   <meta name="apple-mobile-web-app-status-bar-style" content="#303F9F">
-
   <!-- Tile icon for Win8 -->
   <meta name="msapplication-TileColor" content="#3372DF">
   <meta name="msapplication-navbutton-color" content="#303F9F">
-
   <!-- App Styling -->
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
   <link rel="stylesheet" href="/styles/main.css">
 </head>
-<body ng-app="lack" layout="column">
 
+<body ng-app="lack" layout="column">
   <navbar>
   </navbar>
-
   <ui-view layout="row" flex id="offset">
   </ui-view>
-
   <script src=".bundle.js"></script>
 </body>
+
 </html>
