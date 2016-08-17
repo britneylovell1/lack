@@ -19,11 +19,11 @@
       </div>
     </md-content>
     <div flex="10">
-      <form ng-submit="saveMessage(message.text)">
+      <form name="message" ng-submit="saveMessage(message.text)">
         <md-input-container layout="row">
           <div flex="90">
             <label>Enter your message here</label>
-            <input ng-model="message.text">
+            <input name="input" ng-model="message.text">
           </div>
           <md-button flex="10" type="submit">
             Send

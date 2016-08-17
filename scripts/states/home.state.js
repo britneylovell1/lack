@@ -16,7 +16,6 @@ module.exports = function($stateProvider) {
       }
 
       $scope.messages = createMessages();
-
       $scope.saveMessage = function(message) {
         var newMessageRef = firebase.database().ref('messages');
         newMessageRef.push({
@@ -24,6 +23,7 @@ module.exports = function($stateProvider) {
           text: message
         });
         $scope.message.text = '';
+        message.input.$setPristine(true);
       };
       var out = document.getElementById("out");
       var isScrolledToBottom = true;
