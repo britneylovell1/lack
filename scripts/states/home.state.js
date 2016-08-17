@@ -8,7 +8,6 @@ module.exports = function($stateProvider) {
     templateUrl: '/templates/home.html',
     controller: function($scope, $state, $firebaseArray) {
       $scope.currentRoom = { name: 'Current Room' };
-      $scope.rooms = [{ name: 'Example1' }, { name: 'Example2' }, { name: 'Example3' }, { name: 'Example4' }];
 
       function createMessages() {
         var newMessagesRef = firebase.database().ref('messages');
