@@ -6,13 +6,15 @@ module.exports = function($stateProvider) {
   $stateProvider.state('createRoom', {
     url: '/create-room',
     templateUrl: '/templates/create_room.html',
-    controller: function($log, $scope, $firebaseObject, $state, roomFactory) {
+    controller: function($log, $rootScope, $scope, $firebaseObject, $state, roomFactory) {
       // TODO:
       // get team users from $rootscope.teamUsers
       // assoc. room with team
       // assoc. users with room
+      console.log($rootScope.membersArr);
 
-      $scope.members = roomFactory.members;
+      // $scope.members = roomFactory.members($rootScope.membersArr);
+      // console.log($scope.members);
 
 
       $scope.querySearch = function(query) {

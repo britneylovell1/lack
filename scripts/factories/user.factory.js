@@ -17,11 +17,8 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
       .then(function(result) {
 
         // check if user is in firebase
-        if (result) {
-          return true;
-        } else {
-          return false;
-        }
+        if (result) return true;
+        else return false;
 
       })
       .catch(function(error) {

@@ -2,7 +2,7 @@ var angular = require('angular');
 var app = angular.module('lack');
 var firebase = require('firebase');
 
-module.exports = function($rootscope, $firebaseArray, $firebaseObject) {
+module.exports = function($firebaseArray, $firebaseObject) {
 
 
   //helper function for members list
@@ -13,16 +13,29 @@ module.exports = function($rootscope, $firebaseArray, $firebaseObject) {
     // ['Maggie', 'Elisabeth', 'Britney', 'Brianna', 'Matilda', 'Emily'];
     return allMembers.map(function(member) {
       return {
-        value: member.toLowerCase(),
-        display: member,
-        userId: member.uid // double check this
+        value: member.userName.toLowerCase(),
+        display: member.userName,
+        userId: member.userId 
       };
     });
   }
 
   var fac = {};
 
-  fac.members = loadAll();
+  // fac.members = loadAll();
+  fac.members = function(teamMembers) {
+    // when there are members on a team... the call for the array would be here
+
+    // var allMembers = $rootscope.membersArr;
+    // ['Maggie', 'Elisabeth', 'Britney', 'Brianna', 'Matilda', 'Emily'];
+    return teamMembers.map(function(member) {
+      return {
+        value: member.userName.toLowerCase(),
+        display: member.userName,
+        userId: member.userId 
+      };
+    });
+  }
 
   fac.createFilterFor = function(query) {
     var lowercaseQuery = angular.lowercase(query);
