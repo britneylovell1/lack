@@ -11,14 +11,23 @@ module.exports = function($firebaseObject, $firebaseArray) {
 	return {
 		createTeam: function() {
 		
-      // create the team obj in firebase + get the reference to it
-      var newTeamRef = firebase.database().ref('teams').push();
+			// create the team obj in firebase + get the reference to it
+			var newTeamRef = firebase.database().ref('teams').push();
 
-      // return the team as a synchronized object
-      return $firebaseObject(newTeamRef);
-    },
+			// return the team as a synchronized object
+			return $firebaseObject(newTeamRef);
+		},
 
-    assocUserTeam: function(user, team) {
+		// getTeam: function(userId) {
+
+		// 	var teamsRef = firebase.database().ref().child('teams');
+		// 	$firebaseArray(teamsRef).$getRecord()
+
+
+
+		// }
+
+		assocUserTeam: function(user, team) {
 
 			// associate the users with the teams
 			var userInfo = {

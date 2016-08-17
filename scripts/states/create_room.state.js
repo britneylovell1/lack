@@ -11,7 +11,7 @@ module.exports = function($stateProvider) {
       // get team users from $rootscope.teamUsers
       // assoc. room with team
       // assoc. users with room
-      console.log($rootScope.membersArr);
+      console.log($rootScope.teamObj);
 
       // $scope.members = roomFactory.members($rootScope.membersArr);
       // console.log($scope.members);

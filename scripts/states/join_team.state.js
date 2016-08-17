@@ -15,6 +15,17 @@ module.exports = function ($stateProvider) {
         name: $location.search().teamName
       };
 
+      // // set $scope.team to new team obj (but do not bind)
+      // var teamObj = TeamFactory.createTeam();
+      // $scope.team = teamObj;
+
+      // // bind the team obj to the rootScope.teamObj
+      // teamObj.$loaded().then(function () {
+      //   teamObj.$bindTo($rootScope, 'teamObj').then(function () {
+      //     console.log($rootScope.teamObj);
+      //   });
+      // });
+
 
       // sign up as a team member
       $scope.signUp = function() {
