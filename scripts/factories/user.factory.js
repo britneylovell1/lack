@@ -131,6 +131,17 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
 
 			});
 
+    },
+
+    logout: function() {
+    	
+    	// log the user out
+    	// NOT FINISHED WITH THIS ONE
+    	firebase.auth().signOut().then(function() {
+			  // Sign-out successful.
+			}, function(error) {
+			  // An error happened.
+			});
     }
 
 	}

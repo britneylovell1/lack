@@ -7,6 +7,10 @@ module.exports = function($stateProvider) {
     url: '/create-room',
     templateUrl: '/templates/create_room.html',
     controller: function($log, $scope, $firebaseObject, $state, roomFactory) {
+      // TODO:
+      // get team users from $rootscope.teamUsers
+      // assoc. room with team
+      // assoc. users with room
 
       $scope.members = roomFactory.members;
 

@@ -2,17 +2,20 @@ var angular = require('angular');
 var app = angular.module('lack');
 var firebase = require('firebase');
 
-module.exports = function() {
+module.exports = function($rootscope, $firebaseArray, $firebaseObject) {
 
 
   //helper function for members list
   function loadAll() {
     // when there are members on a team... the call for the array would be here
-    var allMembers = ['Maggie', 'Elisabeth', 'Britney', 'Brianna', 'Matilda', 'Emily'];
+
+    var allMembers = $rootscope.membersArr;
+    // ['Maggie', 'Elisabeth', 'Britney', 'Brianna', 'Matilda', 'Emily'];
     return allMembers.map(function(member) {
       return {
         value: member.toLowerCase(),
-        display: member
+        display: member,
+        userId: member.uid // double check this
       };
     });
   }
@@ -20,11 +23,6 @@ module.exports = function() {
   var fac = {};
 
   fac.members = loadAll();
-
-  fac.querySearch = function(query) {
-    var results = query ? this.members.filter(this.createFilterFor(query)) : null;
-    return results;
-  };
 
   fac.createFilterFor = function(query) {
     var lowercaseQuery = angular.lowercase(query);

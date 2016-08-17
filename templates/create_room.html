@@ -1,36 +1,50 @@
 <div layout="column" flex layout-fill class="lackform">
+  
   <h1>Create new room</h1>
+  
   <form name="new-room-form">
+    
     <md-input-container class="md-block">
       <label>What is the name of this room?</label>
       <input required ng-model="room.name" />
     </md-input-container>
+    
     <md-input-container class="md-block">
       <label>What is the objective of this room?</label>
       <input required ng-model="room.objective" />
     </md-input-container>
+    
     <md-chips ng-model="chipsmembers" md-autocomplete-snap>
+
       <md-autocomplete md-selected-item="selectedItem" md-search-text="searchText" md-items="item in querySearch(searchText)" md-item-text="item.display" md-min-length="0" placeholder="Teammates to invite">
         <md-item-template>
           <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.display}}</span>
         </md-item-template>
       </md-autocomplete>
+      
       <md-chip-template>
         <span>
           <strong>{{$chip.display}}</strong>
         </span>
       </md-chip-template>
+
     </md-chips>
+    
     <br>
+
     <div>
       <p>When should this room expire?</p>
       <md-datepicker required ng-model="room.date" md-placeholder="Select a date"></md-datepicker>
     </div>
+
     <br>
+
     <a ng-click="saveRoom()">
       <md-button class="md-raised md-primary" layout-fill>
         Create room
       </md-button>
     </a>
+
   </form>
+  
 </div>
