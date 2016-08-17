@@ -30,7 +30,6 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
 	  }
 
 	  function createUser(user) {
-	  	console.log('create user')
 
 			// grab the user's google information
 			var userInfo = {
@@ -68,14 +67,16 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
 				userId: user.uid,
 				userName: user.displayName
 			};
+
+			var teamId = team.id || team.$id
 			var teamInfo = {
-				teamId: team.id,
+				teamId: teamId,
 				teamName: team.name
 			};
 
 			// set up references
 			var userRef = firebase.database().ref().child('users/' + user.uid + '/teams');
-			var teamRef = firebase.database().ref().child('teams/' + team.id + '/users');
+			var teamRef = firebase.database().ref().child('teams/' + teamId + '/users');
 
 			// wait for the user to be created in the database
 			firebase.database().ref().child('users/' + user.uid).once('child_added')
@@ -98,8 +99,9 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
 				userId: user.uid,
 				userName: user.displayName
 			};
+			var teamId = team.id || team.$id; 
 
-			var teamRef = firebase.database().ref().child('teams/' + team.id + '/admin');
+			var teamRef = firebase.database().ref().child('teams/' + teamId + '/admin');
 
 			$firebaseArray(teamRef).$add(userInfo);
 

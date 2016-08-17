@@ -29,31 +29,33 @@ var createTeamState = function($stateProvider){
 			// save team.name and team.members in firebase
 			// figure out how to parse/save the members with Material chips
 			$scope.saveTeam = function() {
-				
+
 				$scope.team.emails = $scope.emails;
 
 				EmailFactory.sendInvitations($scope.team);
 
 				$scope.team.$save().then(function() {
+	        alert('Team saved!');
 
+	        UserFactory.signIn()
+		        .then(function(user) {
 
-			      }).catch(function(error) {
-			        alert('Error!');
-			      });
+		          // associate user with team 
+		          return UserFactory.assocUserTeam(user, $scope.team)
+		        })
+		        .then(function(user) {
 
-			  UserFactory.signIn()
-        .then(function(user) {
+		          // set this user as the admin
+		          UserFactory.addTeamAdmin(user, $scope.team);
+			        $state.go('home');
+		        });
 
-          // associate user with team 
-          return UserFactory.assocUserTeam(user, $scope.team)
-        })
-        .then(function(user) {
-
-          // set this user as the admin
-          UserFactory.addTeamAdmin(user, $scope.team);
-	        $state.go('home');
-        });
+		      }).catch(function(error) {
+		        alert('Error!');
+		      });
 			};
+
+			  
 
 			//initialize empty array for Angular Material chips:
 			$scope.emails = [];
