@@ -7,18 +7,26 @@ module.exports = function ($stateProvider) {
     templateUrl: '/templates/google_signup.html',
     controller: function ($scope, UserFactory, $firebaseAuth, $firebaseArray) {
 			// TODO:
-			// make new user admin of the created team (on team model)
-			// associate user with team 
 			// place current team on the $rootscope 
-			// what's up with the pop-up? it pops up, but then signs you in automatically
-			// make error message pretty for user
     	
     	// sign up as an admin of a team
-    	$scope.signUp = function() {
-        UserFactory.signIn(adminStatus = true);
+      $scope.signUp = function() {
+
+        UserFactory.signIn()
+        .then(function(user) {
+
+          // associate user with team 
+          return UserFactory.assocUserTeam(user, $scope.team)
+        })
+        .then(function(user) {
+
+          // set this user as the admin
+          UserFactory.addTeamAdmin(user, $scope.team);
+        });
+
       }
 
-      
+
       // put current team on the $rootscope
     }
 

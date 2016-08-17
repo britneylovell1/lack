@@ -17,7 +17,7 @@ module.exports = function($http) {
         }
       })
       .then(function (response) {
-        console.log('Success');
+        // console.log('Success');
         return response.data;
       })
     }

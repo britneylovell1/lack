@@ -7,30 +7,31 @@ module.exports = function ($stateProvider) {
     templateUrl: '/templates/join_team.html',
     controller: function ($scope, UserFactory, $location, $firebaseAuth, $firebaseArray) {
       // TODO:
-      // associate user with team 
       // place current team on the $rootscope 
       // what's up with the pop-up? it pops up, but then signs you in automatically
       // make error message pretty for user
       
-      $scope.user;
-      $scope.teamName = $location.search().teamName;
-      $scope.teamId = $location.search().teamId;
+      // $scope.user;
+      $scope.team = {
+        id: $location.search().teamId,
+        name: $location.search().teamName
+      };
       
-      // sign up as a team member (not the admin)
+      
+      // sign up as a team member 
       $scope.signUp = function() {
 
-        UserFactory.signIn(adminStatus = false)
+        UserFactory.signIn()
         .then(function(user) {
 
-          $scope.user = user;  
+          // $scope.user = user;  
 
           // associate user with team 
-          UserFactory.assocUserTeam($scope.user, $scope.teamId)
+          return UserFactory.assocUserTeam(user, $scope.team)
 
         });
 
       }
-      
       
       // put current team on the $rootscope
 

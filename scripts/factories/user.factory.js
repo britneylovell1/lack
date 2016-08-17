@@ -3,7 +3,7 @@ var app = angular.module('lack');
 
 module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
 
-		function userExists(user) {
+		function userExists(userId) {
 
 			var userListRef = firebase.database().ref().child('users');
 
@@ -11,7 +11,7 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
 			return $firebaseArray(userListRef).$loaded()
 			.then(function(userList) {
 
-				return userList.$getRecord(user.uid);
+				return userList.$getRecord(userId);
 
 	    })
 	    .then(function(result) {
@@ -30,12 +30,14 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
 	  }
 
 	  function createUser(user) {
+	  	console.log('create user')
 
 			// grab the user's google information
 			var userInfo = {
 			  name: user.displayName,
 			  email: user.email,
-			  photoUrl: user.photoURL
+			  photoUrl: user.photoURL,
+			  teams: null
 			};
 
 		  // create the user obj in firebase + add the user info
@@ -56,132 +58,126 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
 			alert(errorCode, "\nAuthentication failed:\n", errorMessage);
 
 		}
-		
-
-		function assocUserTeam(user, teamId) {
-			// add user to 'teams' model
-			// add team to 'users' model
-
-			// firebase.database().ref().child('users/' + user.uid + '/teams/' + teamId).set(true);
-			// firebase.database().ref().child('teams/' + teamId + '/users/' + user.uid).set(true);
-
-			var userInfo = {};
-			var teamInfo = {};
-
-			userInfo[teamId] = true;
-			teamInfo[user.uid] = true;
-
-			// add current team to the current user
-			var userRef = firebase.database().ref().child('users/' + user.uid + '/teams');
-			var userList = $firebaseArray(userRef);
-			userList.$add(userInfo);
-		
-			// remove user's email from the team email-list and set it as user id/name
-			// NOT FINISHED WITH THIS
-			var teamRef = firebase.database().ref().child('teams/' + teamId + '/users');
-			var teamList = $firebaseArray(teamRef);
-			teamList.$add(teamInfo);
-
-		}
-
-		function createTeamAdmin(userId, teamId) {
-			// create admin prop on 'teams' model
-			// I think there's some faulty logic here...
-			var adminObj = {};
-			adminObj[userId] = true;
-
-			firebase.database().ref().child('teams/' + teamId + '/admin').update(adminObj);
-		}
-
   
 	return {
 
-		assocUserTeam: function(user, teamId) {
-			// add user to 'teams' model
-			// add team to 'users' model
+		assocUserTeam: function(user, team) {
 
-			firebase.database().ref().child('users/' + user.uid + '/teams/' + teamId).set(true);
-			firebase.database().ref().child('teams/' + teamId + '/users/' + user.uid).set(true);
+			// associate the users with the teams
+			var userInfo = {
+				userId: user.uid,
+				userName: user.displayName
+			};
+			var teamInfo = {
+				teamId: team.id,
+				teamName: team.name
+			};
+
+			// set up references
+			var userRef = firebase.database().ref().child('users/' + user.uid + '/teams');
+			var teamRef = firebase.database().ref().child('teams/' + team.id + '/users');
+
+			// wait for the user to be created in the database
+			firebase.database().ref().child('users/' + user.uid).once('child_added')
+			.then(function() {
+
+				// add team to 'users' model
+				$firebaseArray(userRef).$add(teamInfo);
+
+				// add user to 'teams' model
+				$firebaseArray(teamRef).$add(userInfo);
+			})
+
+			return user;
 
 		},
 
-		addTeamAdmin: function() {
-			// add another admin on 'teams' model
+		addTeamAdmin: function(user, team) {
+			// add a user as an admin on the teams model
+			var userInfo = {
+				userId: user.uid,
+				userName: user.displayName
+			};
+
+			var teamRef = firebase.database().ref().child('teams/' + team.id + '/admin');
+
+			$firebaseArray(teamRef).$add(userInfo);
+
 		},
 
-		signIn: function(adminStatus) {
+		signIn: function() {
+      // Sign in Firebase using popup auth and Google as the identity provider.
+      authObj = $firebaseAuth();
 
-	      // Sign in Firebase using popup auth and Google as the identity provider.
-	      authObj = $firebaseAuth();
-
-	      return authObj.$signInWithPopup("google")
+      return authObj.$signInWithPopup("google")
 	      .then(function(result) {
+	      	var userId = result.user.uid;
 	      	var user = result.user;
 
+	        userExists(userId)
+			      .then(function(result) {
+			      	
+			        // create user if it doesn't exist in firebase
+			        if (!result) {
+			          createUser(user);
+			        }
+			      })
 
-	        // create user if it doesn't exist in firebase
-	        userExists(user)
-	        .then(function(result) {
-		        if (!result) {
-		          createUser(user);
-		        }
-	        })
-	        
-	        // associate user with team
-	        // not finished with this function
-	        // replace members emails with member user id in 'teams' model
-	        // assocUserTeam();
-
-	        // if (adminStatus) {
-	        // 	// add "admin" property on the current team + and set the user to "admin"
-	        //   // not finished with this function
-	        //   createTeamAdmin();
-
-	        // }
-	        return result.user;
-
+			     return user;
 
 	      })
 	      .catch(function(error) {
-
-					// NEED TO MAKE THIS ERROR ALERT PRETTY FOR THE USER
-					console.error("Authentication failed:", error);
 
 					// Handle Errors here.
 				  var errorCode = error.code;
 				  var errorMessage = error.message;
 
 					alert(errorCode, "\nAuthentication failed:\n", errorMessage);
-
+					console.log(error);
 				});
-	    },
+    },
 
-	    login: function() {
-	    	// Sign in Firebase using popup auth and Google as the identity provider.
-	      authObj = $firebaseAuth();
+    login: function() {
+    	// Sign in Firebase using popup auth and Google as the identity provider.
+      authObj = $firebaseAuth();
 
-	      authObj.$signInWithPopup("google")
-	      .then(function(result) {
-	      	// FIGURE OUT THE REST OF THIS
-	      	// what do we want to do with the user after they log in?
+      return authObj.$signInWithPopup("google")
+      .then(function(result) {
+      	var userId = result.user.uid;
+      	var user = result.user;
+      	var home;
 
-	      	// if user is not in database (i.e. they haven't created an account through sign-up), redirect them so they do sign-up.
+      	// if user is not in database (i.e. they haven't created an account through sign-up), redirect them so they do sign-up.
+      	userExists(userId)
+      	.then(function(result) {
 
-	      })
-	      .catch(function(error) {
+      		if(!result) {
+      			alert('You do not have an account with us. Please make a team and sign up through Google');
 
-					// NEED TO MAKE THIS ERROR ALERT PRETTY FOR THE USER
-					console.error("Authentication failed:", error);
+      			// go to landing page
+      			home = false;
+      		}
+      		else {
+      			// go to home state
+		      	home = true;
+      		}
 
-					// Handle Errors here.
-				  var errorCode = error.code;
-				  var errorMessage = error.message;
+      	})
 
-					alert(errorCode, "\nAuthentication failed:\n", errorMessage);
+      	return home;
 
-				});
+      })
+      .catch(function(error) {
 
-	    }
+				// Handle Errors here.
+			  var errorCode = error.code;
+			  var errorMessage = error.message;
+
+				alert(errorCode, "\nAuthentication failed:\n", errorMessage);
+
+			});
+
+    }
 
 	}
 
