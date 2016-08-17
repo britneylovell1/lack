@@ -1,10 +1,10 @@
-<div layout="row" flex>
-  <sidebar rooms="rooms">
+<div flex="grow" layout="row">
+  <sidebar flex="20" rooms="rooms">
   </sidebar>
-  <div flex>
-    <md-content id="out" flex="80">
+  <div flex="80" layout="column">
+    <md-content flex="90" id="out">
       <div>
-        <md-card ng-repeat="message in messages" layout="row">
+        <md-card ng-repeat="message in messages">
           <md-card-title>
             <md-card-title-media>
               <div class="md-media-sm card-media"></div>
@@ -18,17 +18,19 @@
         </md-card>
       </div>
     </md-content>
-    <div layout="row">
-      <md-input-container flex>
-        <form layout="row" ng-submit="saveMessage(message.text)">
-          <label>Enter your message here</label>
-          <input ng-model="message.text" flex flex-order="1">
-          <md-button type="submit" flex-order="2">
+    <div flex="10">
+      <form ng-submit="saveMessage(message.text)">
+        <md-input-container layout="row">
+          <div flex="90">
+            <label>Enter your message here</label>
+            <input ng-model="message.text">
+          </div>
+          <md-button flex="10" type="submit">
             Send
           </md-button>
           </input>
-        </form>
-      </md-input-container>
+        </md-input-container>
+      </form>
     </div>
   </div>
 </div>
