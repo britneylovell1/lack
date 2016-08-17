@@ -5,7 +5,6 @@ module.exports = angular.module('lack', [
   require('angular-aria'),
   require('angular-material'),
   require('angularfire')
-  // require('angular-mocks')
 ])
 
 //states:
@@ -38,7 +37,6 @@ module.exports = angular.module('lack', [
 // .config(function ($locationProvider) {
 //   $locationProvider.html5Mode(true);
 // })
-
 
 //set themes:
 .config(function($mdThemingProvider) {

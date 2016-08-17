@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+
 /*html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
 }
@@ -212,7 +213,7 @@ html {
 }
 
 #offset {
-  margin-bottom: 100px;
+  margin-bottom: 20px;
 }
 
 .lackform {
@@ -236,5 +237,6 @@ html {
 }
 
 #sidebar {
-  height: 100vh;
+  height: 100%;
+  max-width: 100%;
 }
