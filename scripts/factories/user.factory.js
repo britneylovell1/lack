@@ -42,7 +42,7 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
 		  // create the user obj in firebase + add the user info
 		  firebase.database().ref('users').child(user.uid).update(userInfo);
 
-		} 
+		}
 
 		// why doesn't this function work in the catch block???
 		function signInError(error) {
@@ -57,7 +57,7 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
 			alert(errorCode, "\nAuthentication failed:\n", errorMessage);
 
 		}
-  
+
 	return {
 
 		assocUserTeam: function(user, team) {
@@ -99,7 +99,7 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
 				userId: user.uid,
 				userName: user.displayName
 			};
-			var teamId = team.id || team.$id; 
+			var teamId = team.id || team.$id;
 
 			var teamRef = firebase.database().ref().child('teams/' + teamId + '/admin');
 
@@ -118,7 +118,7 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
 
 	        userExists(userId)
 			      .then(function(result) {
-			      	
+
 			        // create user if it doesn't exist in firebase
 			        if (!result) {
 			          createUser(user);

@@ -47,6 +47,9 @@ module.exports = function ($scope, EmailFactory, AdminUserFactory) {
   };
 
   $scope.removeFromTeam = function () {
+
+    AdminUserFactory.fetchAllTeamMembers();
+
     console.log('Remove from team.');
     //TODO: remove user from team
 
@@ -58,4 +61,5 @@ module.exports = function ($scope, EmailFactory, AdminUserFactory) {
   };
 
 };
+
 
