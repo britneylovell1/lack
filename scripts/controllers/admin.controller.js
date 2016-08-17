@@ -2,7 +2,28 @@ var angular = require('angular');
 var app = angular.module('lack');
 var firebase = require('firebase');
 
-module.exports = function ($scope, EmailFactory, AdminUserFactory) {
+module.exports = function ($scope, $rootScope, EmailFactory, AdminUserFactory, $firebaseObject, $firebaseArray) {
+
+  //fetch all members:
+  var currentUserId = firebase.auth().currentUser.uid;
+  var ref = firebase.database().ref('users').child(currentUserId);
+  var obj = $firebaseObject(ref);
+
+  obj.$loaded().then(function () {
+
+    var teams = obj.teams;
+    var firstTeamIndex = Object.keys(teams)[0];
+    var teamId = teams[firstTeamIndex].teamId;
+
+    var teamUsersRef = firebase.database().ref('teams').child(teamId + '/users');
+    var membersArr = $firebaseArray(teamUsersRef);
+
+    membersArr.$loaded().then(function () {
+      $rootScope.membersArr = membersArr;
+      console.log($rootScope.membersArr);
+    });
+
+  });
 
   //initialize add member form:
   $scope.newMemberEmails = [];
@@ -32,9 +53,6 @@ module.exports = function ($scope, EmailFactory, AdminUserFactory) {
   };
 
   //editing existing member privileges:
-  $scope.existingMembers = [{name: 'Maggie'}, {name: 'Britney'}, {name: 'Elisabeth'}];
-  //TODO: fetch all team members from firebase
-
   $scope.makeAdmin = function () {
     console.log('Make admin.');
     //TODO: use Britney's 'make-admin' function to add user id to team's admin array
@@ -47,10 +65,6 @@ module.exports = function ($scope, EmailFactory, AdminUserFactory) {
   };
 
   $scope.removeFromTeam = function () {
-
-    AdminUserFactory.fetchAllTeamMembers();
-
-    console.log('Remove from team.');
     //TODO: remove user from team
 
     //update view:

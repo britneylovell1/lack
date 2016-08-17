@@ -2,7 +2,7 @@ var angular = require('angular');
 var app = angular.module('lack');
 var firebase = require('firebase');
 
-module.exports = function ($firebaseObject) {
+module.exports = function ($firebaseObject, $firebaseArray) {
 
   return {
 
@@ -22,18 +22,15 @@ module.exports = function ($firebaseObject) {
         var firstTeamIndex = Object.keys(teams)[0];
         var teamId = teams[firstTeamIndex].teamId;
 
-        var teamRef = firebase.database().ref('teams').child(teamId);
-        var teamObj = $firebaseObject(teamRef);
+        var teamUsersRef = firebase.database().ref('teams').child(teamId + '/users');
+        var membersArr = $firebaseArray(teamUsersRef);
 
-        teamObj.$loaded().then(function () {
-
-          var allMembers = teamObj.users;
-          console.log(allMembers);
-          return allMembers;
-
+        membersArr.$loaded().then(function () {
+          return membersArr;
         });
 
       });
+
     }
   };
 };
