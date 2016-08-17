@@ -52,7 +52,7 @@ var mailOptions = {
   subject: 'You have been invited to join a Lack team',
   text: 'Test'
 
-}
+};
 
 var sendEmail = function (email, teamId, teamName) {
 
@@ -67,16 +67,16 @@ var sendEmail = function (email, teamId, teamName) {
                       + email +
                       '">here</a> to get started.</p>';
 
-  transporter.sendMail(mailOptions, function(error, info){
+  transporter.sendMail(mailOptions, function (error, info){
     if(error){
         return console.log(error);
     }
     console.log('Message sent: ' + info.response);
   });
 
-}
+};
 
-app.post('/send-emails', function (req, res, next) {
+app.post('/send-emails', function (req, res) {
 
   var teamId = req.body.$id;
   var teamName = req.body.name;
@@ -88,4 +88,4 @@ app.post('/send-emails', function (req, res, next) {
 
   res.send('Success');
 
-})
+});

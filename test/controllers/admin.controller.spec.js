@@ -1,11 +1,8 @@
 'use strict';
 
-// var angular = require('angular');
 var chai = require('chai');
 var expect = chai.expect;
-// var ngMocks = require('angular-mocks');
 var MockFirebase = require('mockfirebase').MockFirebase;
-// var app = require('../../scripts/app.js');
 
 var mockMembers = [
   {name: 'Maggie'},
@@ -28,7 +25,7 @@ describe('AdminController', function () {
 
   }));
 
-  describe('Initial admin view', function () {
+  describe('Initialize admin view', function () {
 
     it('All success messages are initially hidden', function () {
 
@@ -36,16 +33,20 @@ describe('AdminController', function () {
       expect($scope.adminSuccess).to.equal(false);
       expect($scope.deleteSuccess).to.equal(false);
 
-    })
+    });
 
-    it('Inviting new members changes $scope.addSuccess correctly', function () {
+    it('New members email array begins as empty', function () {
 
-      $scope.inviteNewMembers('mneterval@gmail.com');
+      expect($scope.newMemberEmails).to.have.length(0);
 
-      expect($scope.addSuccess).to.equal(true);
+    });
 
-    })
+    it('Selected user begins as null', function () {
 
-  })
+      expect($scope.selectedMember).to.equal(null);
 
-})
+    });
+
+  });
+
+});

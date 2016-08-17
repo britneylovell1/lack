@@ -14,7 +14,7 @@ module.exports = function ($scope, EmailFactory, AdminUserFactory) {
   $scope.deleteSuccess = false;
 
   //adding new members:
-  $scope.teamObj = {name: 'ExampleName', $id: 'ExampleId'} //TODO: get team info dynamically
+  $scope.teamObj = {name: 'ExampleName', $id: 'ExampleId'}; //TODO: get team info dynamically
 
   $scope.inviteNewMembers = function () {
     $scope.teamObj.emails = $scope.newMemberEmails;
@@ -28,8 +28,8 @@ module.exports = function ($scope, EmailFactory, AdminUserFactory) {
       $scope.newMemberEmails = [];
 
       return res.data;
-    })
-  }
+    });
+  };
 
   //editing existing member privileges:
   $scope.existingMembers = [{name: 'Maggie'}, {name: 'Britney'}, {name: 'Elisabeth'}];
@@ -44,7 +44,7 @@ module.exports = function ($scope, EmailFactory, AdminUserFactory) {
     $scope.adminSuccess = true;
     $scope.deleteSuccess = false;
     $scope.selectedMember = null;
-  }
+  };
 
   $scope.removeFromTeam = function () {
     console.log('Remove from team.');
@@ -55,7 +55,7 @@ module.exports = function ($scope, EmailFactory, AdminUserFactory) {
     $scope.adminSuccess = false;
     $scope.deleteSuccess = true;
     $scope.selectedMember = null;
-  }
+  };
 
 };
 
