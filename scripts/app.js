@@ -26,11 +26,14 @@ module.exports = angular.module('lack', [
 //factories:
 .factory('EmailFactory', require('./factories/email.factory.js'))
   .factory('roomFactory', require('./factories/create_room.factory.js'))
+  .factory('UserFactory', require('./factories/user.factory.js'))
+  .factory('TeamFactory', require('./factories/create_team.factory.js'))
 
 //prettify URLs - comment back in for deployment:
 // .config(function ($locationProvider) {
 //   $locationProvider.html5Mode(true);
 // })
+
 
 //set themes:
 .config(function($mdThemingProvider) {
