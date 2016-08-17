@@ -5,19 +5,17 @@ module.exports = function ($stateProvider) {
   $stateProvider.state('joinTeam', {
     url: '/join-team',
     templateUrl: '/templates/join_team.html',
-    controller: function ($scope, UserFactory, $location, $firebaseAuth, $firebaseArray) {
+    controller: function ($scope, $state, UserFactory, $location) {
       // TODO:
-      // place current team on the $rootscope 
       // what's up with the pop-up? it pops up, but then signs you in automatically
       // make error message pretty for user
       
-      // $scope.user;
       $scope.team = {
         id: $location.search().teamId,
         name: $location.search().teamName
       };
       
-      
+
       // sign up as a team member 
       $scope.signUp = function() {
 
@@ -27,13 +25,14 @@ module.exports = function ($stateProvider) {
           // $scope.user = user;  
 
           // associate user with team 
-          return UserFactory.assocUserTeam(user, $scope.team)
-
+          UserFactory.assocUserTeam(user, $scope.team)
+          
+          // go to user home page
+          $state.go('home');
+          
         });
 
       }
-      
-      // put current team on the $rootscope
 
     }
 	})
