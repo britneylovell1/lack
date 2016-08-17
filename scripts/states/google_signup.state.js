@@ -1,6 +1,17 @@
-var angular = require('angular');
-var app = angular.module('lack');
+// var angular = require('angular');
+// var app = angular.module('lack');
 
+<<<<<<< HEAD
+// module.exports = function ($stateProvider) {
+//   $stateProvider.state('googleSignup', {
+//     url: '/sign-up',
+//     templateUrl: '/templates/google_signup.html',
+//     controller: function ($scope) {
+//       $scope.test;
+//     }
+//   });
+// };
+=======
 module.exports = function ($stateProvider) {
   $stateProvider.state('googleSignup', {
     url: '/sign-up',
@@ -32,3 +43,4 @@ module.exports = function ($stateProvider) {
 
   })
 };
+>>>>>>> master
