@@ -6,7 +6,7 @@ var firebase = require('firebase');
 // clear input field + reset $scope.team
 // redirect to that team's state
 
-module.exports = function($firebaseObject) {
+module.exports = function($firebaseObject, $firebaseArray) {
 
 	return {
 		createTeam: function() {
