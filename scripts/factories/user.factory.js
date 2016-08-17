@@ -60,85 +60,52 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
   
 	return {
 
-		assocUserTeam: function(user, team) {
+		// assocUserTeam: function(user, team) {
 
-			// associate the users with the teams
-			var userInfo = {
-				userId: user.uid,
-				userName: user.displayName
-			};
+		// 	// associate the users with the teams
+		// 	var userInfo = {
+		// 		userId: user.uid,
+		// 		userName: user.displayName
+		// 	};
 
-			var teamId = team.id || team.$id
-			var teamInfo = {
-				teamId: teamId,
-				teamName: team.name
-			};
+		// 	var teamId = team.id || team.$id
+		// 	var teamInfo = {
+		// 		teamId: teamId,
+		// 		teamName: team.name
+		// 	};
 
-			// set up references
-			var userRef = firebase.database().ref().child('users/' + user.uid + '/teams');
-			var teamRef = firebase.database().ref().child('teams/' + teamId + '/users');
+		// 	// set up references
+		// 	var userRef = firebase.database().ref().child('users/' + user.uid + '/teams');
+		// 	var teamRef = firebase.database().ref().child('teams/' + teamId + '/users');
 
-			// wait for the user to be created in the database
-			firebase.database().ref().child('users/' + user.uid).once('child_added')
-			.then(function() {
+		// 	// wait for the user to be created in the database
+		// 	firebase.database().ref().child('users/' + user.uid).once('child_added')
+		// 	.then(function() {
 
-				// add team to 'users' model
-				$firebaseArray(userRef).$add(teamInfo);
+		// 		// add team to 'users' model
+		// 		$firebaseArray(userRef).$add(teamInfo);
 
-				// add user to 'teams' model
-				$firebaseArray(teamRef).$add(userInfo);
-			})
+		// 		// add user to 'teams' model
+		// 		$firebaseArray(teamRef).$add(userInfo);
+		// 	})
 
-			return user;
+		// 	return user;
 
-		},
+		// },
 
-		assocUserRoom: function(user, room) {
+		// addTeamAdmin: function(user, team) {
+		// 	// add a user as an admin on the teams model
+		// 	var userInfo = {
+		// 		userId: user.uid,
+		// 		userName: user.displayName
+		// 	};
+		// 	var teamId = team.id || team.$id; 
 
-			// associate the users with the teams
-			var userInfo = {
-				userId: user.uid,
-				userName: user.displayName
-			};
+		// 	var teamRef = firebase.database().ref().child('teams/' + teamId + '/admin');
 
-			var roomId = room.id || room.$id
-			var roomInfo = {
-				roomId: roomId,
-				roomName: room.name
-			};
+		// 	$firebaseArray(teamRef).$add(userInfo);
 
-			// set up references
-			var userRef = firebase.database().ref().child('users/' + user.uid + '/teams');
-			var roomRef = firebase.database().ref().child('teams/' + roomId + '/users');
-
-			// wait for the user to be created in the database
-			firebase.database().ref().child('users/' + user.uid).once('child_added')
-			.then(function() {
-
-				// add team to 'users' model
-				$firebaseArray(userRef).$add(roomInfo);
-
-				// add user to 'teams' model
-				$firebaseArray(roomRef).$add(userInfo);
-			})
-
-			return user;
-
-		},
-
-		addTeamAdmin: function(user, team) {
-			// add a user as an admin on the teams model
-			var userInfo = {
-				userId: user.uid,
-				userName: user.displayName
-			};
-			var teamId = team.id || team.$id; 
-
-			var teamRef = firebase.database().ref().child('teams/' + teamId + '/admin');
-
-			$firebaseArray(teamRef).$add(userInfo);
-
-		},
+		// },
 
 		signIn: function() {
       // Sign in Firebase using popup auth and Google as the identity provider.

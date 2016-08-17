@@ -33,5 +33,52 @@ module.exports = function() {
     };
   };
 
+  fac.assocUserRoom = function(user, room) {
+
+    // associate the users with the teams
+    var userInfo = {
+      userId: user.uid,
+      userName: user.displayName
+    };
+
+    var roomId = room.id || room.$id
+    var roomInfo = {
+      roomId: roomId,
+      roomName: room.name
+    };
+
+    // set up references
+    var userRef = firebase.database().ref().child('users/' + user.uid + '/rooms');
+    var roomRef = firebase.database().ref().child('rooms/' + roomId + '/members');
+
+    // wait for the user to be created in the database
+    // firebase.database().ref().child('users/' + user.uid).once('child_added')
+    // .then(function() {
+
+      // add team to 'users' model
+      $firebaseArray(userRef).$add(roomInfo);
+
+      // add user to 'rooms' model
+      $firebaseArray(roomRef).$add(userInfo);
+    // })
+
+    return user;
+
+  }
+
+  fac.addRoomAdmin = function(user, room) {
+    // add a user as an admin on the teams model
+    var userInfo = {
+      userId: user.uid,
+      userName: user.displayName
+    };
+    var roomId = room.id || room.$id; 
+
+    var roomRef = firebase.database().ref().child('rooms/' + roomId + '/admin');
+
+    $firebaseArray(roomRef).$add(userInfo);
+
+  }
+
   return fac;
 };
