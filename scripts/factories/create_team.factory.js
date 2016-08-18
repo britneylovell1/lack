@@ -9,7 +9,6 @@ var firebase = require('firebase');
 module.exports = function($firebaseObject, $firebaseArray) {
 	var currentTeamRef = null; //does this persist? - not when I refresh the page! Spend some time figuring out persistence 
 
-
 	return {
 		createTeam: function() {
 		
