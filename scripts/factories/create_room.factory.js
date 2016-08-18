@@ -4,25 +4,7 @@ var firebase = require('firebase');
 
 module.exports = function($firebaseArray, $firebaseObject) {
 
-
-  //helper function for members list
   var currentRoomRef = null; //does this persist? - not when I refresh the page! Spend some time figuring out persistence 
-
-  // function loadAll() {
-  //   // when there are members on a team... the call for the array would be here
-
-  //   var allMembers = $rootscope.membersArr;
-  //   // ['Maggie', 'Elisabeth', 'Britney', 'Brianna', 'Matilda', 'Emily'];
-  //   return allMembers.map(function(member) {
-  //     return {
-  //       value: member.userName.toLowerCase(),
-  //       display: member.userName,
-  //       userId: member.userId 
-  //     };
-  //   });
-  // }
-
-
 
   // factory methods
 

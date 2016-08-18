@@ -9,39 +9,28 @@ module.exports = function ($stateProvider) {
 	    $scope.signIn = function() {
 	    	UserFactory.login()
 	    	.then(function(home) {
-
-	    		// bind the team obj to the rootScope.teamObj
-	    		// var teamObj = TeamFactory.getTeam()
+    	
+    			// get the current team id
+    			// put this in a factory
 	    		var currentUserId = firebase.auth().currentUser.uid;
-				  var ref = firebase.database().ref('users').child(currentUserId);
-				  var obj = $firebaseObject(ref);
+				  var teamRef = firebase.database().ref('users').child(currentUserId).child('teams');
+				  var teamArr = $firebaseArray(teamRef);
 
-				  obj.$loaded().then(function () {
-
-				    var teams = obj.teams;
-				    var firstTeamIndex = Object.keys(teams)[0];
-				    var teamId = teams[firstTeamIndex].teamId;
-
-				    var teamUsersRef = firebase.database().ref('teams').child(teamId + '/users');
-				    var membersArr = $firebaseArray(teamUsersRef);
-				    var teamRef = firebase.database().ref('teams').child(teamId);
-				    var teamObj = $firebaseObject(teamRef);
-
-				    teamObj.$loaded().then(function () {
-				      teamObj.$bindTo($rootScope, 'teamObj').then(function () {
-				        console.log('$rootScope.teamObj ', $rootScope.teamObj);
-				      });
-				    });
-
-		    	})
-		    	.catch(function(error) {
-		    		console.log(error);
-		    	});
+			  	teamArr.$loaded().then(function () {
+				  	var teamKey = teamArr.$keyAt(0);
+				  	console.log(teamKey);
+				  	TeamFactory.setCurrentTeam(teamKey);
+				  })
 
 		      // you don't have to go home, but you can't stay here
 	    		if (home) $state.go('home');
 	    		else $state.go('landing');
+
+	    	})
+	    	.catch(function(error) {
+	    		console.log(error);
 	    	});
+
 	    }
 
     }

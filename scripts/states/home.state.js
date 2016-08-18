@@ -7,7 +7,7 @@ module.exports = function($stateProvider) {
     url: '/home',
     templateUrl: '/templates/home.html',
     controller: function($rootScope, $scope, $state, $firebaseArray) {
-      console.log('team object ', $rootScope.teamObj);
+      // console.log('team object ', $rootScope.teamObj);
 
       // maybe we put the current team/room on the rootScope here? (rather than upon sign in?)
       $scope.currentTeam;
