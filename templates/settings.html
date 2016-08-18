@@ -1,0 +1,33 @@
+<div layout="column" flex layout-fill>
+  <h1 class="centeredTitle">Settings Dashboard</h1>
+  <div layout="row" flex layout-padding layout-margin>
+    <div flex="50">
+      <h2>My buzzwords</h2>
+      <h3>Receive notifications for messages that contain your buzzwords</h3>
+      <form>
+          <label>Add or remove buzzwords</label>
+          <md-chips ng-model="buzzwords" readonly="false" md-require-match="false"></md-chips>
+        <br>
+        <a ng-click="submitBuzzwords()">
+          <md-button class="md-raised md-primary">
+              Update your buzzwords
+          </md-button>
+        </a>
+      </form>
+    </div>
+    <div flex="50">
+      <h2>My VIPs</h2>
+      <h3>Receive notifications for messages from your VIPs</h3>
+      <form>
+          <label>Add or remove VIPs</label>
+          <md-chips  ng-model="vips" readonly="false" md-require-match="false"></md-chips>
+        <br>
+        <a ng-click="submitVIPs()">
+          <md-button class="md-raised md-primary">
+              Update your VIPs
+          </md-button>
+        </a>
+      </form>
+    </div>
+  </div>
+</div>

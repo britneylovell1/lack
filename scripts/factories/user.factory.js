@@ -1,32 +1,33 @@
 var angular = require('angular');
 var app = angular.module('lack');
+var firebase = require('firebase');
 
-module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
+module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth, $mdToast) {
 
-    function userExists(userId) {
+    function userExists (userId) {
 
       var userListRef = firebase.database().ref().child('users');
 
       // when the userList is loaded...
       return $firebaseArray(userListRef).$loaded()
-      .then(function(userList) {
+      .then(function (userList) {
 
         return userList.$getRecord(userId);
 
       })
-      .then(function(result) {
+      .then(function (result) {
 
         // check if user is in firebase
         if (result) return true;
         else return false;
 
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
-      })
+      });
     }
 
-    function createUser(user) {
+    function createUser (user) {
 
       // grab the user's google information
       var userInfo = {
@@ -42,16 +43,17 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
     }
 
     // why doesn't this function work in the catch block???
-    function signInError(error) {
+    function signInError (error) {
 
-      // NEED TO MAKE THIS ERROR ALERT PRETTY FOR THE USER
-      console.error("Authentication failed:", error);
+
+      $mdToast.show($mdToast.simple().textContent('Authentication failed'));
 
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
 
-      alert(errorCode, "\nAuthentication failed:\n", errorMessage);
+      // alert(errorCode, "\nAuthentication failed:\n", errorMessage);
+      $mdToast.show($mdToast.simple().textContent('Authentication failed'));
 
     }
 
@@ -85,7 +87,8 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
           var errorCode = error.code;
           var errorMessage = error.message;
 
-          alert(errorCode, "\nAuthentication failed:\n", errorMessage);
+          // alert(errorCode, "\nAuthentication failed:\n", errorMessage);
+          $mdToast.show($mdToast.simple().textContent('Authentication failed'));
           console.log(error);
         });
     },
@@ -109,7 +112,8 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
         .then(function(result) {
 
           if(!result) {
-            alert('You do not have an account with us. Please make a team and sign up through Google');
+            // alert('You do not have an account with us. Please make a team and sign up through Google');
+            $mdToast.show($mdToast.simple().textContent('You do not have an account with us. Please make a team and sign up through Google'));
 
             // go to landing page
             return home = false;
@@ -129,14 +133,16 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
         var errorCode = error.code;
         var errorMessage = error.message;
 
-        alert(errorCode, "\nAuthentication failed:\n", errorMessage);
+        // alert(errorCode, "\nAuthentication failed:\n", errorMessage);
+        $mdToast.show($mdToast.simple().textContent('Authentication failed'));
+
 
       });
 
     },
 
     // logout: function() {
-    	
+
     // 	// log the user out
     // 	// NOT FINISHED WITH THIS ONE
     // 	firebase.auth().signOut()
