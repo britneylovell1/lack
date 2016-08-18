@@ -7,85 +7,104 @@ var firebase = require('firebase');
 // redirect to that team's state
 
 module.exports = function($firebaseObject, $firebaseArray) {
+	var currentTeamRef = null; //does this persist? - not when I refresh the page! Spend some time figuring out persistence
 
 	return {
 		createTeam: function() {
 
-      // create the team obj in firebase + get the reference to it
-      var newTeamRef = firebase.database().ref('teams').push();
+			// create the team obj in firebase + get the reference to it
+			// NOTE: user has to be logged in to make a team - how can we fix this problem
+			var newTeamRef = firebase.database().ref('teams').push();
+			currentTeamRef = newTeamRef;
 
-      // return the team as a synchronized object
-      return $firebaseObject(newTeamRef);
+			// return the team as a synchronized object
+			return $firebaseObject(newTeamRef);
+		},
+
+		setCurrentTeam: function(currentTeamId) {
+			// set the current team
+			currentTeamRef = firebase.database().ref('teams').child(currentTeamId);
+		},
+
+		// Does this work across the board?
+		getCurrentTeam: function () {
+			// get current team
+			return $firebaseObject(currentTeamRef);
+
     },
 
-    assocUserTeam: function(user, team) {
+    getTeamMembers: function () {
+			// get all members of current team
 
+			var teamMembersRef = currentTeamRef.child('users');
+			return $firebaseArray(teamMembersRef);
+
+    },
+
+		assocUserTeam: function(user, team) {
 			// associate the users with the teams
+
+			// set up association variables
 			var userInfo = {
-				userId: user.uid,
-				userName: user.displayName
+				// userId: user.uid,		// This was for the first attempt
+				// userName: user.displayName
 			};
+			userInfo[user.uid] = { userName: user.displayName };
 
-			var teamId = team.id || team.$id
+			var teamId = team.id || team.$id;
 			var teamInfo = {
-				teamId: teamId,
-				teamName: team.name
+				// teamId: teamId,			// This was for the first attempt
+				// teamName: team.name
 			};
+			teamInfo[teamId] = { teamName: team.name };
 
-			// set up references
+
+			// create user + team entries and set up references to them
 			var userRef = firebase.database().ref().child('users/' + user.uid + '/teams');
 			var teamRef = firebase.database().ref().child('teams/' + teamId + '/users');
+
 
 			// wait for the user to be created in the database
 			firebase.database().ref().child('users/' + user.uid).once('child_added')
 			.then(function() {
 
-				// add team to 'users' model
-				$firebaseArray(userRef).$add(teamInfo);
+				// create associations in firebase
+				userRef.update(teamInfo);
+				teamRef.update(userInfo);
 
-				// add user to 'teams' model
-				$firebaseArray(teamRef).$add(userInfo);
+				// This was for the first attempt
+    		// This is method created a new id for each $add()
+				// $firebaseArray(userRef).$add(teamInfo);
+				// $firebaseArray(teamRef).$add(userInfo);
+
 			})
 
 			return user;
 
 		},
 
-		addTeamAdmin: function (user, team) {
-
+		addTeamAdmin: function(user, team) {
 			// add a user as an admin on the teams model
+
+			// set up association variables
 			var userInfo = {
-				userId: user.uid || user.$id,
-				userName: user.displayName || user.userName
+				// userId: user.uid,
+				// userName: user.displayName
 			};
+			userInfo[user.uid] = { userName: user.displayName };
 			var teamId = team.id || team.$id;
 
+			// create admin entry and set up reference to it
 			var teamRef = firebase.database().ref().child('teams/' + teamId + '/admin');
 
-			$firebaseArray(teamRef).$add(userInfo);
+			// create the admin association in firebase
+			teamRef.update(userInfo);
 
-		},
+			// This was for the first attempt
+    	// This is method created a new id for each $add()
+			// $firebaseArray(teamRef).$add(userInfo);
 
-		removeUserFromTeam: function (user, team) {
-
-			// var teamId = team.$id;
-			// var teamRef = firebase.database().ref()
 		}
 
-	};
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	}
+}

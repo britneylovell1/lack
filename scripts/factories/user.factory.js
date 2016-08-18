@@ -17,11 +17,8 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
       .then(function(result) {
 
         // check if user is in firebase
-        if (result) {
-          return true;
-        } else {
-          return false;
-        }
+        if (result) return true;
+        else return false;
 
       })
       .catch(function(error) {
@@ -60,54 +57,8 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
 
   return {
 
-    // assocUserTeam: function(user, team) {
+		signIn: function() {
 
-    //  // associate the users with the teams
-    //  var userInfo = {
-    //    userId: user.uid,
-    //    userName: user.displayName
-    //  };
-
-    //  var teamId = team.id || team.$id
-    //  var teamInfo = {
-    //    teamId: teamId,
-    //    teamName: team.name
-    //  };
-
-    //  // set up references
-    //  var userRef = firebase.database().ref().child('users/' + user.uid + '/teams');
-    //  var teamRef = firebase.database().ref().child('teams/' + teamId + '/users');
-
-    //  // wait for the user to be created in the database
-    //  firebase.database().ref().child('users/' + user.uid).once('child_added')
-    //  .then(function() {
-
-    //    // add team to 'users' model
-    //    $firebaseArray(userRef).$add(teamInfo);
-
-    //    // add user to 'teams' model
-    //    $firebaseArray(teamRef).$add(userInfo);
-    //  })
-
-    //  return user;
-
-    // },
-
-    // addTeamAdmin: function(user, team) {
-    //  // add a user as an admin on the teams model
-    //  var userInfo = {
-    //    userId: user.uid,
-    //    userName: user.displayName
-    //  };
-    //  var teamId = team.id || team.$id;
-
-    //  var teamRef = firebase.database().ref().child('teams/' + teamId + '/admin');
-
-    //  $firebaseArray(teamRef).$add(userInfo);
-
-    // },
-
-    signIn: function() {
       // Sign in Firebase using popup auth and Google as the identity provider.
       authObj = $firebaseAuth();
 
@@ -137,6 +88,10 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
           alert(errorCode, "\nAuthentication failed:\n", errorMessage);
           console.log(error);
         });
+    },
+
+    getCurrentUser: function() {
+      return firebase.auth().currentUser;
     },
 
     login: function() {
@@ -178,7 +133,19 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
 
       });
 
-    }
+    },
+
+    // logout: function() {
+    	
+    // 	// log the user out
+    // 	// NOT FINISHED WITH THIS ONE
+    // 	firebase.auth().signOut()
+    //   .then(function() {
+  		// 	 // Signout successful
+  		// 	}, function(error) {
+  		// 	  // An error happened.
+  		// 	});
+    // }
 
   }
 
