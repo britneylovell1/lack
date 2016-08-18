@@ -18,7 +18,7 @@
 	      <md-input-container>
         	<label>Edit teammates' privileges:</label>
 	        <md-select ng-model="selectedMember">
-	          <md-option ng-repeat="member in membersArr" value="{{member.userName}}">
+	          <md-option ng-repeat="member in membersArr" ng-value="member">
 	            {{member.userName}}
 	          </md-option>
 	        </md-select>

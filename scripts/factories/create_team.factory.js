@@ -6,11 +6,11 @@ var firebase = require('firebase');
 // clear input field + reset $scope.team
 // redirect to that team's state
 
-module.exports = function($firebaseObject) {
+module.exports = function($firebaseObject, $firebaseArray) {
 
 	return {
 		createTeam: function() {
-		
+
       // create the team obj in firebase + get the reference to it
       var newTeamRef = firebase.database().ref('teams').push();
 
@@ -51,22 +51,29 @@ module.exports = function($firebaseObject) {
 
 		},
 
-		addTeamAdmin: function(user, team) {
+		addTeamAdmin: function (user, team) {
+
 			// add a user as an admin on the teams model
 			var userInfo = {
-				userId: user.uid,
-				userName: user.displayName
+				userId: user.uid || user.$id,
+				userName: user.displayName || user.userName
 			};
-			var teamId = team.id || team.$id; 
+			var teamId = team.id || team.$id;
 
 			var teamRef = firebase.database().ref().child('teams/' + teamId + '/admin');
 
 			$firebaseArray(teamRef).$add(userInfo);
 
+		},
+
+		removeUserFromTeam: function (user, team) {
+
+			// var teamId = team.$id;
+			// var teamRef = firebase.database().ref()
 		}
 
-	}
-}
+	};
+};
 
 
 

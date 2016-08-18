@@ -5,17 +5,22 @@
     </a>
     <!-- fill up the space between left and right area -->
     <span flex></span>
-     <a ui-sref="login">
+     <a ui-sref="login" ng-show="!loggedIn">
       <md-button>
         Log in
       </md-button>
     </a>
-    <a ui-sref="landing" ng-hide="true">
+    <a ui-sref="admin" ng-show="loggedIn">
+      <md-button>
+        Admin
+      </md-button>
+    </a>
+    <a ui-sref="landing" ng-show="loggedIn">
       <md-button>
         Settings
       </md-button>
     </a>
-    <a ui-sref="landing" ng-hide="true">
+    <a ng-click="signout()" ng-show="loggedIn">
       <md-button>
         Log out
       </md-button>
