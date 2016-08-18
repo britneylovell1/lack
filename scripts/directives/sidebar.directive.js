@@ -6,7 +6,10 @@ module.exports = function () {
     restrict: 'E',
     templateUrl: '../templates/sidebar.html',
     scope: {
-     rooms: '=',
+     rooms: '='
+    },
+    link: function (scope, element, attrs) {
+
     }
   };
 };

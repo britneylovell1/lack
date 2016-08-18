@@ -1,18 +1,17 @@
 var angular = require('angular');
 var app = angular.module('lack');
+var firebase = require('firebase');
 
 module.exports = function ($stateProvider) {
   $stateProvider.state('login', {
     url: '/login',
     templateUrl: '../templates/login.html',
-    controller: function ($scope, $rootScope, $state, $firebaseAuth, $firebaseObject, $firebaseArray, UserFactory, TeamFactory) {
-	    $scope.signIn = function() {
-	    	UserFactory.login()
-	    	.then(function(home) {
+		controller: function ($scope, $rootScope, $state, $firebaseAuth, $firebaseObject, $firebaseArray, UserFactory, TeamFactory) {
+				$scope.signIn = function() {
+		  		UserFactory.login()
+		  		.then(function(home) {
 
-	    		// bind the team obj to the rootScope.teamObj
-	    		// var teamObj = TeamFactory.getTeam()
-	    		var currentUserId = firebase.auth().currentUser.uid;
+		  		var currentUserId = firebase.auth().currentUser.uid;
 				  var ref = firebase.database().ref('users').child(currentUserId);
 				  var obj = $firebaseObject(ref);
 
@@ -28,9 +27,9 @@ module.exports = function ($stateProvider) {
 				    var teamObj = $firebaseObject(teamRef);
 
 				    teamObj.$loaded().then(function () {
-				      teamObj.$bindTo($rootScope, 'teamObj').then(function () {
-				        console.log('$rootScope.teamObj ', $rootScope.teamObj);
-				      });
+				    	if (home) $state.go('home', {teamId: teamObj.$id});
+				    	// you don't have to go home, but you can't stay here
+				    	else $state.go('landing');
 				    });
 
 		    	})
@@ -38,13 +37,8 @@ module.exports = function ($stateProvider) {
 		    		console.log(error);
 		    	});
 
-		      // you don't have to go home, but you can't stay here
-	    		if (home) $state.go('home');
-	    		else $state.go('landing');
-	    	});
-	    }
-
+		  	});
+		  };
     }
-    
   });
 };

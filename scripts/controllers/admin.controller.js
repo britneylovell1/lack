@@ -4,10 +4,11 @@ var firebase = require('firebase');
 
 module.exports = function ($scope, $rootScope, EmailFactory, AdminUserFactory, $firebaseObject, $firebaseArray, TeamFactory, $state) {
 
+  //TODO: FIX THIS:
   //if user is not admin, redirect to home state so they can't access admin panel:
-  if (!$rootScope.loggedIn || !$rootScope.isAdmin){
-    $state.go('landing');
-  } else {
+  // if (!$rootScope.loggedIn || !$rootScope.isAdmin){
+  //   $state.go('landing');
+  // } else {
 
      //fetch all members and team info:
     var currentUserId = firebase.auth().currentUser.uid;
@@ -111,7 +112,7 @@ module.exports = function ($scope, $rootScope, EmailFactory, AdminUserFactory, $
       $scope.selectedMember = null;
     };
 
-  }
+  // }
 
 };
 
