@@ -6,12 +6,15 @@ module.exports = function($stateProvider) {
   $stateProvider.state('home', {
     url: '/home/teams/:teamId',
     templateUrl: '/templates/home.html',
-    controller: function($rootScope, $scope, $state, $firebaseArray, $stateParams) {
+    controller: function ($rootScope, $scope, $state, $firebaseArray, $stateParams) {
 
-      // maybe we put the current team/room on the rootScope here? (rather than upon sign in?)
       $scope.currentTeamId = $stateParams.teamId;
       $scope.currentRoom = { name: 'Current Room' };
-      $scope.rooms = [{ name: 'Example1', $id: 'test' }, { name: 'Example2' }, { name: 'Example3' }, { name: 'Example4' }, {name: 'Example5'}];
+      $scope.rooms = [{ name: 'Example1', $id: 'test' }, { name: 'Example2', $id: 'test' }];
+
+      $scope.goToRoom = function () {
+        $state.go('landing');
+      };
 
     }
   });
