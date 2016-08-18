@@ -1,5 +1,6 @@
 var angular = require('angular');
 var app = angular.module('lack');
+var firebase = require('firebase');
 
 module.exports = function ($stateProvider) {
   $stateProvider.state('login', {
@@ -8,8 +9,8 @@ module.exports = function ($stateProvider) {
     controller: function ($scope, $rootScope, $state, $firebaseAuth, $firebaseObject, $firebaseArray, UserFactory, TeamFactory) {
 	    $scope.signIn = function() {
 	    	UserFactory.login()
-	    	.then(function(home) {
-    	
+	    	.then(function (home) {
+
     			// get the current team id
     			// put this in a factory
 	    		var currentUserId = firebase.auth().currentUser.uid;
@@ -20,20 +21,20 @@ module.exports = function ($stateProvider) {
 				  	var teamKey = teamArr.$keyAt(0);
 				  	console.log(teamKey);
 				  	TeamFactory.setCurrentTeam(teamKey);
-				  })
+						// you don't have to go home, but you can't stay here
+				  	if (home) $state.go('home', {teamId: teamKey});
+	    			else $state.go('landing');
 
-		      // you don't have to go home, but you can't stay here
-	    		if (home) $state.go('home');
-	    		else $state.go('landing');
+				  });
 
 	    	})
 	    	.catch(function(error) {
 	    		console.log(error);
 	    	});
 
-	    }
+	    };
 
     }
-    
+
   });
 };

@@ -5,9 +5,11 @@
   <md-content layout-padding>
     <md-list>
       <md-list-item ng-repeat="room in rooms">
-        <md-button>
-          {{ room.name }}
-        </md-button>
+        <a ui-sref="home.room, {roomId: room.$id}">
+          <md-button>
+            {{ room.name }}
+          </md-button>
+        </a>
       </md-list-item>
     </md-list>
     <a ui-sref="createRoom">

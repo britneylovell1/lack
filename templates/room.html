@@ -1,0 +1,30 @@
+<md-content flex="90" id="out">
+  <div>
+    <md-card ng-repeat="message in messages">
+      <md-card-title>
+        <md-card-title-media>
+          <div class="md-media-sm card-media"></div>
+        </md-card-title-media>
+        <md-card-title-text>
+          <span class="md-headline">{{ message.sender }}</span>
+          <span class="md-subhead">Time</span>
+          <span class="md-subhead">{{ message.text }}</span>
+        </md-card-title-text>
+      </md-card-title>
+    </md-card>
+  </div>
+</md-content>
+<div flex="10">
+  <form name="message" ng-submit="saveMessage(message.text)">
+    <md-input-container layout="row">
+      <div flex="90">
+        <label>Enter your message here</label>
+        <input name="input" ng-model="message.text">
+      </div>
+      <md-button flex="10" type="submit">
+        Send
+      </md-button>
+      </input>
+    </md-input-container>
+  </form>
+</div>

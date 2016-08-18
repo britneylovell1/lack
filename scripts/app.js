@@ -17,6 +17,7 @@ module.exports = angular.module('lack', [
 .config(require('./states/home.state.js'))
 .config(require('./states/create_your_team.state.js'))
 .config(require('./states/admin.state.js'))
+.config(require('./states/room.state.js'))
 
 //directives:
 .directive('navbar', require('./directives/navbar.directive.js'))

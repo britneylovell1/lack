@@ -7,11 +7,11 @@ var firebase = require('firebase');
 // redirect to that team's state
 
 module.exports = function($firebaseObject, $firebaseArray) {
-	var currentTeamRef = null; //does this persist? - not when I refresh the page! Spend some time figuring out persistence 
+	var currentTeamRef = null; //does this persist? - not when I refresh the page! Spend some time figuring out persistence
 
 	return {
 		createTeam: function() {
-		
+
 			// create the team obj in firebase + get the reference to it
 			// NOTE: user has to be logged in to make a team - how can we fix this problem
 			var newTeamRef = firebase.database().ref('teams').push();
@@ -22,7 +22,7 @@ module.exports = function($firebaseObject, $firebaseArray) {
 		},
 
 		setCurrentTeam: function(currentTeamId) {
-			// set the current team 
+			// set the current team
 			currentTeamRef = firebase.database().ref('teams').child(currentTeamId);
 		},
 
@@ -46,11 +46,11 @@ module.exports = function($firebaseObject, $firebaseArray) {
 
 			// set up association variables
 			var userInfo = {
-				// userId: user.uid,			
+				// userId: user.uid,
 				// userName: user.displayName
 			};
 			userInfo[user.uid] = { userName: user.displayName };
-			var teamId = team.id || team.$id; 
+			var teamId = team.id || team.$id;
 
 			// create admin entry and set up reference to it
 			var teamRef = firebase.database().ref().child('teams/' + teamId + '/admin');
@@ -66,18 +66,3 @@ module.exports = function($firebaseObject, $firebaseArray) {
 
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
