@@ -90,6 +90,10 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
         });
     },
 
+    getCurrentUser: function() {
+      return firebase.auth().currentUser;
+    },
+
     login: function() {
       // Sign in Firebase using popup auth and Google as the identity provider.
       authObj = $firebaseAuth();
@@ -135,8 +139,9 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
     	
     	// log the user out
     	// NOT FINISHED WITH THIS ONE
-    	firebase.auth().signOut().then(function() {
-			  // Sign-out successful.
+    	firebase.auth().signOut()
+      .then(function() {
+			 // Signout successful
 			}, function(error) {
 			  // An error happened.
 			});

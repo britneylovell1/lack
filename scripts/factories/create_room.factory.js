@@ -6,6 +6,8 @@ module.exports = function($firebaseArray, $firebaseObject) {
 
 
   //helper function for members list
+  var currentRoomRef = null;
+
   function loadAll() {
     // when there are members on a team... the call for the array would be here
 
@@ -19,6 +21,10 @@ module.exports = function($firebaseArray, $firebaseObject) {
       };
     });
   }
+
+
+
+  // factory methods
 
   var fac = {};
 
@@ -42,6 +48,12 @@ module.exports = function($firebaseArray, $firebaseObject) {
     return function filterFn(member) {
       return (member.value.indexOf(lowercaseQuery) === 0);
     };
+  };
+
+  fac.createRoom = function() {
+    var newRoomRef = firebase.database().ref('rooms').push();
+    currentRoomRef = newRoomRef;
+    return $firebaseObject(newRoomRef);
   };
 
   fac.assocUserRoom = function(user, room) {

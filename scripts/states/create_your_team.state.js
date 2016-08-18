@@ -13,17 +13,12 @@ var createTeamState = function($stateProvider){
 			// TODO:
 			// sign-in pop-up bugs
 
-		$scope.team = TeamFactory.createTeam();
-	  //   // set $scope.team to new team obj (but do not bind)
-			// var teamObj = TeamFactory.createTeam();
-			// $scope.team = teamObj;
 
-			// // bind the team obj to the rootScope.teamObj
-			// teamObj.$loaded().then(function () {
-	  //     teamObj.$bindTo($rootScope, 'teamObj').then(function () {
-	  //       console.log($rootScope.teamObj);
-	  //     });
-	  //   });
+	    // set $scope.team to new team obj (but do not bind)
+			var teamObj = TeamFactory.createTeam();
+			$scope.team = teamObj;
+
+			
 	    
 
 			// save team.name and team.members in firebase
@@ -35,6 +30,13 @@ var createTeamState = function($stateProvider){
 
 				$scope.team.$save().then(function() {
 	        alert('Team saved!');
+
+	        // bind the team obj to the rootScope.teamObj
+					teamObj.$loaded().then(function () {
+			      teamObj.$bindTo($rootScope, 'teamObj').then(function () {
+			        console.log('$rootScope.teamObj ', $rootScope.teamObj);
+			      });
+			    });
 
 	        UserFactory.signIn()
 		        .then(function(user) {
