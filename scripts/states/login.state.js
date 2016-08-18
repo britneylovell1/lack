@@ -6,39 +6,35 @@ module.exports = function ($stateProvider) {
   $stateProvider.state('login', {
     url: '/login',
     templateUrl: '../templates/login.html',
-		controller: function ($scope, $rootScope, $state, $firebaseAuth, $firebaseObject, $firebaseArray, UserFactory, TeamFactory) {
-				$scope.signIn = function() {
-		  		UserFactory.login()
-		  		.then(function(home) {
+    controller: function ($scope, $rootScope, $state, $firebaseAuth, $firebaseObject, $firebaseArray, UserFactory, TeamFactory) {
+	    $scope.signIn = function() {
+	    	UserFactory.login()
+	    	.then(function (home) {
 
-		  		var currentUserId = firebase.auth().currentUser.uid;
-				  var ref = firebase.database().ref('users').child(currentUserId);
-				  var obj = $firebaseObject(ref);
+    			// get the current team id
+    			// put this in a factory
+	    		var currentUserId = firebase.auth().currentUser.uid;
+				  var teamRef = firebase.database().ref('users').child(currentUserId).child('teams');
+				  var teamArr = $firebaseArray(teamRef);
 
-				  obj.$loaded().then(function () {
+			  	teamArr.$loaded().then(function () {
+				  	var teamKey = teamArr.$keyAt(0);
+				  	console.log(teamKey);
+				  	TeamFactory.setCurrentTeam(teamKey);
+						// you don't have to go home, but you can't stay here
+				  	if (home) $state.go('home', {teamId: teamKey});
+	    			else $state.go('landing');
 
-				    var teams = obj.teams;
-				    var firstTeamIndex = Object.keys(teams)[0];
-				    var teamId = teams[firstTeamIndex].teamId;
+				  });
 
-				    var teamUsersRef = firebase.database().ref('teams').child(teamId + '/users');
-				    var membersArr = $firebaseArray(teamUsersRef);
-				    var teamRef = firebase.database().ref('teams').child(teamId);
-				    var teamObj = $firebaseObject(teamRef);
+	    	})
+	    	.catch(function(error) {
+	    		console.log(error);
+	    	});
 
-				    teamObj.$loaded().then(function () {
-				    	if (home) $state.go('home', {teamId: teamObj.$id});
-				    	// you don't have to go home, but you can't stay here
-				    	else $state.go('landing');
-				    });
+	    };
 
-		    	})
-		    	.catch(function(error) {
-		    		console.log(error);
-		    	});
-
-		  	});
-		  };
     }
+
   });
 };

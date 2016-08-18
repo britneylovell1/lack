@@ -41,48 +41,6 @@ module.exports = function($firebaseObject, $firebaseArray) {
 
     },
 
-		assocUserTeam: function(user, team) {
-			// associate the users with the teams
-
-			// set up association variables
-			var userInfo = {
-				// userId: user.uid,		// This was for the first attempt
-				// userName: user.displayName
-			};
-			userInfo[user.uid] = { userName: user.displayName };
-
-			var teamId = team.id || team.$id;
-			var teamInfo = {
-				// teamId: teamId,			// This was for the first attempt
-				// teamName: team.name
-			};
-			teamInfo[teamId] = { teamName: team.name };
-
-
-			// create user + team entries and set up references to them
-			var userRef = firebase.database().ref().child('users/' + user.uid + '/teams');
-			var teamRef = firebase.database().ref().child('teams/' + teamId + '/users');
-
-
-			// wait for the user to be created in the database
-			firebase.database().ref().child('users/' + user.uid).once('child_added')
-			.then(function() {
-
-				// create associations in firebase
-				userRef.update(teamInfo);
-				teamRef.update(userInfo);
-
-				// This was for the first attempt
-    		// This is method created a new id for each $add()
-				// $firebaseArray(userRef).$add(teamInfo);
-				// $firebaseArray(teamRef).$add(userInfo);
-
-			})
-
-			return user;
-
-		},
-
 		addTeamAdmin: function(user, team) {
 			// add a user as an admin on the teams model
 
