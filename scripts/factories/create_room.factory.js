@@ -6,21 +6,21 @@ module.exports = function($firebaseArray, $firebaseObject) {
 
 
   //helper function for members list
-  var currentRoomRef = null;
+  var currentRoomRef = null; //does this persist? - not when I refresh the page! Spend some time figuring out persistence 
 
-  function loadAll() {
-    // when there are members on a team... the call for the array would be here
+  // function loadAll() {
+  //   // when there are members on a team... the call for the array would be here
 
-    var allMembers = $rootscope.membersArr;
-    // ['Maggie', 'Elisabeth', 'Britney', 'Brianna', 'Matilda', 'Emily'];
-    return allMembers.map(function(member) {
-      return {
-        value: member.userName.toLowerCase(),
-        display: member.userName,
-        userId: member.userId 
-      };
-    });
-  }
+  //   var allMembers = $rootscope.membersArr;
+  //   // ['Maggie', 'Elisabeth', 'Britney', 'Brianna', 'Matilda', 'Emily'];
+  //   return allMembers.map(function(member) {
+  //     return {
+  //       value: member.userName.toLowerCase(),
+  //       display: member.userName,
+  //       userId: member.userId 
+  //     };
+  //   });
+  // }
 
 
 
@@ -30,15 +30,13 @@ module.exports = function($firebaseArray, $firebaseObject) {
 
   // fac.members = loadAll();
   fac.members = function(teamMembers) {
-    // when there are members on a team... the call for the array would be here
-
-    // var allMembers = $rootscope.membersArr;
-    // ['Maggie', 'Elisabeth', 'Britney', 'Brianna', 'Matilda', 'Emily'];
+    
+    // reformat teamMembers array
     return teamMembers.map(function(member) {
       return {
         value: member.userName.toLowerCase(),
         display: member.userName,
-        userId: member.userId 
+        userId: member.$id 
       };
     });
   }
@@ -51,39 +49,43 @@ module.exports = function($firebaseArray, $firebaseObject) {
   };
 
   fac.createRoom = function() {
+
     var newRoomRef = firebase.database().ref('rooms').push();
+
+    // set the current room to the new room
     currentRoomRef = newRoomRef;
+    
     return $firebaseObject(newRoomRef);
   };
 
   fac.assocUserRoom = function(user, room) {
 
-    // associate the users with the teams
+    // set up association variables
     var userInfo = {
-      userId: user.uid,
-      userName: user.displayName
+      // userId: user.uid,      // This was for the first attempt
+      // userName: user.displayName
     };
+    userInfo[user.uid] = { userName: user.displayName };
 
     var roomId = room.id || room.$id
     var roomInfo = {
-      roomId: roomId,
-      roomName: room.name
+      // roomId: roomId,      // This was for the first attempt
+      // roomName: room.name
     };
+    roomInfo[roomId] = { roomName: room.name }
 
-    // set up references
+    // create user + room entries and set up references to them
     var userRef = firebase.database().ref().child('users/' + user.uid + '/rooms');
     var roomRef = firebase.database().ref().child('rooms/' + roomId + '/members');
 
-    // wait for the user to be created in the database
-    // firebase.database().ref().child('users/' + user.uid).once('child_added')
-    // .then(function() {
+    // create associations in firebase
+    userRef.update(roomInfo);
+    roomRef.update(userInfo);
 
-      // add team to 'users' model
-      $firebaseArray(userRef).$add(roomInfo);
-
-      // add user to 'rooms' model
-      $firebaseArray(roomRef).$add(userInfo);
-    // })
+    // This was for the first attempt
+    // This is method created a new id for each $add()
+    // $firebaseArray(userRef).$add(roomInfo);
+    // $firebaseArray(roomRef).$add(userInfo);
 
     return user;
 
@@ -91,15 +93,24 @@ module.exports = function($firebaseArray, $firebaseObject) {
 
   fac.addRoomAdmin = function(user, room) {
     // add a user as an admin on the teams model
+
+    // set up association variables
     var userInfo = {
-      userId: user.uid,
-      userName: user.displayName
+      // userId: user.uid,      // This was for the first attempt
+      // userName: user.displayName
     };
+    userInfo[user.uid] = { userName: user.displayName };
     var roomId = room.id || room.$id; 
 
+    // create admin entry and set up reference to it
     var roomRef = firebase.database().ref().child('rooms/' + roomId + '/admin');
 
-    $firebaseArray(roomRef).$add(userInfo);
+    // create the admin association in firebase
+    roomRef.update(userInfo);
+
+    // This was for the first attempt
+    // This is method created a new id for each $add()
+    // $firebaseArray(roomRef).$add(userInfo);
 
   }
 

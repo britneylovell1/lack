@@ -135,17 +135,17 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth) {
 
     },
 
-    logout: function() {
+    // logout: function() {
     	
-    	// log the user out
-    	// NOT FINISHED WITH THIS ONE
-    	firebase.auth().signOut()
-      .then(function() {
-			 // Signout successful
-			}, function(error) {
-			  // An error happened.
-			});
-    }
+    // 	// log the user out
+    // 	// NOT FINISHED WITH THIS ONE
+    // 	firebase.auth().signOut()
+    //   .then(function() {
+  		// 	 // Signout successful
+  		// 	}, function(error) {
+  		// 	  // An error happened.
+  		// 	});
+    // }
 
   }
 

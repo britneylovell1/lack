@@ -7,7 +7,7 @@ var firebase = require('firebase');
 // redirect to that team's state
 
 module.exports = function($firebaseObject, $firebaseArray) {
-	var currentTeamRef = null; //does this persist? - not when I refresh the page!
+	var currentTeamRef = null; //does this persist? - not when I refresh the page! Spend some time figuring out persistence 
 
 
 	return {
@@ -42,37 +42,41 @@ module.exports = function($firebaseObject, $firebaseArray) {
     },
 
 		assocUserTeam: function(user, team) {
-
 			// associate the users with the teams
+
+			// set up association variables
 			var userInfo = {
-				// userId: user.uid,
+				// userId: user.uid,		// This was for the first attempt
 				// userName: user.displayName
 			};
 			userInfo[user.uid] = { userName: user.displayName };
 
 			var teamId = team.id || team.$id;
 			var teamInfo = {
-				// teamId: teamId,
+				// teamId: teamId,			// This was for the first attempt
 				// teamName: team.name
 			};
 			teamInfo[teamId] = { teamName: team.name };
 
-			// set up references
+
+			// create user + team entries and set up references to them
 			var userRef = firebase.database().ref().child('users/' + user.uid + '/teams');
 			var teamRef = firebase.database().ref().child('teams/' + teamId + '/users');
+
 
 			// wait for the user to be created in the database
 			firebase.database().ref().child('users/' + user.uid).once('child_added')
 			.then(function() {
 
-				// // add team to 'users' model
-				// $firebaseArray(userRef).$add(teamInfo);
-
-				// // add user to 'teams' model
-				// $firebaseArray(teamRef).$add(userInfo);
-
+				// create associations in firebase
 				userRef.update(teamInfo);
 				teamRef.update(userInfo);
+
+				// This was for the first attempt
+    		// This is method created a new id for each $add()
+				// $firebaseArray(userRef).$add(teamInfo);
+				// $firebaseArray(teamRef).$add(userInfo);
+
 			})
 
 			return user;
@@ -81,17 +85,23 @@ module.exports = function($firebaseObject, $firebaseArray) {
 
 		addTeamAdmin: function(user, team) {
 			// add a user as an admin on the teams model
+
+			// set up association variables
 			var userInfo = {
-				// userId: user.uid,
+				// userId: user.uid,			
 				// userName: user.displayName
 			};
 			userInfo[user.uid] = { userName: user.displayName };
-
 			var teamId = team.id || team.$id; 
+
+			// create admin entry and set up reference to it
 			var teamRef = firebase.database().ref().child('teams/' + teamId + '/admin');
 
+			// create the admin association in firebase
 			teamRef.update(userInfo);
 
+			// This was for the first attempt
+    	// This is method created a new id for each $add()
 			// $firebaseArray(teamRef).$add(userInfo);
 
 		}
