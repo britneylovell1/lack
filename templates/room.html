@@ -13,18 +13,22 @@
       </md-card-title>
     </md-card>
   </div>
+  <div flex="10">
+    <form name="message" ng-submit="saveMessage(message.text)">
+      <md-input-container>
+        <div layout="row">
+          <div flex="90">
+            <label>Enter your message here</label>
+            <input name="input" ng-model="message.text" />
+          </div>
+          <div flex="10">
+            <md-button type="submit">
+              Send
+            </md-button>
+          </div>
+        </div>
+      </md-input-container>
+    </form>
+  </div>
 </md-content>
-<div flex="10">
-  <form name="message" ng-submit="saveMessage(message.text)">
-    <md-input-container layout="row">
-      <div flex="90">
-        <label>Enter your message here</label>
-        <input name="input" ng-model="message.text">
-      </div>
-      <md-button flex="10" type="submit">
-        Send
-      </md-button>
-      </input>
-    </md-input-container>
-  </form>
-</div>
+

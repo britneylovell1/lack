@@ -4,7 +4,7 @@ var firebase = require('firebase');
 
 module.exports = function($stateProvider) {
   $stateProvider.state('home.room', {
-    url: '/home/teams/:teamId/rooms/:roomId',
+    url: '/rooms/:roomId',
     templateUrl: '/templates/room.html',
     controller: function($scope, $state, $firebaseArray, $stateParams) {
 
@@ -23,7 +23,7 @@ module.exports = function($stateProvider) {
           text: message
         });
         $scope.message.text = '';
-        message.input.$setPristine(true);
+        // message.input.$setPristine(true);
       };
 
       // Scroll bar
@@ -47,3 +47,4 @@ module.exports = function($stateProvider) {
 
   });
 };
+
