@@ -54,7 +54,7 @@ module.exports = function($firebaseArray, $firebaseObject) {
 
     // set the current room to the new room
     currentRoomRef = newRoomRef;
-    
+
     return $firebaseObject(newRoomRef);
   };
 
@@ -65,7 +65,7 @@ module.exports = function($firebaseArray, $firebaseObject) {
       // userId: user.uid,      // This was for the first attempt
       // userName: user.displayName
     };
-    userInfo[user.uid] = { userName: user.displayName };
+    userInfo[user.userId] = { userName: user.display };
 
     var roomId = room.id || room.$id
     var roomInfo = {
@@ -75,7 +75,7 @@ module.exports = function($firebaseArray, $firebaseObject) {
     roomInfo[roomId] = { roomName: room.name }
 
     // create user + room entries and set up references to them
-    var userRef = firebase.database().ref().child('users/' + user.uid + '/rooms');
+    var userRef = firebase.database().ref().child('users/' + user.userId + '/rooms');
     var roomRef = firebase.database().ref().child('rooms/' + roomId + '/members');
 
     // create associations in firebase

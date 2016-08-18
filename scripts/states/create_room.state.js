@@ -34,16 +34,17 @@ module.exports = function($stateProvider) {
       $scope.chipsmembers = [];
 
       $scope.saveRoom = function() {
-        $scope.room.members = $scope.chipsmembers;
+        // $scope.room.members = $scope.chipsmembers;
         $scope.room.$save().then(function() {
           alert('Room created!');
 
           // create user-room associations
           // haven't tested this out yet! This is just pseudo-code
           // need to figure out $scope.room.members formatting
-          // $scope.room.members.map(function(member) {
-          //   roomFactory.assocUserRoom(member, $scope.room)
-          // })
+          $scope.chipsmembers.forEach(function(member) {
+            console.log(member);
+            roomFactory.assocUserRoom(member, $scope.room)
+          })
 
           // make this user the admin
           roomFactory.addRoomAdmin($scope.user, $scope.room)
