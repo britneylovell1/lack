@@ -108,6 +108,10 @@ module.exports = function($firebaseArray, $firebaseObject) {
 
 	    return user;
 
+	  },
+
+	  assocRoomMessage: function() {
+
 	  }
 		
 	}
