@@ -6,23 +6,27 @@ module.exports = function($stateProvider) {
   $stateProvider.state('home', {
     url: '/home',
     templateUrl: '/templates/home.html',
-    controller: function($scope, $state, $firebaseArray) {
+    controller: function($scope, $state, $firebaseArray, $rootScope) {
       $scope.currentRoom = { name: 'Current Room' };
 
+      //ref for new messages
+      var newMessagesRef = firebase.database().ref('messages');
+
       function createMessages() {
-        var newMessagesRef = firebase.database().ref('messages');
         return $firebaseArray(newMessagesRef);
       }
 
       $scope.messages = createMessages();
       $scope.saveMessage = function(message) {
-        var newMessageRef = firebase.database().ref('messages');
-        newMessageRef.push({
+        newMessagesRef.push({
           sender: 'Elisabeth',
           text: message
         });
+        roomRef.push({
+          sender: 'Ashi',
+          text: message
+        });
         $scope.message.text = '';
-        message.input.$setPristine(true);
       };
       var out = document.getElementById("out");
       var isScrolledToBottom = true;
