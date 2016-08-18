@@ -58,6 +58,10 @@ module.exports = function($firebaseArray, $firebaseObject) {
     return $firebaseObject(newRoomRef);
   };
 
+  fac.setCurrentRoom = function() {
+    // FINISH THIS
+  }
+
   fac.assocUserRoom = function(user, room) {
 
     // set up association variables

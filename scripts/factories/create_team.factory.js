@@ -14,6 +14,7 @@ module.exports = function($firebaseObject, $firebaseArray) {
 		createTeam: function() {
 		
 			// create the team obj in firebase + get the reference to it
+			// NOTE: user has to be logged in to make a team - how can we fix this problem
 			var newTeamRef = firebase.database().ref('teams').push();
 			currentTeamRef = newTeamRef;
 

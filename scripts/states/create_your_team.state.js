@@ -31,12 +31,12 @@ var createTeamState = function($stateProvider){
 				$scope.team.$save().then(function() {
 	        alert('Team saved!');
 
-	    //     // bind the team obj to the rootScope.teamObj
-					// teamObj.$loaded().then(function () {
-			  //     teamObj.$bindTo($rootScope, 'teamObj').then(function () {
-			  //       console.log('$rootScope.teamObj ', $rootScope.teamObj);
-			  //     });
-			  //   });
+	        // bind the team obj to the rootScope.teamObj
+					teamObj.$loaded().then(function () {
+			      teamObj.$bindTo($rootScope, 'teamObj').then(function () {
+			        console.log('$rootScope.teamObj ', $rootScope.teamObj);
+			      });
+			    });
 
 	        UserFactory.signIn()
 		        .then(function(user) {
