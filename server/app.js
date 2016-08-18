@@ -6,7 +6,7 @@ var app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
 
 
 //add headers middleware
@@ -66,7 +66,7 @@ var sendEmail = function (email, teamId, teamName) {
                       '&email='
                       + email +
                       '">here</a> to get started.</p>';
-
+  //return new promise, resolve with this:
   transporter.sendMail(mailOptions, function (error, info){
     if(error){
         return console.log(error);
@@ -89,3 +89,5 @@ app.post('/send-emails', function (req, res) {
   res.send('Success');
 
 });
+
+//add firebase listener: listen for on child added to email route
