@@ -20,18 +20,19 @@ module.exports = function($rootScope, $scope, $firebaseArray, $firebaseObject, $
 		$scope.team.$save()
 		.then(function() {
       $mdToast.show($mdToast.simple().textContent('Team saved!'));
+      console.log("team", $scope.team.id, $scope.team.$id)
 
       UserFactory.signIn()
         .then(function(user) {
-
           // associate user with team
           AssocFactory.assocUserTeam(user, $scope.team)
           // set this user as the admin
           return TeamFactory.addTeamAdmin(user, $scope.team);
+          
         })
         .then(function() {
-        	// is it team.id or team.$id????
-	        $state.go('home', {teamId: $scope.team.id});
+        	// go to the home state for the created team
+	        $state.go('home', {teamId: $scope.team.$id});
 	      })
 
     }).catch(function(error) {

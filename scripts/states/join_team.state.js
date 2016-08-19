@@ -20,7 +20,7 @@ module.exports = function ($stateProvider) {
         .then(function(user) {
           // associate user with team
           return TeamFactory.assocUserTeam(user, $scope.team)
-
+        })
         .then(function() {
           // go to user home page
           $state.go('home', {teamId: $scope.team.id});
