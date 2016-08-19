@@ -3,6 +3,7 @@ var app = angular.module('lack');
 
 // TODO:
 // put teamMembers in the resolve
+// associate rooms with teams
 
 module.exports = function($log, $rootScope, $scope, $state, $stateParams, $firebaseObject, roomFactory, UserFactory, AssocFactory, $mdToast, $location, TeamFactory) {
   
