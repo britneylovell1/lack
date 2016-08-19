@@ -23,18 +23,18 @@ module.exports = function($http) {
 
     sendRoomNotes: function (data) {
 
-      return $http({
-        url: 'http://localhost:3000/close-room',
-        method: 'POST',
-        data: data,
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        }
-      })
-      .then(function (response) {
-        return response.data;
-      });
+      // return $http({
+      //   url: 'http://localhost:3000/close-room',
+      //   method: 'POST',
+      //   data: data,
+      //   withCredentials: true,
+      //   headers: {
+      //     'Content-Type': 'application/json; charset=utf-8'
+      //   }
+      // })
+      // .then(function (response) {
+      //   return response.data;
+      // });
     }
 
   };

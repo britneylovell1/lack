@@ -8,7 +8,7 @@
     <md-input-container class="md-block">
       <label>Email to: </label>
       <md-select multiple ng-model="data.members">
-        <md-option ng-repeat="member in allMembers" value="{{member}}">
+        <md-option ng-repeat="member in allMembers" value={{member.$id}}>
           {{ member.userName }}
         </md-option>
       </md-select>

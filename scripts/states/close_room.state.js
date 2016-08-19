@@ -18,13 +18,6 @@ module.exports = function ($stateProvider) {
     },
     controller: function ($scope, $state, $mdToast, EmailFactory, $stateParams, TeamFactory, roomMembers, roomData) {
 
-      console.log('MEMBERS REF: ', roomMembers);
-      console.log('ROOM DATA: ', roomData);
-
-      //grab team and room IDs from URL params:
-      $scope.teamId = $stateParams.teamId;
-      $scope.roomId = $stateParams.roomId;
-
       //fetch resolved room object:
       $scope.currentRoom = roomData;
 
@@ -32,23 +25,40 @@ module.exports = function ($stateProvider) {
       $scope.allMembers = roomMembers;
       //have .userName and .$id properties
 
-      //TODO: grab notes and member info from form
+      //fetch notes and array of member IDs from form
       $scope.data = {};
+      //has .members Array of member IDs as strings and notes as string
 
       $scope.closeRoom = function () {
 
+        console.log('$SCOPE.DATA: ', $scope.data);
+
         //TODO: fetch email address of each selected member and add to data obj.
+        var emails = [];
+        $scope.data.members.forEach(function (memberId) {
+          return firebase.database().ref('/users/' + memberId + '/email')
+          .once('value')
+          .then(function (snapshot) {
+            emails.push(snapshot.val());
+            if (emails.length === $scope.data.members.length){
+
+              console.log('EMAILS: ', emails);
+
+
+            }
+          });
+        });
 
         //TODO: finish this factory function
-        EmailFactory.sendRoomNotes($scope.data)
-        .then(function () {
+        // EmailFactory.sendRoomNotes($scope.data)
+        // .then(function () {
 
-          //TODO: delete room from everywhere it is stored in firebase
+        //   //TODO: delete room from everywhere it is stored in firebase
 
-          $mdToast.show($mdToast.simple().textContent('Room closed!'));
-          $state.go('home');
+        //   $mdToast.show($mdToast.simple().textContent('Room closed!'));
+        //   $state.go('home');
 
-        });
+        // });
 
       };
 
