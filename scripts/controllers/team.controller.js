@@ -1,14 +1,13 @@
 var angular = require('angular');
 var app = angular.module('lack');
-var firebase = require('firebase');
+
+// TODO:
+// use Promise.all in team.$save
 
 module.exports = function($rootScope, $scope, $firebaseArray, $firebaseObject, $state, EmailFactory, UserFactory, TeamFactory, AssocFactory, $mdToast) {
-	// TODO: modularize this controller
 
-  // set $scope.team to new team obj (but do not bind)
-	var teamObj = TeamFactory.createTeam();
-	$scope.team = teamObj;
-
+  // set $scope.team to new team obj 
+	$scope.team = TeamFactory.createTeam();
 
 	// save team.name and team.members in firebase
 	$scope.saveTeam = function() {
@@ -17,35 +16,28 @@ module.exports = function($rootScope, $scope, $firebaseArray, $firebaseObject, $
 
 		EmailFactory.sendInvitations($scope.team);
 
-		$scope.team.$save().then(function() {
+		$scope.team.$save()
+		.then(function() {
       $mdToast.show($mdToast.simple().textContent('Team saved!'));
-
-      // bind the team obj to the rootScope.teamObj
-			teamObj.$loaded().then(function () {
-	      teamObj.$bindTo($rootScope, 'teamObj').then(function () {
-	        console.log('$rootScope.teamObj ', $rootScope.teamObj);
-	      });
-	    });
 
       UserFactory.signIn()
         .then(function(user) {
-
           // associate user with team
-          return AssocFactory.assocUserTeam(user, $scope.team)
-        })
-        .then(function(user) {
-
+          AssocFactory.assocUserTeam(user, $scope.team)
           // set this user as the admin
-          TeamFactory.addTeamAdmin(user, $scope.team);
-	        $state.go('home');
-        });
+          return TeamFactory.addTeamAdmin(user, $scope.team);
 
-      }).catch(function(error) {
-        $mdToast.show($mdToast.simple().textContent('Error!'));
-      });
-	};
+        })
+        .then(function() {
+        	// go to the home state for the created team
+	        $state.go('home', {teamId: $scope.team.$id});
+	      })
 
+    }).catch(function(error) {
+      $mdToast.show($mdToast.simple().textContent('Error!'));
+    })
 
+	}
 
 	//initialize empty array for Angular Material chips:
 	$scope.emails = [];
