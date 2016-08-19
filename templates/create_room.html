@@ -1,19 +1,19 @@
-<div layout="column" flex layout-fill class="lackform">
-  
+<div layout="column" flex layout-align="center center" layout-padding>
+
   <h1>Create new room</h1>
-  
+
   <form name="new-room-form">
-    
+
     <md-input-container class="md-block">
       <label>What is the name of this room?</label>
       <input required ng-model="room.name" />
     </md-input-container>
-    
+
     <md-input-container class="md-block">
       <label>What is the objective of this room?</label>
       <input required ng-model="room.objective" />
     </md-input-container>
-    
+
     <md-chips ng-model="chipsmembers" md-autocomplete-snap>
 
       <md-autocomplete md-selected-item="selectedItem" md-search-text="searchText" md-items="item in querySearch(searchText)" md-item-text="item.display" md-min-length="0" placeholder="Teammates to invite">
@@ -21,7 +21,7 @@
           <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.display}}</span>
         </md-item-template>
       </md-autocomplete>
-      
+
       <md-chip-template>
         <span>
           <strong>{{$chip.display}}</strong>
@@ -29,7 +29,7 @@
       </md-chip-template>
 
     </md-chips>
-    
+
     <br>
 
     <div>
@@ -46,5 +46,5 @@
     </a>
 
   </form>
-  
+
 </div>

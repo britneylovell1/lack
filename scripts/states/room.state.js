@@ -8,7 +8,7 @@ module.exports = function($stateProvider) {
     templateUrl: '/templates/room.html',
     controller: function($scope, $state, $firebaseArray, $stateParams) {
 
-      $scope.room = $stateParams.roomId;
+      $scope.roomId = $stateParams.roomId;
 
       function createMessages () {
         var newMessagesRef = firebase.database().ref('messages');

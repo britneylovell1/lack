@@ -11,10 +11,6 @@ html {
   margin-bottom: 20px;
 }
 
-.lackform {
-  padding: 30px 400px;
-}
-
 .ng-scope {
   height: 100%;
 }
@@ -38,4 +34,8 @@ html {
 
 .centeredTitle {
   text-align: center;
+}
+
+form {
+  width: 400px;
 }
