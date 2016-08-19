@@ -43,3 +43,11 @@ html {
 #closeroom {
   max-width: none;
 }
+
+md-card-header#cardheader {
+  padding-bottom: 0;
+}
+
+md-card-content#cardcontent {
+  padding-top: 0;
+}

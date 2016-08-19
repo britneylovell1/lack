@@ -2,7 +2,7 @@ var angular = require('angular');
 var app = angular.module('lack');
 var firebase = require('firebase');
 
-module.exports = function($state, $firebaseArray, $rootScope) {
+module.exports = function($state, $firebaseArray, $rootScope, UserFactory) {
   return {
     restrict: 'E',
     templateUrl: '../templates/sidebar.html',
@@ -12,10 +12,14 @@ module.exports = function($state, $firebaseArray, $rootScope) {
     },
     link: function(scope) {
       function getRooms() {
-        var roomsRef = firebase.database().ref('rooms');
+        var user = UserFactory.getCurrentUser();
+        console.log(user.uid);
+        var roomsRef = firebase.database().ref('users').child(user.uid + '/rooms');
+        console.log($firebaseArray(roomsRef));
         return $firebaseArray(roomsRef);
       }
       scope.rooms = getRooms();
+      console.log('ROOOOOMS', scope.rooms);
 
       scope.setCurrentRoom = function(room) {
         $rootScope.currentRoom = room;
