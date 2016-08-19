@@ -44,10 +44,8 @@ module.exports = function($firebaseObject, $firebaseArray) {
 
 			// set up association variables
 			var userInfo = {
-				// userId: user.uid,
-				// userName: user.displayName
+				[user.uid]: { userName: user.displayName }
 			};
-			userInfo[user.uid] = { userName: user.displayName };
 			var teamId = team.id || team.$id;
 
 			// create admin entry and set up reference to it
@@ -56,9 +54,7 @@ module.exports = function($firebaseObject, $firebaseArray) {
 			// create the admin association in firebase
 			teamRef.update(userInfo);
 
-			// This was for the first attempt
-    	// This is method created a new id for each $add()
-			// $firebaseArray(teamRef).$add(userInfo);
+			return user;
 
 		}
 
