@@ -8,7 +8,7 @@ module.exports = function($http) {
     sendInvitations: function (team) {
 
       return $http({
-        url: 'http://localhost:3000/send-emails',
+        url: 'https://pacific-lowlands-51363.herokuapp.com/send-emails',
         method: 'POST',
         data: team,
         withCredentials: true,
@@ -17,7 +17,22 @@ module.exports = function($http) {
         }
       })
       .then(function (response) {
-        // console.log('Success');
+        return response.data;
+      });
+    },
+
+    sendRoomNotes: function (data) {
+
+      return $http({
+        url: 'http://localhost:3000/close-room',
+        method: 'POST',
+        data: data,
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        }
+      })
+      .then(function (response) {
         return response.data;
       });
     }
