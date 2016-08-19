@@ -7,8 +7,9 @@ module.exports = function ($stateProvider) {
     url: '/home/teams/:teamId/rooms/:roomId/close-room',
     templateUrl: '/templates/close_room.html',
     resolve: {
-      roomMembers: function (TeamFactory, $stateParams) {
-        return TeamFactory.getTeamMembers($stateParams.teamId);
+      roomMembers: function ($stateParams, $firebaseArray) {
+        var membersRef = firebase.database().ref('rooms/' + $stateParams.roomId + '/members');
+        return $firebaseArray(membersRef);
       },
       roomData: function ($stateParams, $firebaseObject) {
         var teamRef = firebase.database().ref('rooms/' + $stateParams.roomId);
@@ -17,16 +18,17 @@ module.exports = function ($stateProvider) {
     },
     controller: function ($scope, $state, $mdToast, EmailFactory, $stateParams, TeamFactory, roomMembers, roomData) {
 
+      console.log('MEMBERS REF: ', roomMembers);
       console.log('ROOM DATA: ', roomData);
 
       //grab team and room IDs from URL params:
       $scope.teamId = $stateParams.teamId;
       $scope.roomId = $stateParams.roomId;
 
-      //TODO: fetch actual Room from firebase:
-      $scope.currentRoom = { name: 'ExampleCurrentRoom' };
+      //fetch resolved room object:
+      $scope.currentRoom = roomData;
 
-      //TODO: fetch all team members and their emails
+      //fetch all team members in room:
       $scope.allMembers = roomMembers;
       //have .userName and .$id properties
 
