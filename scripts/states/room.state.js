@@ -16,13 +16,16 @@ module.exports = function($stateProvider) {
       }
 
       var user = UserFactory.getCurrentUser();
+      $scope.currentDate = new Date();
 
       $scope.messages = createMessages();
       $scope.saveMessage = function(message) {
         var newMessageRef = firebase.database().ref('messages');
         newMessageRef.push({
           sender: user.displayName,
-          text: message
+          photo: user.photoURL,
+          text: message,
+
         });
         $scope.message.text = '';
         // message.input.$setPristine(true);
