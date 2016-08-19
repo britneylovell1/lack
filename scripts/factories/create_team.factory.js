@@ -3,17 +3,14 @@ var app = angular.module('lack');
 var firebase = require('firebase');
 
 // TODO:
-// clear input field + reset $scope.team
-// redirect to that team's state
+// remove setCurrentTeam?
 
 module.exports = function($firebaseObject, $firebaseArray) {
-	var currentTeamRef = null; //does this persist? - not when I refresh the page! Spend some time figuring out persistence
 
 	return {
 		createTeam: function() {
 
 			// create the team obj in firebase + get the reference to it
-			// NOTE: user has to be logged in to make a team - how can we fix this problem
 			var newTeamRef = firebase.database().ref('teams').push();
 			currentTeamRef = newTeamRef;
 
@@ -23,13 +20,14 @@ module.exports = function($firebaseObject, $firebaseArray) {
 
 		setCurrentTeam: function(currentTeamId) {
 			// set the current team
-			currentTeamRef = firebase.database().ref('teams').child(currentTeamId);
+			// don't need this function?
+			var currentTeamRef = firebase.database().ref('teams').child(currentTeamId);
 		},
 
-		// Does this work across the board?
 		getCurrentTeam: function () {
-			// get current team
-			return $firebaseObject(currentTeamRef);
+			var currentUserId = firebase.auth().currentUser.uid;
+			var teamRef = firebase.database().ref('users').child(currentUserId).child('teams');
+			return $firebaseArray(teamRef);
 
     },
 
@@ -46,10 +44,8 @@ module.exports = function($firebaseObject, $firebaseArray) {
 
 			// set up association variables
 			var userInfo = {
-				// userId: user.uid,
-				// userName: user.displayName
+				[user.uid]: { userName: user.displayName }
 			};
-			userInfo[user.uid] = { userName: user.displayName };
 			var teamId = team.id || team.$id;
 
 			// create admin entry and set up reference to it
@@ -57,10 +53,6 @@ module.exports = function($firebaseObject, $firebaseArray) {
 
 			// create the admin association in firebase
 			teamRef.update(userInfo);
-
-			// This was for the first attempt
-    	// This is method created a new id for each $add()
-			// $firebaseArray(teamRef).$add(userInfo);
 
 		}
 
