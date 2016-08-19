@@ -3,6 +3,7 @@ var app = angular.module('lack');
 var firebase = require('firebase');
 
 // TODO:
+// remove setCurrentTeam?
 
 module.exports = function($firebaseObject, $firebaseArray) {
 
@@ -19,7 +20,8 @@ module.exports = function($firebaseObject, $firebaseArray) {
 
 		setCurrentTeam: function(currentTeamId) {
 			// set the current team
-			currentTeamRef = firebase.database().ref('teams').child(currentTeamId);
+			// don't need this function?
+			var currentTeamRef = firebase.database().ref('teams').child(currentTeamId);
 		},
 
 		// Does this work across the board?
