@@ -9,13 +9,13 @@ module.exports = function ($stateProvider) {
     templateUrl: '../templates/login.html',
     controller: function ($scope, $rootScope, $state, $firebaseAuth, $firebaseObject, $firebaseArray, UserFactory, TeamFactory) {
 
-
+    	// log in, duh
 			$scope.signIn = function() {
 				UserFactory.login()
 				.then(function (home) {
 
 					// get the current team and go to that home state
-					TeamFactory.getCurrentTeam();
+					var teamArr = TeamFactory.getCurrentTeam();
 					teamArr.$loaded()
 					.then(function () {
 						var teamKey = teamArr.$keyAt(0);

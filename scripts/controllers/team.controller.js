@@ -3,7 +3,6 @@ var app = angular.module('lack');
 
 // TODO:
 // use Promise.all in team.$save
-// figure out team.id or .$id
 
 module.exports = function($rootScope, $scope, $firebaseArray, $firebaseObject, $state, EmailFactory, UserFactory, TeamFactory, AssocFactory, $mdToast) {
 
@@ -20,7 +19,6 @@ module.exports = function($rootScope, $scope, $firebaseArray, $firebaseObject, $
 		$scope.team.$save()
 		.then(function() {
       $mdToast.show($mdToast.simple().textContent('Team saved!'));
-      console.log("team", $scope.team.id, $scope.team.$id)
 
       UserFactory.signIn()
         .then(function(user) {
@@ -28,7 +26,7 @@ module.exports = function($rootScope, $scope, $firebaseArray, $firebaseObject, $
           AssocFactory.assocUserTeam(user, $scope.team)
           // set this user as the admin
           return TeamFactory.addTeamAdmin(user, $scope.team);
-          
+
         })
         .then(function() {
         	// go to the home state for the created team
