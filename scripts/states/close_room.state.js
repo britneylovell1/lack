@@ -10,11 +10,14 @@ module.exports = function ($stateProvider) {
       roomMembers: function (TeamFactory, $stateParams) {
         return TeamFactory.getTeamMembers($stateParams.teamId);
       },
-      roomData: function ($stateParams) {
-        return firebase.database().ref('rooms/' + $stateParams.roomId);
+      roomData: function ($stateParams, $firebaseObject) {
+        var teamRef = firebase.database().ref('rooms/' + $stateParams.roomId);
+        return $firebaseObject(teamRef);
       }
     },
     controller: function ($scope, $state, $mdToast, EmailFactory, $stateParams, TeamFactory, roomMembers, roomData) {
+
+      console.log('ROOM DATA: ', roomData);
 
       //grab team and room IDs from URL params:
       $scope.teamId = $stateParams.teamId;

@@ -39,3 +39,7 @@ html {
 .lackform {
   width: 400px;
 }
+
+#closeroom {
+  max-width: none;
+}
