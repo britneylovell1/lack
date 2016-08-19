@@ -54,8 +54,6 @@ module.exports = function($firebaseObject, $firebaseArray) {
 			// create the admin association in firebase
 			teamRef.update(userInfo);
 
-			return user;
-
 		}
 
 	}

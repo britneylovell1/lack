@@ -1,13 +1,13 @@
 var angular = require('angular');
 var app = angular.module('lack');
-var firebase = require('firebase');
 
 // TODO:
 // use Promise.all in team.$save
+// figure out team.id or .$id
 
 module.exports = function($rootScope, $scope, $firebaseArray, $firebaseObject, $state, EmailFactory, UserFactory, TeamFactory, AssocFactory, $mdToast) {
 
-  // set $scope.team to new team obj (but do not bind)
+  // set $scope.team to new team obj 
 	$scope.team = TeamFactory.createTeam();
 
 	// save team.name and team.members in firebase
@@ -29,7 +29,7 @@ module.exports = function($rootScope, $scope, $firebaseArray, $firebaseObject, $
           // set this user as the admin
           return TeamFactory.addTeamAdmin(user, $scope.team);
         })
-        .then(function(user) {
+        .then(function() {
         	// is it team.id or team.$id????
 	        $state.go('home', {teamId: $scope.team.id});
 	      })
