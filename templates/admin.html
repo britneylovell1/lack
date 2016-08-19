@@ -1,7 +1,7 @@
 <div layout="column" flex layout-align="center center" layout-padding>
     <h1>Admin Dashboard</h1>
     <div>
-	    <form>
+	    <form class="lackform">
 	        <label>Invite new teammates:</label>
 	       	<md-chips ng-model="newMemberEmails" readonly="false" md-require-match="false" placeholder="Enter emails..."></md-chips>
 	      <br>
@@ -14,7 +14,7 @@
 	    <p ng-show="addSuccess">Your invitations are on their way!</p>
     </div>
     <div>
-	    <form>
+	    <form class="lackform">
 	      <md-input-container>
         	<label>Edit teammates' privileges:</label>
 	        <md-select ng-model="selectedMember">
