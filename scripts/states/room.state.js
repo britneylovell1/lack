@@ -6,20 +6,22 @@ module.exports = function($stateProvider) {
   $stateProvider.state('home.room', {
     url: '/rooms/:roomId',
     templateUrl: '/templates/room.html',
-    controller: function($scope, $state, $firebaseArray, $stateParams) {
+    controller: function($scope, $state, $firebaseArray, $stateParams, UserFactory) {
 
       $scope.roomId = $stateParams.roomId;
 
-      function createMessages () {
+      function createMessages() {
         var newMessagesRef = firebase.database().ref('messages');
         return $firebaseArray(newMessagesRef);
       }
+
+      var user = UserFactory.getCurrentUser();
 
       $scope.messages = createMessages();
       $scope.saveMessage = function(message) {
         var newMessageRef = firebase.database().ref('messages');
         newMessageRef.push({
-          sender: 'Elisabeth',
+          sender: user.displayName,
           text: message
         });
         $scope.message.text = '';
@@ -47,4 +49,3 @@ module.exports = function($stateProvider) {
 
   });
 };
-
