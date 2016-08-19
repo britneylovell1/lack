@@ -42,10 +42,10 @@ module.exports = function ($stateProvider) {
               $scope.data.emails = emails;
 
               //TODO: email notes:
-              // EmailFactory.sendRoomNotes($scope.data)
-              // .then(function () {
+              EmailFactory.sendRoomNotes($scope.data)
+              .then(function () {
 
-                //TODO: delete room from firebase
+                //delete room from firebase
                 var allRoomsRef = firebase.database().ref('rooms');
                 var allRooms = $firebaseArray(allRoomsRef);
 
@@ -57,9 +57,8 @@ module.exports = function ($stateProvider) {
                   allRooms.$remove(indexToRemove)
                   .then(function () {
 
-                    //TODO: delete room from each user's list of rooms:
+                    //delete room from each user's list of rooms:
                     $scope.data.members.forEach(function (memberId) {
-                      console.log('memberid: ', memberId);
 
                       var refToRooms = firebase.database().ref('users/' + memberId + '/rooms');
                       var roomsArr = $firebaseArray(refToRooms);
@@ -67,28 +66,18 @@ module.exports = function ($stateProvider) {
                       roomsArr.$loaded()
                       .then(function () {
 
-                        console.log('rooms arr: ', roomsArr);
-
                         var indexToRemove2 = roomsArr.$indexFor($stateParams.roomId);
 
                         roomsArr.$remove(indexToRemove2)
-                        .then(function (ref) {
-                          console.log('Success');
+                        .then(function () {
+                          $mdToast.show($mdToast.simple().textContent('Room closed!'));
+                          $state.go('home');
                         });
-
                       });
-
                     });
-
-
-                    //$mdToast.show($mdToast.simple().textContent('Room closed!'));
-                    //$state.go('home');
-
                   });
-
-
                 });
-              // });
+              });
             }
           });
         });
