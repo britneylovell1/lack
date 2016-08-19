@@ -54,9 +54,7 @@ module.exports = function($firebaseArray, $firebaseObject) {
     var roomRef = firebase.database().ref().child('rooms/' + roomId + '/admin');
 
     // create the admin association in firebase
-    roomRef.update(userInfo);
-
-    return user;
+    return roomRef.update(userInfo);
 
   }
 
