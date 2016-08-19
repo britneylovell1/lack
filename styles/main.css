@@ -44,3 +44,11 @@ html {
   max-width: none;
   height: 42px;
 }
+
+md-card-header#cardheader {
+  padding-bottom: 0;
+}
+
+md-card-content#cardcontent {
+  padding-top: 0;
+}
