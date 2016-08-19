@@ -40,52 +40,14 @@ module.exports = function($firebaseArray, $firebaseObject) {
     return $firebaseObject(newRoomRef);
   };
 
-  fac.setCurrentRoom = function() {
-    // FINISH THIS
-  }
-
-  fac.assocUserRoom = function(user, room) {
-
-    // set up association variables
-    var userInfo = {
-      // userId: user.uid,      // This was for the first attempt
-      // userName: user.displayName
-    };
-    userInfo[user.userId] = { userName: user.display };
-
-    var roomId = room.id || room.$id
-    var roomInfo = {
-      // roomId: roomId,      // This was for the first attempt
-      // roomName: room.name
-    };
-    roomInfo[roomId] = { roomName: room.name }
-
-    // create user + room entries and set up references to them
-    var userRef = firebase.database().ref().child('users/' + user.userId + '/rooms');
-    var roomRef = firebase.database().ref().child('rooms/' + roomId + '/members');
-
-    // create associations in firebase
-    userRef.update(roomInfo);
-    roomRef.update(userInfo);
-
-    // This was for the first attempt
-    // This is method created a new id for each $add()
-    // $firebaseArray(userRef).$add(roomInfo);
-    // $firebaseArray(roomRef).$add(userInfo);
-
-    return user;
-
-  }
-
   fac.addRoomAdmin = function(user, room) {
     // add a user as an admin on the teams model
+    console.log('in room admin')
 
     // set up association variables
     var userInfo = {
-      // userId: user.uid,      // This was for the first attempt
-      // userName: user.displayName
-    };
-    userInfo[user.uid] = { userName: user.displayName };
+        [user.uid]: { userName: user.displayName }
+      };
     var roomId = room.id || room.$id; 
 
     // create admin entry and set up reference to it
@@ -93,10 +55,6 @@ module.exports = function($firebaseArray, $firebaseObject) {
 
     // create the admin association in firebase
     roomRef.update(userInfo);
-
-    // This was for the first attempt
-    // This is method created a new id for each $add()
-    // $firebaseArray(roomRef).$add(userInfo);
 
   }
 

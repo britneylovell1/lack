@@ -24,14 +24,15 @@ module.exports = function($firebaseObject, $firebaseArray) {
 			var currentTeamRef = firebase.database().ref('teams').child(currentTeamId);
 		},
 
-		getCurrentTeamId: function () {
+		getCurrentTeam: function () {
 			var currentUserId = firebase.auth().currentUser.uid;
 			var teamRef = firebase.database().ref('users').child(currentUserId).child('teams');
 			var teamArr =  $firebaseArray(teamRef);
 
 			return teamArr.$loaded()
 			.then(function () {
-				return teamArr.$keyAt(0);
+				var teamId = teamArr.$keyAt(0);
+				return teamArr.$getRecord(teamId);
 			});
 
     },

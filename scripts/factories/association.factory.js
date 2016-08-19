@@ -47,24 +47,22 @@ module.exports = function($firebaseArray, $firebaseObject) {
 	    // set up association variables
 	    var teamId = team.id || team.$id;
 			var teamInfo = {
-				[teamId]: { teamName: team.name }
+				[teamId]: { teamName: team.teamName }
 			};
 
 	    var roomId = room.id || room.$id;
-	    var roomInfo = {
-	      [roomId]: { roomName: room.name }
-	    };
+	    // var roomInfo = {
+	    //   [roomId]: { roomName: room.name }
+	    // };
 	    
 
 	    // create team + room entries and set up references to them
-	    var teamRef = firebase.database().ref().child('teams/' + teamId + '/rooms');
-	    var roomRef = firebase.database().ref().child('rooms/' + roomId + '/members');
+	    // var teamRef = firebase.database().ref().child('teams/' + teamId + '/rooms');
+	    var roomRef = firebase.database().ref().child('rooms/' + roomId + '/team');
 
 	    // create associations in firebase
-	    teamRef.update(roomInfo);
-	    roomRef.update(teamInfo);
-
-	    return team;
+	    // teamRef.update(roomInfo);
+	    return roomRef.update(teamInfo);
 
 	  },
 
@@ -72,7 +70,7 @@ module.exports = function($firebaseArray, $firebaseObject) {
 
 	    // set up association variables
 			var userInfo = {
-				[user.uid]: { userName: user.displayName }
+				[user.userId]: { userName: user.display }
 			};
 
 	    var roomId = room.id || room.$id;

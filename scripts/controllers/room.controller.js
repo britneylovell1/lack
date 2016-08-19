@@ -8,9 +8,11 @@ var app = angular.module('lack');
 module.exports = function($log, $rootScope, $scope, $state, $stateParams, $firebaseObject, roomFactory, UserFactory, AssocFactory, $mdToast, $location, TeamFactory) {
   
   // get the team members
-  TeamFactory.getCurrentTeamId()
-  .then(function(teamId) {
-    return TeamFactory.getTeamMembers(teamId).$loaded();
+  TeamFactory.getCurrentTeam()
+  .then(function(team) {
+    // put the current team on the scope for room association
+    $scope.team = team;
+    return TeamFactory.getTeamMembers(team.$id).$loaded();
 
   })
   .then(function(teamMembers) {
@@ -43,12 +45,14 @@ module.exports = function($log, $rootScope, $scope, $state, $stateParams, $fireb
         AssocFactory.assocUserRoom(member, $scope.room)
       })     
       // make this user the admin
-      return roomFactory.addRoomAdmin($scope.user, $scope.room)
+      roomFactory.addRoomAdmin($scope.user, $scope.room)
+      // add the team to the room
+      AssocFactory.assocTeamRoom($scope.team, $scope.room)
+      .then(function() {
+        // go to home room
+        $state.go('home.room', { roomId: $scope.room.$id});
+      })
 
-    })
-    .then(function() {
-      // go to home room
-      $state.go('home.room', { roomId: $scope.room.$id});
     })
     .catch(function(error) {
       $mdToast.show($mdToast.simple().textContent('Error!'));
