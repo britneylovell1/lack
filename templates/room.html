@@ -1,4 +1,4 @@
-<div flex="80" layout="column">
+<div flex="95" layout="column">
   <md-content flex="90" id="out">
     <div>
       <md-card ng-repeat="message in messages">
@@ -17,18 +17,19 @@
   </md-content>
   <div flex="10">
     <form name="message" ng-submit="saveMessage(message.text)" autocomplete="off">
-      <md-input-container layout="row" flex>
-        <div flex="90">
+      <md-input-container layout="row">
+        <div flex="70">
           <label>Enter your message here</label>
           <input name="input" ng-model="message.text">
         </div>
-        <md-button class="md-raised md-primary" flex="10" type="submit">
+        <md-button flex="5" type="submit" class="md-raised md-primary">
           Send
         </md-button>
         <a ui-sref="closeRoom({teamId: currentTeamId, roomId: roomId})">
-          <md-button class="md-raised md-warn" ng-click="closeRoom()">
-            Close room
+          <md-button id="closeroom" flex="15" class="md-raised md-warn" ng-click="closeRoom()">
+            Close Room
           </md-button>
+        </a>
         </input>
       </md-input-container>
     </form>

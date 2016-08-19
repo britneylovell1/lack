@@ -36,6 +36,10 @@ html {
   text-align: center;
 }
 
-form {
+.lackform {
   width: 400px;
+}
+
+#closeroom {
+  max-width: none;
 }
