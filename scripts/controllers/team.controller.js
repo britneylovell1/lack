@@ -2,7 +2,7 @@ var angular = require('angular');
 var app = angular.module('lack');
 var firebase = require('firebase');
 
-module.exports = function($rootScope, $scope, $firebaseArray, $firebaseObject, $state, EmailFactory, UserFactory, TeamFactory, AssocFactory) {
+module.exports = function($rootScope, $scope, $firebaseArray, $firebaseObject, $state, EmailFactory, UserFactory, TeamFactory, AssocFactory, $mdToast) {
 	// TODO: modularize this controller
 
   // set $scope.team to new team obj (but do not bind)
@@ -18,7 +18,7 @@ module.exports = function($rootScope, $scope, $firebaseArray, $firebaseObject, $
 		EmailFactory.sendInvitations($scope.team);
 
 		$scope.team.$save().then(function() {
-      alert('Team saved!');
+      $mdToast.show($mdToast.simple().textContent('Team saved!'));
 
       // bind the team obj to the rootScope.teamObj
 			teamObj.$loaded().then(function () {
@@ -30,7 +30,7 @@ module.exports = function($rootScope, $scope, $firebaseArray, $firebaseObject, $
       UserFactory.signIn()
         .then(function(user) {
 
-          // associate user with team 
+          // associate user with team
           return AssocFactory.assocUserTeam(user, $scope.team)
         })
         .then(function(user) {
@@ -41,11 +41,11 @@ module.exports = function($rootScope, $scope, $firebaseArray, $firebaseObject, $
         });
 
       }).catch(function(error) {
-        alert('Error!');
+        $mdToast.show($mdToast.simple().textContent('Error!'));
       });
 	};
 
-	  
+
 
 	//initialize empty array for Angular Material chips:
 	$scope.emails = [];

@@ -1,7 +1,7 @@
 var angular = require('angular');
 var app = angular.module('lack');
 
-module.exports = function($log, $rootScope, $scope, $state, $firebaseObject, roomFactory, UserFactory, teamMembers, AssocFactory) {
+module.exports = function($log, $rootScope, $scope, $state, $firebaseObject, roomFactory, UserFactory, teamMembers, AssocFactory, $mdToast) {
   // TODO:
   // get current team from url
 
@@ -24,7 +24,8 @@ module.exports = function($log, $rootScope, $scope, $state, $firebaseObject, roo
   $scope.saveRoom = function() {
     // $scope.room.members = $scope.chipsmembers;
     $scope.room.$save().then(function() {
-      alert('Room created!');
+
+      $mdToast.show($mdToast.simple().textContent('Room created!'));
 
       // create user-room associations
       $scope.chipsmembers.forEach(function(member) {
@@ -38,7 +39,7 @@ module.exports = function($log, $rootScope, $scope, $state, $firebaseObject, roo
       $state.go('home');
 
     }).catch(function(error) {
-      alert('Error!');
+      $mdToast.show($mdToast.simple().textContent('Error!'));
     });
   };
-}
+};

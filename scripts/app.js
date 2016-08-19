@@ -17,6 +17,7 @@ module.exports = angular.module('lack', [
 .config(require('./states/create_your_team.state.js'))
 .config(require('./states/admin.state.js'))
 .config(require('./states/room.state.js'))
+.config(require('./states/settings.state.js'))
 
 //directives:
 .directive('navbar', require('./directives/navbar.directive.js'))
@@ -35,6 +36,7 @@ module.exports = angular.module('lack', [
 .controller('AdminController', require('./controllers/admin.controller.js'))
 .controller('TeamController', require('./controllers/team.controller.js'))
 .controller('RoomController', require('./controllers/room.controller.js'))
+.controller('SettingsController', require('./controllers/settings.controller.js'))
 
 //prettify URLs - comment back in for deployment:
 // .config(function ($locationProvider) {
