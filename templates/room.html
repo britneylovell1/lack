@@ -4,7 +4,7 @@
       <md-card ng-repeat="message in messages">
         <md-card-header id="cardheader">
           <md-card-avatar>
-            <img class="md-user-avatar" src="{{ message.photo }}" alt="">
+            <img class="md-user-avatar" ng-src="{{ message.photo }}" alt="">
           </md-card-avatar>
           <md-card-header-text>
             <span class="md-headline">{{ message.sender }}</span>

@@ -15,11 +15,9 @@ module.exports = function($state, $firebaseArray, $rootScope, UserFactory) {
         var user = UserFactory.getCurrentUser();
         console.log(user.uid);
         var roomsRef = firebase.database().ref('users').child(user.uid + '/rooms');
-        console.log($firebaseArray(roomsRef));
         return $firebaseArray(roomsRef);
       }
       scope.rooms = getRooms();
-      console.log('ROOOOOMS', scope.rooms);
 
       scope.setCurrentRoom = function(room) {
         $rootScope.currentRoom = room;

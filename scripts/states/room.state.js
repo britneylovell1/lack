@@ -23,7 +23,7 @@ module.exports = function($stateProvider) {
         var newMessageRef = firebase.database().ref('messages');
         newMessageRef.push({
           sender: user.displayName,
-          photo: user.photoURL,
+          photo: user.photoURL || "http://www.furrytalk.com/wp-content/uploads/2010/01/6.jpg",
           text: message,
 
         });
