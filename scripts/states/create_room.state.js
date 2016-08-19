@@ -6,6 +6,7 @@ module.exports = function($stateProvider) {
   $stateProvider.state('createRoom', {
     url: '/create-room',
     templateUrl: '/templates/create_room.html',
+    // take out this resolve???
     resolve: {
       teamMembers: function(TeamFactory) { 
         return TeamFactory.getTeamMembers().$loaded()

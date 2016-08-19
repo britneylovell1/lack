@@ -1,9 +1,12 @@
 var angular = require('angular');
 var app = angular.module('lack');
 
+// TODO:
+// get current team from url
+// get current team members
+// which home do we go to?
+
 module.exports = function($log, $rootScope, $scope, $state, $firebaseObject, roomFactory, UserFactory, teamMembers, AssocFactory, $mdToast) {
-  // TODO:
-  // get current team from url
 
   // Reformat teamMembers array for the query
   var members = roomFactory.members(teamMembers);
@@ -22,23 +25,24 @@ module.exports = function($log, $rootScope, $scope, $state, $firebaseObject, roo
   $scope.chipsmembers = [];
 
   $scope.saveRoom = function() {
-    // $scope.room.members = $scope.chipsmembers;
-    $scope.room.$save().then(function() {
-
+    
+    $scope.room.$save()
+    .then(function() {
       $mdToast.show($mdToast.simple().textContent('Room created!'));
 
       // create user-room associations
       $scope.chipsmembers.forEach(function(member) {
-        console.log(member);
         AssocFactory.assocUserRoom(member, $scope.room)
-      })
-
+      })     
       // make this user the admin
-      roomFactory.addRoomAdmin($scope.user, $scope.room)
+      return roomFactory.addRoomAdmin($scope.user, $scope.room)
 
-      $state.go('home');
-
-    }).catch(function(error) {
+    })
+    .then(function() {
+      // go to which home? is it the room?
+      $state.go('home', {teamId: $scope.team.id});
+    })
+    .catch(function(error) {
       $mdToast.show($mdToast.simple().textContent('Error!'));
     });
   };
