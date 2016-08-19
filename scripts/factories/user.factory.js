@@ -2,9 +2,15 @@ var angular = require('angular');
 var app = angular.module('lack');
 var firebase = require('firebase');
 
+// TODO:
+// userExists --> use transactions to find existence instead 
+// signIn --> change to .signInWithRedirect()
+// figure out why my error function handler doesn't work
+
 module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth, $mdToast) {
 
     function userExists (userId) {
+      // USE TRANSACTIONS HERE INSTEAD
 
       var userListRef = firebase.database().ref().child('users');
 
@@ -139,19 +145,7 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth, $mdTo
 
       });
 
-    },
-
-    // logout: function() {
-
-    // 	// log the user out
-    // 	// NOT FINISHED WITH THIS ONE
-    // 	firebase.auth().signOut()
-    //   .then(function() {
-  		// 	 // Signout successful
-  		// 	}, function(error) {
-  		// 	  // An error happened.
-  		// 	});
-    // }
+    }
 
   }
 

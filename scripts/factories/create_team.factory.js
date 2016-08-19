@@ -3,17 +3,13 @@ var app = angular.module('lack');
 var firebase = require('firebase');
 
 // TODO:
-// clear input field + reset $scope.team
-// redirect to that team's state
 
 module.exports = function($firebaseObject, $firebaseArray) {
-	var currentTeamRef = null; //does this persist? - not when I refresh the page! Spend some time figuring out persistence
 
 	return {
 		createTeam: function() {
 
 			// create the team obj in firebase + get the reference to it
-			// NOTE: user has to be logged in to make a team - how can we fix this problem
 			var newTeamRef = firebase.database().ref('teams').push();
 			currentTeamRef = newTeamRef;
 
