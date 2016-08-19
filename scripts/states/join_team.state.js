@@ -1,4 +1,4 @@
- var angular = require('angular');
+var angular = require('angular');
 var app = angular.module('lack');
 
 module.exports = function ($stateProvider) {

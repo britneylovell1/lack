@@ -24,10 +24,10 @@ module.exports = function($firebaseObject, $firebaseArray) {
 			var currentTeamRef = firebase.database().ref('teams').child(currentTeamId);
 		},
 
-		// Does this work across the board?
 		getCurrentTeam: function () {
-			// get current team
-			return $firebaseObject(currentTeamRef);
+			var currentUserId = firebase.auth().currentUser.uid;
+			var teamRef = firebase.database().ref('users').child(currentUserId).child('teams');
+			return $firebaseArray(teamRef);
 
     },
 
