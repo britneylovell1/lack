@@ -2,20 +2,27 @@ var angular = require('angular');
 var app = angular.module('lack');
 
 // TODO:
-// get current team from url
-// get current team members
-// which home do we go to?
+// put teamMembers in the resolve
 
-module.exports = function($log, $rootScope, $scope, $state, $firebaseObject, roomFactory, UserFactory, teamMembers, AssocFactory, $mdToast) {
+module.exports = function($log, $rootScope, $scope, $state, $stateParams, $firebaseObject, roomFactory, UserFactory, AssocFactory, $mdToast, $location, TeamFactory) {
+  
+  // get the team members
+  TeamFactory.getCurrentTeamId()
+  .then(function(teamId) {
+    return TeamFactory.getTeamMembers(teamId).$loaded();
 
-  // Reformat teamMembers array for the query
-  var members = roomFactory.members(teamMembers);
-  console.log(members);
+  })
+  .then(function(teamMembers) {
+    // Reformat teamMembers array for the query
+    var members = roomFactory.members(teamMembers);
 
-  $scope.querySearch = function(query) {
-    var results = query ? members.filter(roomFactory.createFilterFor(query)) : null;
-    return results;
-  };
+    $scope.querySearch = function(query) {
+      var results = query ? members.filter(roomFactory.createFilterFor(query)) : null;
+      return results;
+    };
+
+  })
+
 
   // create the room
   $scope.room = roomFactory.createRoom();
@@ -39,8 +46,8 @@ module.exports = function($log, $rootScope, $scope, $state, $firebaseObject, roo
 
     })
     .then(function() {
-      // go to which home? is it the room?
-      $state.go('home', {teamId: $scope.team.id});
+      // go to home room
+      $state.go('home.room', { roomId: $scope.room.$id});
     })
     .catch(function(error) {
       $mdToast.show($mdToast.simple().textContent('Error!'));

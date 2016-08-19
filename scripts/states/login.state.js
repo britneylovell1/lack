@@ -15,11 +15,14 @@ module.exports = function ($stateProvider) {
 				.then(function (home) {
 
 					// get the current team and go to that home state
-					var teamArr = TeamFactory.getCurrentTeam();
-					teamArr.$loaded()
-					.then(function () {
-						var teamKey = teamArr.$keyAt(0);
+					// var teamArr = TeamFactory.getCurrentTeam();
+					// teamArr.$loaded()
+					// .then(function () {
+					// 	var teamKey = teamArr.$keyAt(0);
+					TeamFactory.getCurrentTeamId()
+					.then(function(teamKey){
 						
+						console.log(teamKey)
 						// you don't have to go home, but you can't stay here
 						if (home) $state.go('home', {teamId: teamKey});
 						else $state.go('landing');
