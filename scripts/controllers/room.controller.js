@@ -43,12 +43,12 @@ module.exports = function($log, $rootScope, $scope, $state, $stateParams, $fireb
         AssocFactory.assocUserRoom(member, $scope.room)
       })     
       // make this user the admin
-      return roomFactory.addRoomAdmin($scope.user, $scope.room)
+      roomFactory.addRoomAdmin($scope.user, $scope.room)
+      .then(function() {
+        // go to home room
+        $state.go('home.room', { roomId: $scope.room.$id});
+      })
 
-    })
-    .then(function() {
-      // go to home room
-      $state.go('home.room', { roomId: $scope.room.$id});
     })
     .catch(function(error) {
       $mdToast.show($mdToast.simple().textContent('Error!'));

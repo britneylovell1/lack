@@ -72,7 +72,7 @@ module.exports = function($firebaseArray, $firebaseObject) {
 
 	    // set up association variables
 			var userInfo = {
-				[user.uid]: { userName: user.displayName }
+				[user.userId]: { userName: user.display }
 			};
 
 	    var roomId = room.id || room.$id;
