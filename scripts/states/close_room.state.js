@@ -16,7 +16,7 @@ module.exports = function ($stateProvider) {
         return $firebaseObject(teamRef);
       }
     },
-    controller: function ($scope, $state, $mdToast, EmailFactory, $stateParams, TeamFactory, roomMembers, roomData) {
+    controller: function ($scope, $state, $mdToast, EmailFactory, $stateParams, TeamFactory, roomMembers, roomData, $firebaseArray) {
 
       //fetch resolved room object:
       $scope.currentRoom = roomData;
@@ -31,9 +31,7 @@ module.exports = function ($stateProvider) {
 
       $scope.closeRoom = function () {
 
-        console.log('$SCOPE.DATA: ', $scope.data);
-
-        //TODO: fetch email address of each selected member and add to data obj.
+        //fetch email address of each selected member and add to data obj.
         var emails = [];
         $scope.data.members.forEach(function (memberId) {
           return firebase.database().ref('/users/' + memberId + '/email')
@@ -41,27 +39,60 @@ module.exports = function ($stateProvider) {
           .then(function (snapshot) {
             emails.push(snapshot.val());
             if (emails.length === $scope.data.members.length){
+              $scope.data.emails = emails;
 
-              console.log('EMAILS: ', emails);
+              //TODO: email notes:
+              // EmailFactory.sendRoomNotes($scope.data)
+              // .then(function () {
+
+                //TODO: delete room from firebase
+                var allRoomsRef = firebase.database().ref('rooms');
+                var allRooms = $firebaseArray(allRoomsRef);
+
+                allRooms.$loaded()
+                .then(function () {
+
+                  var indexToRemove = allRooms.$indexFor($stateParams.roomId);
+
+                  allRooms.$remove(indexToRemove)
+                  .then(function () {
+
+                    //TODO: delete room from each user's list of rooms:
+                    $scope.data.members.forEach(function (memberId) {
+                      console.log('memberid: ', memberId);
+
+                      var refToRooms = firebase.database().ref('users/' + memberId + '/rooms');
+                      var roomsArr = $firebaseArray(refToRooms);
+
+                      roomsArr.$loaded()
+                      .then(function () {
+
+                        console.log('rooms arr: ', roomsArr);
+
+                        var indexToRemove2 = roomsArr.$indexFor($stateParams.roomId);
+
+                        roomsArr.$remove(indexToRemove2)
+                        .then(function (ref) {
+                          console.log('Success');
+                        });
+
+                      });
+
+                    });
 
 
+                    //$mdToast.show($mdToast.simple().textContent('Room closed!'));
+                    //$state.go('home');
+
+                  });
+
+
+                });
+              // });
             }
           });
         });
-
-        //TODO: finish this factory function
-        // EmailFactory.sendRoomNotes($scope.data)
-        // .then(function () {
-
-        //   //TODO: delete room from everywhere it is stored in firebase
-
-        //   $mdToast.show($mdToast.simple().textContent('Room closed!'));
-        //   $state.go('home');
-
-        // });
-
       };
-
     }
   });
 };

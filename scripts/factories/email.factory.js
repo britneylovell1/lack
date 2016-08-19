@@ -23,6 +23,8 @@ module.exports = function($http) {
 
     sendRoomNotes: function (data) {
 
+      console.log('DATA: ', data);
+
       // return $http({
       //   url: 'http://localhost:3000/close-room',
       //   method: 'POST',
