@@ -24,17 +24,21 @@ module.exports = function($firebaseObject, $firebaseArray) {
 			var currentTeamRef = firebase.database().ref('teams').child(currentTeamId);
 		},
 
-		getCurrentTeam: function () {
+		getCurrentTeamId: function () {
 			var currentUserId = firebase.auth().currentUser.uid;
 			var teamRef = firebase.database().ref('users').child(currentUserId).child('teams');
-			return $firebaseArray(teamRef);
+			var teamArr =  $firebaseArray(teamRef);
+
+			return teamArr.$loaded()
+			.then(function () {
+				return teamArr.$keyAt(0);
+			});
 
     },
 
-    getTeamMembers: function () {
+    getTeamMembers: function (teamId) {
 			// get all members of current team
-
-			var teamMembersRef = currentTeamRef.child('users');
+			var teamMembersRef = firebase.database().ref().child('teams/' + teamId).child('users');
 			return $firebaseArray(teamMembersRef);
 
     },
