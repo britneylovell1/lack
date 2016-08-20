@@ -60,7 +60,7 @@ module.exports = function ($stateProvider) {
                   .then(function () {
 
                     //delete room from each user's list of rooms:
-                    $scope.data.members.forEach(function (memberId) {
+                    $scope.data.members.forEach(function (memberId, index) {
 
                       var refToRooms = firebase.database().ref('users/' + memberId + '/rooms');
                       var roomsArr = $firebaseArray(refToRooms);
@@ -72,8 +72,11 @@ module.exports = function ($stateProvider) {
 
                         roomsArr.$remove(indexToRemove2)
                         .then(function () {
-                          $mdToast.show($mdToast.simple().textContent('Room closed!'));
-                          $state.go('home');
+
+                          if (index === $scope.data.members.length - 1){
+                            $mdToast.show($mdToast.simple().textContent('Room closed!'));
+                            $state.go('home');
+                          }
                         });
                       });
                     });
