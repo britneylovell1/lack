@@ -42,6 +42,7 @@ html {
 
 #closeroom {
   max-width: none;
+  height: 42px;
 }
 
 md-card-header#cardheader {

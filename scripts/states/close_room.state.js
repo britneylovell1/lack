@@ -7,49 +7,86 @@ module.exports = function ($stateProvider) {
     url: '/home/teams/:teamId/rooms/:roomId/close-room',
     templateUrl: '/templates/close_room.html',
     resolve: {
-      roomMembers: function (TeamFactory, $stateParams) {
-        return TeamFactory.getTeamMembers($stateParams.teamId);
+      roomMembers: function ($stateParams, $firebaseArray) {
+        var membersRef = firebase.database().ref('rooms/' + $stateParams.roomId + '/members');
+        return $firebaseArray(membersRef);
       },
       roomData: function ($stateParams, $firebaseObject) {
         var teamRef = firebase.database().ref('rooms/' + $stateParams.roomId);
         return $firebaseObject(teamRef);
       }
     },
-    controller: function ($scope, $state, $mdToast, EmailFactory, $stateParams, TeamFactory, roomMembers, roomData) {
+    controller: function ($scope, $state, $mdToast, EmailFactory, $stateParams, TeamFactory, roomMembers, roomData, $firebaseArray) {
 
-      console.log('ROOM DATA: ', roomData);
+      //fetch resolved room object:
+      $scope.currentRoom = roomData;
 
-      //grab team and room IDs from URL params:
-      $scope.teamId = $stateParams.teamId;
-      $scope.roomId = $stateParams.roomId;
-
-      //TODO: fetch actual Room from firebase:
-      $scope.currentRoom = { name: 'ExampleCurrentRoom' };
-
-      //TODO: fetch all team members and their emails
+      //fetch all team members in room:
       $scope.allMembers = roomMembers;
       //have .userName and .$id properties
 
-      //TODO: grab notes and member info from form
+      //fetch notes and array of member IDs from form
       $scope.data = {};
+      //has .members Array of member IDs as strings and notes as string
 
       $scope.closeRoom = function () {
 
-        //TODO: fetch email address of each selected member and add to data obj.
+        //fetch email address of each selected member and add to data obj.
+        var emails = [];
+        $scope.data.members.forEach(function (memberId) {
+          return firebase.database().ref('/users/' + memberId + '/email')
+          .once('value')
+          .then(function (snapshot) {
+            emails.push(snapshot.val());
+            if (emails.length === $scope.data.members.length){
+              $scope.data.emails = emails;
+              $scope.data.roomName = $scope.currentRoom.name;
+              $scope.data.objective = $scope.currentRoom.objective;
 
-        //TODO: finish this factory function
-        EmailFactory.sendRoomNotes($scope.data)
-        .then(function () {
+              //email notes:
+              EmailFactory.sendRoomNotes($scope.data)
+              .then(function () {
 
-          //TODO: delete room from everywhere it is stored in firebase
+                //delete room from firebase
+                var allRoomsRef = firebase.database().ref('rooms');
+                var allRooms = $firebaseArray(allRoomsRef);
 
-          $mdToast.show($mdToast.simple().textContent('Room closed!'));
-          $state.go('home');
+                allRooms.$loaded()
+                .then(function () {
 
+                  var indexToRemove = allRooms.$indexFor($stateParams.roomId);
+
+                  allRooms.$remove(indexToRemove)
+                  .then(function () {
+
+                    //delete room from each user's list of rooms:
+                    $scope.data.members.forEach(function (memberId, index) {
+
+                      var refToRooms = firebase.database().ref('users/' + memberId + '/rooms');
+                      var roomsArr = $firebaseArray(refToRooms);
+
+                      roomsArr.$loaded()
+                      .then(function () {
+
+                        var indexToRemove2 = roomsArr.$indexFor($stateParams.roomId);
+
+                        roomsArr.$remove(indexToRemove2)
+                        .then(function () {
+
+                          if (index === $scope.data.members.length - 1){
+                            $mdToast.show($mdToast.simple().textContent('Room closed!'));
+                            $state.go('home');
+                          }
+                        });
+                      });
+                    });
+                  });
+                });
+              });
+            }
+          });
         });
-
       };
-
     }
   });
 };
