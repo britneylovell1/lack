@@ -11,17 +11,17 @@ module.exports = function ($firebaseObject, $firebaseArray, $state) {
       var adminRef = firebase.database().ref().child('teams/' + team.$id + '/admin');
       var adminList = $firebaseArray(adminRef);
 
-      adminList.$loaded()
+      return adminList.$loaded()
       .then(function () {
 
         for (var i = 0; i < adminList.length; i++){
           var admin = adminList[i];
-          if (admin.userId === userId) {
+          if (admin.$id === userId) {
             return true;
-          } else {
-            return false;
           }
         }
+        return false;
+
       });
 
     },

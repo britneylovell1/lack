@@ -2,7 +2,11 @@ var angular = require('angular');
 var app = angular.module('lack');
 var firebase = require('firebase');
 
-module.exports = function ($scope, EmailFactory, AdminUserFactory, $firebaseObject, $firebaseArray, TeamFactory, $state, $mdToast) {
+module.exports = function ($scope, EmailFactory, AdminUserFactory, $firebaseObject, $firebaseArray, TeamFactory, $state, $mdToast, $rootScope) {
+
+    if (!$rootScope.isAdmin){
+      $state.go('home');
+    }
 
     //fetch current userId:
     $scope.currentUserId = firebase.auth().currentUser.uid;

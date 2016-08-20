@@ -2,7 +2,7 @@ var angular = require('angular');
 var app = angular.module('lack');
 var firebase = require('firebase');
 
-module.exports = function ($state, AdminUserFactory) {
+module.exports = function ($state, AdminUserFactory, $rootScope, TeamFactory) {
 
   return {
 
@@ -16,8 +16,15 @@ module.exports = function ($state, AdminUserFactory) {
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
           scope.loggedIn = true;
-          //TODO: FIX ADMIN CHECK
-          // $rootScope.isAdmin = AdminUserFactory.checkIfAdmin(user.uid, scope.team, false);
+          //check if user is admin:
+          TeamFactory.getCurrentTeam()
+          .then(function (team) {
+            scope.team = team;
+            AdminUserFactory.checkIfAdmin(user.uid, scope.team)
+              .then(function (bool) {
+                $rootScope.isAdmin = bool;
+              });
+            });
         } else {
           scope.loggedIn = false;
         }
