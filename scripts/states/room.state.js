@@ -9,9 +9,10 @@ module.exports = function($stateProvider) {
     controller: function($scope, $state, $firebaseArray, $stateParams, UserFactory) {
 
       $scope.roomId = $stateParams.roomId;
+      console.log($scope.roomId);
 
       function createMessages() {
-        var newMessagesRef = firebase.database().ref('messages');
+        var newMessagesRef = firebase.database().ref('messages').child($scope.roomId);
         return $firebaseArray(newMessagesRef);
       }
 
@@ -20,7 +21,8 @@ module.exports = function($stateProvider) {
 
       $scope.messages = createMessages();
       $scope.saveMessage = function(message) {
-        var newMessageRef = firebase.database().ref('messages');
+        console.log('room Id ', $scope.roomId)
+        var newMessageRef = firebase.database().ref('messages').child($scope.roomId);
         newMessageRef.push({
           sender: user.displayName,
           photo: user.photoURL,
