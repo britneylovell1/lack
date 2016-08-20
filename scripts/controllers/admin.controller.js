@@ -2,117 +2,48 @@ var angular = require('angular');
 var app = angular.module('lack');
 var firebase = require('firebase');
 
-module.exports = function ($scope, $rootScope, EmailFactory, AdminUserFactory, $firebaseObject, $firebaseArray, TeamFactory, $state) {
+module.exports = function ($scope, EmailFactory, AdminUserFactory, $firebaseObject, $firebaseArray, TeamFactory, $state, $mdToast) {
 
-  //TODO: FIX THIS:
-  //if user is not admin, redirect to home state so they can't access admin panel:
-  // if (!$rootScope.loggedIn || !$rootScope.isAdmin){
-  //   $state.go('landing');
-  // } else {
+    //fetch current userId:
+    $scope.currentUserId = firebase.auth().currentUser.uid;
 
-     //fetch all members and team info:
-    var currentUserId = firebase.auth().currentUser.uid;
-    var ref = firebase.database().ref('users').child(currentUserId);
-    var obj = $firebaseObject(ref);
-
-    obj.$loaded().then(function () {
-
-      var teams = obj.teams;
-      var firstTeamIndex = Object.keys(teams)[0];
-      var teamId = teams[firstTeamIndex].teamId;
-
-      var teamUsersRef = firebase.database().ref('teams').child(teamId + '/users');
-      var membersArr = $firebaseArray(teamUsersRef);
-      var teamRef = firebase.database().ref('teams').child(teamId);
-      var teamObj = $firebaseObject(teamRef);
-
-      teamObj.$loaded().then(function () {
-        teamObj.$bindTo($rootScope, 'teamObj').then(function () {
-
-
-
-        });
-      });
-
-      membersArr.$loaded().then(function () {
-        $rootScope.membersArr = membersArr;
-      });
-
+    //fetch team and all members
+    TeamFactory.getCurrentTeam()
+    .then(function (team) {
+      $scope.currentTeam = team;
+      return TeamFactory.getTeamMembers(team.$id).$loaded();
+    })
+    .then(function (teamMembers) {
+      $scope.teamMembers = teamMembers;
     });
 
-    //initialize add member form:
+    //initialize forms:
     $scope.newMemberEmails = [];
-    $scope.addSuccess = false;
-
-    //initialize edit member form:
     $scope.selectedMember = null;
-    $scope.adminSuccess = false;
-    $scope.deleteSuccess = false;
 
-    //adding new members:
     $scope.inviteNewMembers = function () {
-
-      $rootScope.teamObj.emails = $scope.newMemberEmails;
-      return EmailFactory.sendInvitations($scope.teamObj)
+      var data = {$id: $scope.currentTeam.$id, name: $scope.currentTeam.teamName, emails: $scope.newMemberEmails};
+      return EmailFactory.sendInvitations(data)
       .then(function (res) {
-
-        //update view:
-        $scope.addSuccess = true;
-        $scope.deleteSuccess = false;
-        $scope.adminSuccess = false;
         $scope.newMemberEmails = [];
-
+        $mdToast.show($mdToast.simple().textContent('Your invitations are on their way!'));
         return res.data;
       });
     };
 
-    //editing existing member privileges:
     $scope.makeAdmin = function () {
-
-      //makes selected user admin:
-      TeamFactory.addTeamAdmin($scope.selectedMember, $rootScope.teamObj);
-
-      //update view:
-      $scope.addSuccess = false;
-      $scope.adminSuccess = true;
-      $scope.deleteSuccess = false;
+      $scope.selectedMember.uid = $scope.selectedMember.$id;
+      $scope.selectedMember.displayName = $scope.selectedMember.userName;
+      TeamFactory.addTeamAdmin($scope.selectedMember, $scope.currentTeam);
       $scope.selectedMember = null;
+      $mdToast.show($mdToast.simple().textContent('Successfully upgraded to admin!'));
     };
 
     $scope.removeFromTeam = function () {
-      //TODO: remove user from team
-
-      //removes user from team's users:
-      $rootScope.membersArr.$remove($scope.selectedMember).then(function () {
-        console.log('User removed, new membersArr is: ', $rootScope.membersArr);
-      });
-
-      //TODO: remove team from user's list of teams
-
-      //TODO: removes user from team's admin (if user was admin):
-      // var refAdmin = firebase.database().ref().child('teams/' + $rootScope.teamObj.$id + '/admin');
-      // var indToRemove;
-      // $firebaseArray(refAdmin).forEach(function (admin, index) {
-      //   if (admin.userId === $scope.selectedMember.$id){
-      //     indToRemove = index;
-      //   }
-      // });
-
-      // if (indToRemove){
-      //    $firebaseArray(refAdmin).$remove($firebaseArray(refAdmin)[indToRemove])
-      //   .then(function () {
-      //     console.log('admin removed');
-      //   });
-      // }
-
-      //update view:
-      $scope.addSuccess = false;
-      $scope.adminSuccess = false;
-      $scope.deleteSuccess = true;
+      AdminUserFactory.removeFromTeam($scope.currentTeam.$id, $scope.teamMembers, $scope.selectedMember);
       $scope.selectedMember = null;
+      $mdToast.show($mdToast.simple().textContent('Successfully removed user.'));
     };
-
-  // }
 
 };
 
