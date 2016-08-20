@@ -6,10 +6,7 @@ var app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-//comment back in for heroku deployment
-// app.listen(process.env.PORT || 3000);
-app.listen(3000);
-
+app.listen(process.env.PORT || 3000);
 
 //add headers middleware
 app.all('*', function(req, res,next) {
@@ -80,12 +77,15 @@ var sendEmail = function (email, teamId, teamName) {
 
 };
 
-var sendRecaps = function (email, notes) {
+var sendRecaps = function (email, notes, objective, roomName) {
 
   mailOptions.to = email;
   mailOptions.subject = 'Closed room recap';
-  mailOptions.html = '<p>Your room has been closed.</p><br><p>Notes:</p><br><p>'
-   + notes;
+  mailOptions.html = '<p>Your room ' + roomName + ' has been closed.</p><p>Objective:</p><p>'
+                     + objective +
+                     '<p>Notes:</p><p>'
+                     + notes +
+                     '</p>';
 
    transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
@@ -114,9 +114,11 @@ app.post('/close-room', function (req, res) {
 
   var emails = req.body.emails;
   var notes = req.body.notes;
+  var objective = req.body.objective;
+  var roomName = req.body.roomName;
 
   emails.forEach(function (email) {
-    sendRecaps(email, notes);
+    sendRecaps(email, notes, objective, roomName);
   });
 
   res.send('Success');

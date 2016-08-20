@@ -24,7 +24,7 @@ module.exports = function($http) {
     sendRoomNotes: function (data) {
 
       return $http({
-        url: 'http://localhost:3000/close-room',
+        url: 'https://pacific-lowlands-51363.herokuapp.com/close-room',
         method: 'POST',
         data: data,
         withCredentials: true,

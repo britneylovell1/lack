@@ -40,8 +40,10 @@ module.exports = function ($stateProvider) {
             emails.push(snapshot.val());
             if (emails.length === $scope.data.members.length){
               $scope.data.emails = emails;
+              $scope.data.roomName = $scope.currentRoom.name;
+              $scope.data.objective = $scope.currentRoom.objective;
 
-              //TODO: email notes:
+              //email notes:
               EmailFactory.sendRoomNotes($scope.data)
               .then(function () {
 
