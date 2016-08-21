@@ -1,6 +1,6 @@
 <md-toolbar md-whiteframe="4">
   <div class="md-toolbar-tools">
-    <a ui-sref="home" ng-show="loggedIn">
+    <a ng-click="goHome()" ng-show="loggedIn">
       <span>Lack</span>
     </a>
     <a ui-sref="landing" ng-show="!loggedIn">
