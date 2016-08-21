@@ -8,7 +8,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.listen(process.env.PORT || 3000);
 
-
 //add headers middleware
 app.all('*', function(req, res,next) {
 
@@ -56,6 +55,8 @@ var mailOptions = {
 
 var sendEmail = function (email, teamId, teamName) {
 
+  console.log('in here: ', email);
+
   mailOptions.to = email;
   mailOptions.html = '<p>You have been invited to join '
                       + teamName +
@@ -76,6 +77,25 @@ var sendEmail = function (email, teamId, teamName) {
 
 };
 
+var sendRecaps = function (email, notes, objective, roomName) {
+
+  mailOptions.to = email;
+  mailOptions.subject = 'Closed room recap';
+  mailOptions.html = '<p>Your room ' + roomName + ' has been closed.</p><p>Objective:</p><p>'
+                     + objective +
+                     '<p>Notes:</p><p>'
+                     + notes +
+                     '</p>';
+
+   transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      return console.log(error);
+    } else {
+      console.log('Message sent: ' + info.response);
+    }
+   });
+};
+
 app.post('/send-emails', function (req, res) {
 
   var teamId = req.body.$id;
@@ -84,6 +104,21 @@ app.post('/send-emails', function (req, res) {
 
   emails.forEach(function (email) {
     sendEmail(email, teamId, teamName);
+  });
+
+  res.send('Success');
+
+});
+
+app.post('/close-room', function (req, res) {
+
+  var emails = req.body.emails;
+  var notes = req.body.notes;
+  var objective = req.body.objective;
+  var roomName = req.body.roomName;
+
+  emails.forEach(function (email) {
+    sendRecaps(email, notes, objective, roomName);
   });
 
   res.send('Success');
