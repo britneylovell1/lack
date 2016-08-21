@@ -12,3 +12,17 @@
 [info] Public Directory: ./
 [info] 
 [info] Server listening at: http://localhost:5000
+[debug] ----------------------------------------------------------------------
+[debug] Command:      /Users/mneterval/.nvm/versions/node/v5.7.0/bin/node /Users/mneterval/.nvm/versions/node/v5.7.0/bin/firebase serve
+[debug] CLI Version:  3.0.6
+[debug] Platform:     darwin
+[debug] Node Version: v5.7.0
+[debug] Time:         Sun Aug 21 2016 13:33:02 GMT-0400 (EDT)
+[debug] ----------------------------------------------------------------------
+[debug] 
+[info] Starting Firebase development server...
+[info] 
+[info] Project Directory: /Users/mneterval/Desktop/lack
+[info] Public Directory: ./
+[info] 
+[info] Server listening at: http://localhost:5000
