@@ -16,7 +16,15 @@ module.exports = function ($stateProvider) {
         return $firebaseObject(teamRef);
       }
     },
-    controller: function ($scope, $state, $mdToast, EmailFactory, $stateParams, TeamFactory, roomMembers, roomData, $firebaseArray) {
+    controller: function ($scope, $state, $mdToast, EmailFactory, $stateParams, TeamFactory, roomMembers, roomData, $firebaseArray, AdminUserFactory) {
+
+      //send back to home if not room admin:
+      AdminUserFactory.checkIfRoomAdmin($stateParams.roomId)
+        .then(function (res) {
+          if (!res){
+            $state.go('home');
+          }
+        });
 
       //fetch resolved room object:
       $scope.currentRoom = roomData;

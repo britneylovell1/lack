@@ -26,6 +26,23 @@ module.exports = function ($firebaseObject, $firebaseArray, $state) {
 
     },
 
+    checkIfRoomAdmin: function (roomId) {
+
+      var currentUserId = firebase.auth().currentUser.uid;
+      var adminRef = firebase.database().ref().child('rooms/' + roomId + '/admin');
+      var adminArr = $firebaseArray(adminRef);
+
+      return adminArr.$loaded()
+      .then(function () {
+        if (adminArr[0].$id === currentUserId) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+
+    },
+
     removeFromTeam: function (teamId, membersArr, userToRemove) {
 
       membersArr.$remove(userToRemove).then(function () {

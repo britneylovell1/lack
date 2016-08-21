@@ -30,7 +30,7 @@
             Send
           </md-button>
         <a ui-sref="closeRoom({teamId: currentTeamId, roomId: roomId})">
-          <md-button id="closeroom" flex="15" class="md-raised md-warn" ng-click="closeRoom()">
+          <md-button ng-show="isRoomAdmin" id="closeroom" flex="15" class="md-raised md-warn" ng-click="closeRoom()">
             Close Room
           </md-button>
         </a>
