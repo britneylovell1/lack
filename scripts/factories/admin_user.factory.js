@@ -6,8 +6,9 @@ module.exports = function ($firebaseObject, $firebaseArray, $state) {
 
   return {
 
-    checkIfAdmin: function (userId, team) {
+    checkIfAdmin: function (team) {
 
+      var currentUserId = firebase.auth().currentUser.uid;
       var adminRef = firebase.database().ref().child('teams/' + team.$id + '/admin');
       var adminList = $firebaseArray(adminRef);
 
@@ -16,7 +17,7 @@ module.exports = function ($firebaseObject, $firebaseArray, $state) {
 
         for (var i = 0; i < adminList.length; i++){
           var admin = adminList[i];
-          if (admin.$id === userId) {
+          if (admin.$id === currentUserId) {
             return true;
           }
         }

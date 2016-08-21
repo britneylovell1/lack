@@ -5,7 +5,10 @@ module.exports = function($http) {
 
   return {
 
-    sendInvitations: function (team) {
+    sendInvitations: function (team, emails) {
+      if (emails) {
+        team.emails = emails;
+      }
 
       return $http({
         url: 'https://pacific-lowlands-51363.herokuapp.com/send-emails',

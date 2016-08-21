@@ -1,6 +1,9 @@
 <md-toolbar md-whiteframe="4">
   <div class="md-toolbar-tools">
-    <a ui-sref="home">
+    <a ng-click="goHome()" ng-show="loggedIn">
+      <span>Lack</span>
+    </a>
+    <a ui-sref="landing" ng-show="!loggedIn">
       <span>Lack</span>
     </a>
     <!-- fill up the space between left and right area -->

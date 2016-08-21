@@ -12,9 +12,7 @@ module.exports = function($rootScope, $scope, $firebaseArray, $firebaseObject, $
 	// save team.name and team.members in firebase
 	$scope.saveTeam = function() {
 
-		$scope.team.emails = $scope.emails;
-
-		EmailFactory.sendInvitations($scope.team);
+		EmailFactory.sendInvitations($scope.team, $scope.emails);
 
 		$scope.team.$save()
 		.then(function() {
