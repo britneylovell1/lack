@@ -6,7 +6,8 @@ var app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.listen(process.env.PORT || 3000);
+// app.listen(process.env.PORT || 3000);
+app.listen(3000);
 
 //add headers middleware
 app.all('*', function(req, res,next) {
@@ -127,3 +128,37 @@ app.post('/close-room', function (req, res) {
 
 //add firebase listener: listen for on child added to email route
 
+//cron job for room expiration:
+
+var CronJob = require('cron').CronJob;
+var firebase = require('firebase');
+
+var config = {
+  apiKey: "AIzaSyAGlJNi77LCyxRye_4--6FM-sAP4uRFccM",
+  authDomain: "shhh-lack.firebaseapp.com",
+  databaseURL: "https://shhh-lack.firebaseio.com",
+  storageBucket: "shhh-lack.appspot.com",
+};
+
+firebase.initializeApp(config);
+
+
+// var job = new CronJob('00 00 04 * * 0-6', function () { //once a day at 4am
+var job = new CronJob('* * * * * *', function () { //every second
+
+  console.log('this is working');
+
+  //go through all rooms and delete rooms where expiration date === today
+  //delete those rooms from users' list of rooms
+
+  var roomsRef = firebase.database().ref('rooms');
+  roomsRef.on('value', function(snapshot) {
+    console.log('snapshot: ', snapshot.val());
+  });
+
+}, null, true, 'America/Los_Angeles');
+
+//useful date methods:
+//getFullYear()
+//.getMonth()
+//.getDate()

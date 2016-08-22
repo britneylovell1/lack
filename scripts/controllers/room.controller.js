@@ -34,6 +34,12 @@ module.exports = function ($log, $rootScope, $scope, $state, $stateParams, $fire
   $scope.chipsmembers = [];
 
   $scope.saveRoom = function () {
+    console.log('ROOM DATE1: ', $scope.room.date);
+    console.log('today', new Date());
+
+    $scope.room.date = new Date($scope.room.date);
+
+    console.log('is date today: ', $scope.room.date.getMonth() === new Date().getMonth());
 
     $scope.room.$save()
     .then(function () {
