@@ -26,9 +26,9 @@
           <label>Enter your message here</label>
           <input name="input" ng-model="message.text">
         </div>
-          <md-button flex="5" type="submit" class="md-raised md-primary">
-            Send
-          </md-button>
+        <md-button flex="5" type="submit" class="md-raised md-primary">
+          Send
+        </md-button>
         <a ui-sref="closeRoom({teamId: currentTeamId, roomId: roomId})">
           <md-button ng-show="isRoomAdmin" id="closeroom" flex="15" class="md-raised md-warn" ng-click="closeRoom()">
             Close Room
@@ -38,4 +38,18 @@
       </md-input-container>
     </form>
   </div>
+</div>
+<div flex="20">
+  <md-content>
+    <div>
+      <md-card ng-show="isRoom()">
+        <md-card-header>
+          <h3>Objective: </h3>
+        </md-card-header>
+        <md-card-content>
+          <span>{{ theRoom.objective }}</span>
+        </md-card-content>
+      </md-card>
+    </div>
+  </md-content>
 </div>
