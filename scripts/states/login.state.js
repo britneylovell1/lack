@@ -1,5 +1,6 @@
 var angular = require('angular');
 var app = angular.module('lack');
+var LoginController = require('../controllers/login.controller.js')
 
 // TODO:
 
@@ -7,28 +8,6 @@ module.exports = function ($stateProvider) {
   $stateProvider.state('login', {
     url: '/login',
     templateUrl: '../templates/login.html',
-    controller: function ($scope, $rootScope, $state, $firebaseAuth, $firebaseObject, $firebaseArray, UserFactory, TeamFactory) {
-
-    	// log in, duh
-			$scope.signIn = function() {
-				UserFactory.login()
-				.then(function (home) {
-
-					// get the current team and go to that home state
-					TeamFactory.getCurrentTeam()
-					.then(function(team){
-						
-						// you don't have to go home, but you can't stay here
-						if (home) $state.go('home', {teamId: team.$id});
-						else $state.go('landing');
-					});
-
-				})
-				.catch(function (error) {
-					console.log(error);
-				});
-
-			};
-		}
+    controller: LoginController
   });
 };

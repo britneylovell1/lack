@@ -1,6 +1,6 @@
 var angular = require('angular');
 var app = angular.module('lack');
-var RoomController = require('../controllers/room.controller.js');
+var CreateRoomController = require('../controllers/create_room.controller.js');
 
 module.exports = function($stateProvider) {
   $stateProvider.state('createRoom', {
@@ -15,6 +15,6 @@ module.exports = function($stateProvider) {
     //     })
     //   }
     // },
-    controller: RoomController
+    controller: CreateRoomController
   });
 };
