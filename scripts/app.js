@@ -35,6 +35,7 @@ module.exports = angular.module('lack', [
 //controllers:
 .controller('AdminController', require('./controllers/admin.controller.js'))
 .controller('TeamController', require('./controllers/team.controller.js'))
+.controller('CreateRoomController', require('./controllers/create_room.controller.js'))
 .controller('RoomController', require('./controllers/room.controller.js'))
 .controller('SettingsController', require('./controllers/settings.controller.js'))
 .controller('LoginController', require('./controllers/login.controller.js'))

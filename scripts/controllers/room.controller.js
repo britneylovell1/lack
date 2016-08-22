@@ -1,60 +1,52 @@
 var angular = require('angular');
 var app = angular.module('lack');
 
-// TODO:
-// put teamMembers in the resolve
-// associate rooms with teams
+module.exports = function ($scope, $state, $firebaseArray, $stateParams, UserFactory, AdminUserFactory) {
 
-module.exports = function ($log, $rootScope, $scope, $state, $stateParams, $firebaseObject, roomFactory, UserFactory, AssocFactory, $mdToast, $location, TeamFactory) {
+        $scope.isRoomAdmin = false;
 
-  // get the team members
-  TeamFactory.getCurrentTeam()
-  .then(function (team) {
-    // put the current team on the scope for room association
-    $scope.team = team;
-    return TeamFactory.getTeamMembers(team.$id).$loaded();
+        AdminUserFactory.checkIfRoomAdmin($stateParams.roomId)
+        .then(function (res) {
+           $scope.isRoomAdmin = res;
+        });
 
-  })
-  .then(function (teamMembers) {
-    // Reformat teamMembers array for the query
-    var members = roomFactory.members(teamMembers);
+      $scope.roomId = $stateParams.roomId;
 
-    $scope.querySearch = function (query) {
-      var results = query ? members.filter(roomFactory.createFilterFor(query)) : null;
-      return results;
-    };
+      function createMessages () {
+        var newMessagesRef = firebase.database().ref('messages').child($scope.roomId);
+        return $firebaseArray(newMessagesRef);
+      }
 
-  });
+      var user = UserFactory.getCurrentUser();
+      $scope.currentDate = new Date();
 
-  // create the room
-  $scope.room = roomFactory.createRoom();
-  $scope.user = UserFactory.getCurrentUser();
+      $scope.messages = createMessages();
+      $scope.saveMessage = function (message) {
+        var newMessageRef = firebase.database().ref('messages').child($scope.roomId);
+        newMessageRef.push({
+          sender: user.displayName,
+          photo: user.photoURL,
+          text: message
+        });
+        $scope.message.text = '';
+        // message.input.$setPristine(true);
+      };
 
-  // we'd want to lookup the members in the database and then send those with the room to the database
-  $scope.chipsmembers = [];
+      // Scroll bar
+      var out = document.getElementById('out');
+      var isScrolledToBottom = true;
+      out.addEventListener('scroll', function () { isScrolledToBottom = out.scrollHeight - out.clientHeight <= out.scrollTop + 1; });
+      $scope.scroller = function () {
+        // allow 1px inaccuracy by adding 1
+        // console.log(isScrolledToBottom);
+        // scroll to bottom if isScrolledToBotto
+        if (isScrolledToBottom) {
+          out.scrollTop = out.scrollHeight - out.clientHeight;
+        }
+      };
 
-  $scope.saveRoom = function () {
-
-    $scope.room.$save()
-    .then(function () {
-      $mdToast.show($mdToast.simple().textContent('Room created!'));
-
-      // create user-room associations
-      $scope.chipsmembers.forEach(function (member) {
-        AssocFactory.assocUserRoom(member, $scope.room);
-      });
-      // make this user the admin
-      roomFactory.addRoomAdmin($scope.user, $scope.room);
-      // add the team to the room
-      AssocFactory.assocTeamRoom($scope.team, $scope.room)
-      .then(function () {
-        // go to home room
-        $state.go('home.room', { roomId: $scope.room.$id});
+      $scope.messages.$watch(function () {
+        $scope.$$postDigest($scope.scroller);
       });
 
-    })
-    .catch(function (error) {
-      $mdToast.show($mdToast.simple().textContent('Error!'));
-    });
-  };
-};
+    }
