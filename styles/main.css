@@ -52,3 +52,10 @@ md-card-header#cardheader {
 md-card-content#cardcontent {
   padding-top: 0;
 }
+
+md-card-content.right {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
