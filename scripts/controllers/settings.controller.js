@@ -4,18 +4,16 @@ var app = angular.module('lack');
 module.exports = function ($scope, $mdToast, UserFactory) {
 
   //TODO: fetch buzzwords and VIPs from firebase:
-  // $scope.buzzwords = ['immediately', 'angry', 'finance'];
-  // $scope.vips = ['Maggie', 'Britney', 'Liz'];
-  $scope.buzzwords = [];
+  $scope.buzzwords = ['immediately', 'angry', 'finance'];
+  $scope.vips = ['Maggie', 'Britney', 'Liz'];
 
   
   var user = UserFactory.getCurrentUser();
   var settingsRef = firebase.database().ref('users/' + user.uid).child('settings');
 
 
-  //TODO: update buzzwords in FB:
   $scope.submitBuzzwords = function () {
-    console.log($scope.buzzwords);
+
     var buzzInfo = {}  
     $scope.buzzwords.forEach(function (word) {
       buzzInfo[word] = true;
@@ -25,7 +23,6 @@ module.exports = function ($scope, $mdToast, UserFactory) {
     $mdToast.show($mdToast.simple().textContent('Updated your buzzwords!'));
   };
 
-  //TODO: update VIPs in FB:
   $scope.submitVIPs = function () {
     var vipInfo = {}  
     $scope.vips.forEach(function (word) {

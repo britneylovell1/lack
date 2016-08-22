@@ -24,6 +24,10 @@ module.exports = function ($scope, $state, $firebaseArray, $stateParams, UserFac
 
   $scope.messages = MessageFactory.createMessages($scope.roomId);
   $scope.saveMessage = function (message) {
+
+    var answer = MessageFactory.checkBuzzWords(message);
+    console.log(answer);
+
     var newMessageRef = firebase.database().ref('messages').child($scope.roomId);
     newMessageRef.push({
       sender: user.displayName,
