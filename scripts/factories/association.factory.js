@@ -7,93 +7,94 @@ var firebase = require('firebase');
 
 module.exports = function($firebaseArray, $firebaseObject) {
 
-	return {
-		assocUserTeam: function(user, team) {
-			// associate the users with the teams
+  return {
+    assocUserTeam: function(user, team) {
+      // associate the users with the teams
 
-			// set up association variables
-			var userInfo = {
-				[user.uid]: { userName: user.displayName }
-			};
+      // set up association variables
+      var userInfo = {
+        [user.uid]: { userName: user.displayName }
+      };
 
-			// set up association variables
-			var teamId = team.id || team.$id;
-			var teamInfo = {
-				[teamId]: { teamName: team.name }
-			};
+      // set up association variables
+      var teamId = team.id || team.$id;
+      var teamInfo = {
+        [teamId]: { teamName: team.name }
+      };
 
-			// create user + team entries and set up references to them
-			var userRef = firebase.database().ref().child('users/' + user.uid + '/teams');
-			var teamRef = firebase.database().ref().child('teams/' + teamId + '/users');
+      // create user + team entries and set up references to them
+      var userRef = firebase.database().ref().child('users/' + user.uid + '/teams');
+      var teamRef = firebase.database().ref().child('teams/' + teamId + '/users');
 
 
-			// wait for the user to be created in the database
-			firebase.database().ref().child('users/' + user.uid).once('child_added')
-			.then(function() {
+      // wait for the user to be created in the database
+      firebase.database().ref().child('users/' + user.uid).once('child_added')
+        .then(function() {
 
-				// create associations in firebase
-				userRef.update(teamInfo);
-				teamRef.update(userInfo);
+          // create associations in firebase
+          userRef.update(teamInfo);
+          teamRef.update(userInfo);
 
-			})
+        })
 
-			return user;
+      return user;
 
-		},
-		
-		assocTeamRoom: function(team, room) {
-			// Do we even need to add 'teams/team.id/rooms'???
+    },
 
-	    // set up association variables
-	    var teamId = team.id || team.$id;
-			var teamInfo = {
-				[teamId]: { teamName: team.teamName }
-			};
+    assocTeamRoom: function(team, room) {
+      // Do we even need to add 'teams/team.id/rooms'???
 
-	    var roomId = room.id || room.$id;
-	    // var roomInfo = {
-	    //   [roomId]: { roomName: room.name }
-	    // };
-	    
+      // set up association variables
+      var teamId = team.id || team.$id;
+      var teamInfo = {
+        [teamId]: { teamName: team.teamName }
+      };
 
-	    // create team + room entries and set up references to them
-	    // var teamRef = firebase.database().ref().child('teams/' + teamId + '/rooms');
-	    var roomRef = firebase.database().ref().child('rooms/' + roomId + '/team');
+      var roomId = room.id || room.$id;
+      // var roomInfo = {
+      //   [roomId]: { roomName: room.name }
+      // };
 
-	    // create associations in firebase
-	    // teamRef.update(roomInfo);
-	    return roomRef.update(teamInfo);
 
-	  },
+      // create team + room entries and set up references to them
+      // var teamRef = firebase.database().ref().child('teams/' + teamId + '/rooms');
+      var roomRef = firebase.database().ref().child('rooms/' + roomId + '/team');
 
-	  assocUserRoom: function(user, room) {
+      // create associations in firebase
+      // teamRef.update(roomInfo);
+      return roomRef.update(teamInfo);
 
-	    // set up association variables
-			var userInfo = {
-				[user.userId]: { userName: user.display }
-			};
+    },
 
-	    var roomId = room.id || room.$id;
-	    var roomInfo = {
-	      [roomId]: { roomName: room.name }
-	    };
+    assocUserRoom: function(user, room) {
 
-	    // create user + room entries and set up references to them
-	    var userRef = firebase.database().ref().child('users/' + user.userId + '/rooms');
-	    var roomRef = firebase.database().ref().child('rooms/' + roomId + '/members');
+      // set up association variables
+      var userId = user.userId || user.uid;
+      var userInfo = {
+        [userId]: { userName: user.display }
+      };
 
-	    // create associations in firebase
-	    userRef.update(roomInfo);
-	    roomRef.update(userInfo);
+      var roomId = room.id || room.$id;
+      var roomInfo = {
+        [roomId]: { roomName: room.name }
+      };
 
-	    return user;
+      // create user + room entries and set up references to them
+      var userRef = firebase.database().ref().child('users/' + userId + '/rooms');
+      var roomRef = firebase.database().ref().child('rooms/' + roomId + '/members');
 
-	  },
+      // create associations in firebase
+      userRef.update(roomInfo);
+      roomRef.update(userInfo);
 
-	  assocRoomMessage: function() {
-	  	// do this
-	  }
-		
-	}
+      return user;
+
+    },
+
+    assocRoomMessage: function() {
+      // do this
+    }
+
+  }
 
 }

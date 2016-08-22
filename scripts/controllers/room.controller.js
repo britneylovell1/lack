@@ -1,6 +1,5 @@
 var angular = require('angular');
 var app = angular.module('lack');
-// this is gonna cause a merge conflict!!!
 
 module.exports = function ($scope, $state, $firebaseArray, $stateParams, UserFactory, AdminUserFactory, MessageFactory) {
 
@@ -12,12 +11,6 @@ module.exports = function ($scope, $state, $firebaseArray, $stateParams, UserFac
   });
 
   $scope.roomId = $stateParams.roomId;
-
-  // put this in MessageFactory
-  // function createMessages () {
-  //   var newMessagesRef = firebase.database().ref('messages').child($scope.roomId);
-  //   return $firebaseArray(newMessagesRef);
-  // }
 
   var user = UserFactory.getCurrentUser();
   $scope.currentDate = new Date();
