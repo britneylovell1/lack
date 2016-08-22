@@ -17,21 +17,15 @@ module.exports = function ($scope, $state, $firebaseArray, $stateParams, UserFac
 
   $scope.messages = MessageFactory.createMessages($scope.roomId);
 
+
+
   $scope.saveMessage = function (message) {
 
-    // MessageFactory.checkBuzzWords(message)
-    // .then(function(result) {
-    //   if (result) {
-    //     // notify the user of the buzzwords used in the messages
-    //   }
-
-    //   // check message for VIP
-
-    // })
-    // .catch(function(error) {
-    //   console.log(error);
-    // })
+    // Send notifications based on each room member's settings
+    MessageFactory.checkBuzzWords(message, $scope.roomId)
+    MessageFactory.checkVIPs(user.displayName, $scope.roomId)
     
+    // Save the message in the database
     var newMessageRef = firebase.database().ref('messages').child($scope.roomId);
     newMessageRef.push({
       sender: user.displayName,
