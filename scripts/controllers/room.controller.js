@@ -23,11 +23,22 @@ module.exports = function ($scope, $state, $firebaseArray, $stateParams, UserFac
   $scope.currentDate = new Date();
 
   $scope.messages = MessageFactory.createMessages($scope.roomId);
+
   $scope.saveMessage = function (message) {
 
-    var answer = MessageFactory.checkBuzzWords(message);
-    console.log(answer);
+    // MessageFactory.checkBuzzWords(message)
+    // .then(function(result) {
+    //   if (result) {
+    //     // notify the user of the buzzwords used in the messages
+    //   }
 
+    //   // check message for VIP
+
+    // })
+    // .catch(function(error) {
+    //   console.log(error);
+    // })
+    
     var newMessageRef = firebase.database().ref('messages').child($scope.roomId);
     newMessageRef.push({
       sender: user.displayName,

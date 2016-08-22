@@ -19,9 +19,8 @@ module.exports = function ($firebaseArray, UserFactory) {
 
 		  	buzzWords.forEach(function(wordObj) {
 		  		if (text.includes(wordObj.$id)) {
-		  			console.log('wordObj ', wordObj)
-		  		}
 		  			return true;
+		  		}
 		  	})
 
 	  		return false;
@@ -33,14 +32,17 @@ module.exports = function ($firebaseArray, UserFactory) {
 	  checkVIPs: function (text) {
 	  	var VIPs = $firebaseArray(settingsRef.child('VIPs'))
 
-	  	// convert the text into an array of words?
-	  	text.forEach(function(word) {
-	  		if (VIPs.$getRecord(word)) {
-	  			return true;
-	  		}
-	  	})
+	  	return VIPs.$loaded().then(function(list) {
 
-	  	return false;
+		  	VIPs.forEach(function(wordObj) {
+		  		if (text.includes(wordObj.$id)) {
+		  			return true;
+		  		}
+		  	})
+
+	  		return false;
+
+	  	})
 	  	
 	  }
 	}
