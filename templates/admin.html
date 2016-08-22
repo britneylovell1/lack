@@ -11,14 +11,13 @@
 	        </md-button>
 	      </a>
 	    </form>
-	    <p ng-show="addSuccess">Your invitations are on their way!</p>
     </div>
     <div>
 	    <form class="lackform">
 	      <md-input-container>
-        	<label>Edit teammates' privileges:</label>
+        	<label>Edit teammates:</label>
 	        <md-select ng-model="selectedMember">
-	          <md-option ng-repeat="member in membersArr" ng-value="member">
+	          <md-option ng-repeat="member in teamMembers" ng-value="member">
 	            {{member.userName}}
 	          </md-option>
 	        </md-select>
@@ -34,8 +33,6 @@
 	            Remove from team
 	        </md-button>
 	      </a>
-	      <p ng-show="adminSuccess">User successfully upgraded to Admin.</p>
-	      <p ng-show="deleteSuccess">User successfully removed from team.</p>
 	    </form>
     </div>
 </div>
