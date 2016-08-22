@@ -31,6 +31,7 @@ module.exports = angular.module('lack', [
 .factory('UserFactory', require('./factories/user.factory.js'))
 .factory('TeamFactory', require('./factories/create_team.factory.js'))
 .factory('AssocFactory', require('./factories/association.factory.js'))
+.factory('MessageFactory', require('./factories/message.factory.js'))
 
 //controllers:
 .controller('AdminController', require('./controllers/admin.controller.js'))
