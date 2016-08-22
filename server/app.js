@@ -6,8 +6,7 @@ var app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-// app.listen(process.env.PORT || 3000);
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
 
 //add headers middleware
 app.all('*', function(req, res,next) {
@@ -142,23 +141,47 @@ var config = {
 
 firebase.initializeApp(config);
 
+var checkDate = function (date) {
+  var today = new Date();
+  if (
+    today.getFullYear() === date.getFullYear() 
+    &&
+    today.getMonth() === date.getMonth()
+    &&
+    today.getDate() >= date.getDate()
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
-// var job = new CronJob('00 00 04 * * 0-6', function () { //once a day at 4am
-var job = new CronJob('* * * * * *', function () { //every second
-
-  console.log('this is working');
-
-  //go through all rooms and delete rooms where expiration date === today
-  //delete those rooms from users' list of rooms
+var job = new CronJob('00 00 04 * * 0-6', function () {
 
   var roomsRef = firebase.database().ref('rooms');
-  roomsRef.on('value', function(snapshot) {
-    console.log('snapshot: ', snapshot.val());
-  });
+
+  roomsRef
+    .once('value', function(snapshot) {
+      var rooms = snapshot.val();
+      var keys = Object.keys(rooms);
+      keys.forEach(function (key) {
+        var key = key;
+        var thisRoom = rooms[key];
+        var expDate = new Date(thisRoom.date);
+        var shouldDelete = checkDate(expDate);
+
+        if (shouldDelete) {
+          var members = thisRoom.members;
+          var memberKeys = Object.keys(members);
+          memberKeys.forEach(function (memberKey) {
+            var memberRef = firebase.database().ref('users/' + memberKey + '/rooms/' + key);
+            memberRef.remove();
+          })
+          var refToDelete = firebase.database().ref('rooms/' + key);
+          refToDelete.remove();
+        }
+
+      });
+    });
 
 }, null, true, 'America/Los_Angeles');
-
-//useful date methods:
-//getFullYear()
-//.getMonth()
-//.getDate()
