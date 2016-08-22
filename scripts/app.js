@@ -37,6 +37,7 @@ module.exports = angular.module('lack', [
 .controller('TeamController', require('./controllers/team.controller.js'))
 .controller('RoomController', require('./controllers/room.controller.js'))
 .controller('SettingsController', require('./controllers/settings.controller.js'))
+.controller('LoginController', require('./controllers/login.controller.js'))
 
 //prettify URLs - comment back in for deployment:
 // .config(function ($locationProvider) {
