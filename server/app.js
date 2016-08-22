@@ -127,3 +127,61 @@ app.post('/close-room', function (req, res) {
 
 //add firebase listener: listen for on child added to email route
 
+//cron job for room expiration:
+
+var CronJob = require('cron').CronJob;
+var firebase = require('firebase');
+
+var config = {
+  apiKey: "AIzaSyAGlJNi77LCyxRye_4--6FM-sAP4uRFccM",
+  authDomain: "shhh-lack.firebaseapp.com",
+  databaseURL: "https://shhh-lack.firebaseio.com",
+  storageBucket: "shhh-lack.appspot.com",
+};
+
+firebase.initializeApp(config);
+
+var checkDate = function (date) {
+  var today = new Date();
+  if (
+    today.getFullYear() === date.getFullYear() 
+    &&
+    today.getMonth() === date.getMonth()
+    &&
+    today.getDate() >= date.getDate()
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+var job = new CronJob('00 00 04 * * 0-6', function () {
+
+  var roomsRef = firebase.database().ref('rooms');
+
+  roomsRef
+    .once('value', function(snapshot) {
+      var rooms = snapshot.val();
+      var keys = Object.keys(rooms);
+      keys.forEach(function (key) {
+        var key = key;
+        var thisRoom = rooms[key];
+        var expDate = new Date(thisRoom.date);
+        var shouldDelete = checkDate(expDate);
+
+        if (shouldDelete) {
+          var members = thisRoom.members;
+          var memberKeys = Object.keys(members);
+          memberKeys.forEach(function (memberKey) {
+            var memberRef = firebase.database().ref('users/' + memberKey + '/rooms/' + key);
+            memberRef.remove();
+          })
+          var refToDelete = firebase.database().ref('rooms/' + key);
+          refToDelete.remove();
+        }
+
+      });
+    });
+
+}, null, true, 'America/Los_Angeles');
