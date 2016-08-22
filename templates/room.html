@@ -10,7 +10,7 @@
             <span class="md-headline">{{ message.sender }}</span>
           </md-card-header-text>
           <md-subhead>
-            <span class="md-subhead">{{ currentDate | date:'hh:mm a' }}</span>
+            <span class="md-subhead">{{ toJsDate(message.timeSent) | date:'hh:mm a' }}</span>
           </md-subhead>
         </md-card-header>
         <md-card-content id="cardcontent">
@@ -26,9 +26,9 @@
           <label>Enter your message here</label>
           <input name="input" ng-model="message.text">
         </div>
-          <md-button flex="5" type="submit" class="md-raised md-primary">
-            Send
-          </md-button>
+        <md-button flex="5" type="submit" class="md-raised md-primary">
+          Send
+        </md-button>
         <a ui-sref="closeRoom({teamId: currentTeamId, roomId: roomId})">
           <md-button ng-show="isRoomAdmin" id="closeroom" flex="15" class="md-raised md-warn" ng-click="closeRoom()">
             Close Room
@@ -38,4 +38,24 @@
       </md-input-container>
     </form>
   </div>
+</div>
+<div flex="20">
+  <md-content>
+    <div>
+      <md-card ng-show="isRoom()">
+        <md-card-content class="right">
+          <h3>Objective: </h3>
+        </md-card-content>
+        <md-card-content class="right">
+          <span>{{ theRoom.objective }}</span>
+        </md-card-content>
+        <md-card-content class="right">
+          <h3>Closing on:</h3>
+        </md-card-content>
+        <md-card-content class="right">
+          <span>{{ toJsDate(theRoom.date) | date:'EEEE, MMMM d, y' }}</span>
+        </md-card-content>
+      </md-card>
+    </div>
+  </md-content>
 </div>
