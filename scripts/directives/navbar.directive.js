@@ -3,7 +3,7 @@ var app = angular.module('lack');
 var firebase = require('firebase');
 
 
-module.exports = function ($state, AdminUserFactory, $rootScope, TeamFactory) {
+module.exports = function ($state, AdminUserFactory, $rootScope, TeamFactory, $location) {
 
   return {
 
@@ -14,7 +14,7 @@ module.exports = function ($state, AdminUserFactory, $rootScope, TeamFactory) {
 
       scope.loggedIn = false;
 
-      scope.goHome = function() {
+      scope.goHome = function () {
         TeamFactory.getCurrentTeam()
           .then(function(team){
             scope.team = team;
@@ -24,10 +24,10 @@ module.exports = function ($state, AdminUserFactory, $rootScope, TeamFactory) {
                 $state.go('home', {teamId: scope.team.$id});
               });
           });
-      }
-      scope.log = function() {
-        console.log('it works')
-      }
+      };
+      scope.log = function () {
+        console.log('it works');
+      };
 
       firebase.auth().onAuthStateChanged(function (user) {
         // This prevents a user from creating a new team when they're signed in
@@ -36,7 +36,9 @@ module.exports = function ($state, AdminUserFactory, $rootScope, TeamFactory) {
           scope.goHome();
         } else {
           scope.loggedIn = false;
-          $state.go('landing');
+          if (!$location.search().teamId) {
+            $state.go('landing');
+          }
         }
       });
 
