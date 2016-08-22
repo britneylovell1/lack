@@ -22,9 +22,6 @@ module.exports = function($stateProvider) {
       $scope.theRoom = $firebaseObject(roomRef);
       $scope.theRoom.date = new Date($scope.theRoom.date);
 
-      console.log('ROOOOOM', $scope.theRoom);
-
-
       $scope.isRoom = function() {
         return $scope.roomId;
       };
@@ -36,12 +33,16 @@ module.exports = function($stateProvider) {
 
       var user = UserFactory.getCurrentUser();
 
+      var userPic = function() {
+        return user.photoURL ? user.photoURL : 'https://3.bp.blogspot.com/-W__wiaHUjwI/Vt3Grd8df0I/AAAAAAAAA78/7xqUNj8ujtY/s1600/image02.png';
+      };
+
       $scope.messages = createMessages();
       $scope.saveMessage = function(message) {
         var newMessageRef = firebase.database().ref('messages').child($scope.roomId);
         newMessageRef.push({
           sender: user.displayName,
-          photo: user.photoURL,
+          photo: userPic(),
           text: message,
           timeSent: new Date().toString()
         });
@@ -51,7 +52,7 @@ module.exports = function($stateProvider) {
       $scope.toJsDate = function(str) {
         if (!str) return null;
         return new Date(str);
-      }
+      };
 
       // Scroll bar
       var out = document.getElementById('out');
