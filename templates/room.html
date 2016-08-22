@@ -10,7 +10,7 @@
             <span class="md-headline">{{ message.sender }}</span>
           </md-card-header-text>
           <md-subhead>
-            <span class="md-subhead">{{ currentDate | date:'hh:mm a' }}</span>
+            <span class="md-subhead">{{ toJsDate(message.timeSent) | date:'hh:mm a' }}</span>
           </md-subhead>
         </md-card-header>
         <md-card-content id="cardcontent">
@@ -43,11 +43,17 @@
   <md-content>
     <div>
       <md-card ng-show="isRoom()">
-        <md-card-header>
+        <md-card-content class="right">
           <h3>Objective: </h3>
-        </md-card-header>
-        <md-card-content>
+        </md-card-content>
+        <md-card-content class="right">
           <span>{{ theRoom.objective }}</span>
+        </md-card-content>
+        <md-card-content class="right">
+          <h3>Closing on:</h3>
+        </md-card-content>
+        <md-card-content class="right">
+          <span>{{ toJsDate(theRoom.date) | date:'EEEE, MMMM d, y' }}</span>
         </md-card-content>
       </md-card>
     </div>

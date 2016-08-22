@@ -20,6 +20,10 @@ module.exports = function($stateProvider) {
       var roomRef = firebase.database().ref('rooms/' + $stateParams.roomId);
 
       $scope.theRoom = $firebaseObject(roomRef);
+      $scope.theRoom.date = new Date($scope.theRoom.date);
+
+      console.log('ROOOOOM', $scope.theRoom);
+
 
       $scope.isRoom = function() {
         return $scope.roomId;
@@ -31,7 +35,6 @@ module.exports = function($stateProvider) {
       }
 
       var user = UserFactory.getCurrentUser();
-      $scope.currentDate = new Date();
 
       $scope.messages = createMessages();
       $scope.saveMessage = function(message) {
@@ -39,11 +42,16 @@ module.exports = function($stateProvider) {
         newMessageRef.push({
           sender: user.displayName,
           photo: user.photoURL,
-          text: message
+          text: message,
+          timeSent: new Date().toString()
         });
         $scope.message.text = '';
-        // message.input.$setPristine(true);
       };
+
+      $scope.toJsDate = function(str) {
+        if (!str) return null;
+        return new Date(str);
+      }
 
       // Scroll bar
       var out = document.getElementById('out');
