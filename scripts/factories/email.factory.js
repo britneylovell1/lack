@@ -1,46 +1,35 @@
 var angular = require('angular');
 var app = angular.module('lack');
+var firebase = require('firebase');
 
-module.exports = function($http) {
-
+module.exports = function($http, $firebaseArray) {
   return {
-
     sendInvitations: function (team, emails) {
       if (emails) {
         team.emails = emails;
       }
-
-      return $http({
-        url: 'https://pacific-lowlands-51363.herokuapp.com/send-emails',
-        method: 'POST',
-        data: team,
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        }
+    },
+    inviteNewMembers: function (data) {
+      var emailQueueRef = firebase.database().ref().child('new-members-email-queue');
+      var emailQueue = $firebaseArray(emailQueueRef);
+      emailQueue.$loaded()
+      .then(function () {
+        emailQueue.$add(data);
       })
-      .then(function (response) {
-        return response.data;
+      .then(function () {
+        return;
       });
     },
-
     sendRoomNotes: function (data) {
-
-      return $http({
-        url: 'https://pacific-lowlands-51363.herokuapp.com/close-room',
-        method: 'POST',
-        data: data,
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        }
+      var emailQueueRef = firebase.database().ref().child('close-room-email-queue');
+      var emailQueue = $firebaseArray(emailQueueRef);
+      emailQueue.$loaded()
+      .then(function () {
+        emailQueue.$add(data);
       })
-      .then(function (response) {
-        return response.data;
+      .then(function () {
+        return;
       });
     }
-
   };
-
 };
-

@@ -53,7 +53,7 @@ module.exports = function ($stateProvider) {
 
               //email notes:
               EmailFactory.sendRoomNotes($scope.data)
-              .then(function () {
+              // .then(function () {
 
                 //delete room from firebase
                 var allRoomsRef = firebase.database().ref('rooms');
@@ -90,7 +90,7 @@ module.exports = function ($stateProvider) {
                     });
                   });
                 });
-              });
+              // });
             }
           });
         });

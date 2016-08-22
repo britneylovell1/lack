@@ -4,58 +4,33 @@ var nodemailer = require('nodemailer');
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var CronJob = require('cron').CronJob;
+var firebase = require('firebase');
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 app.listen(process.env.PORT || 3000);
 
-//add headers middleware
-app.all('*', function(req, res,next) {
+var config = {
+  apiKey: "AIzaSyAGlJNi77LCyxRye_4--6FM-sAP4uRFccM",
+  authDomain: "shhh-lack.firebaseapp.com",
+  databaseURL: "https://shhh-lack.firebaseio.com",
+  storageBucket: "shhh-lack.appspot.com",
+};
 
-
-    /**
-     * Response settings
-     * @type {Object}
-     */
-    var responseSettings = {
-        "AccessControlAllowOrigin": req.headers.origin,
-        "AccessControlAllowHeaders": "Content-Type,X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5,  Date, X-Api-Version, X-File-Name",
-        "AccessControlAllowMethods": "POST, GET, PUT, DELETE, OPTIONS",
-        "AccessControlAllowCredentials": true
-    };
-
-    /**
-     * Headers
-     */
-    res.header("Access-Control-Allow-Credentials", responseSettings.AccessControlAllowCredentials);
-    res.header("Access-Control-Allow-Origin",  responseSettings.AccessControlAllowOrigin);
-    res.header("Access-Control-Allow-Headers", (req.headers['access-control-request-headers']) ? req.headers['access-control-request-headers'] : "x-requested-with");
-    res.header("Access-Control-Allow-Methods", (req.headers['access-control-request-method']) ? req.headers['access-control-request-method'] : responseSettings.AccessControlAllowMethods);
-
-    if ('OPTIONS' == req.method) {
-        res.send(200);
-    }
-    else {
-        next();
-    }
-
-
-});
-//end add headers middleware
+firebase.initializeApp(config);
 
 var transporter = nodemailer.createTransport('smtps://thelackteam%40gmail.com:Maggie43!@smtp.gmail.com');
 
 var mailOptions = {
-
   from: 'Team Lack <the.lack.team@gmail.com>',
   to: 'mneterval@gmail.com',
   subject: 'You have been invited to join a Lack team',
   text: 'Test'
-
 };
 
 var sendEmail = function (email, teamId, teamName) {
-
-  console.log('in here: ', email);
 
   mailOptions.to = email;
   mailOptions.html = '<p>You have been invited to join '
@@ -67,7 +42,7 @@ var sendEmail = function (email, teamId, teamName) {
                       '&email='
                       + email +
                       '">here</a> to get started.</p>';
-  //return new promise, resolve with this:
+
   transporter.sendMail(mailOptions, function (error, info){
     if(error){
         return console.log(error);
@@ -96,50 +71,44 @@ var sendRecaps = function (email, notes, objective, roomName) {
    });
 };
 
-app.post('/send-emails', function (req, res) {
+//listen for team creation:
 
-  var teamId = req.body.$id;
-  var teamName = req.body.name;
-  var emails = req.body.emails;
-
+var teamsRef = firebase.database().ref('teams');
+teamsRef.on('child_added', function (data) {
+  var emails = data.val().emails;
+  var teamId = data.key;
+  var teamName = data.val().name;
   emails.forEach(function (email) {
     sendEmail(email, teamId, teamName);
   });
-
-  res.send('Success');
-
 });
 
-app.post('/close-room', function (req, res) {
+//listen for new member invitations:
 
-  var emails = req.body.emails;
-  var notes = req.body.notes;
-  var objective = req.body.objective;
-  var roomName = req.body.roomName;
+var invitesRef = firebase.database().ref('new-members-email-queue');
+invitesRef.on('child_added', function (data) {
+  var emails = data.val().emails;
+  var teamId = data.val().$id;
+  var teamName = data.val().name;
+  emails.forEach(function (email) {
+    sendEmail(email, teamId, teamName);
+  });
+});
 
+//listens for room closing
+
+var emailQueueRef = firebase.database().ref('close-room-email-queue');
+emailQueueRef.on('child_added', function (data) {
+  var emails = data.val().emails;
+  var notes = data.val().notes;
+  var objective = data.val().objective;
+  var roomName = data.val().roomName;
   emails.forEach(function (email) {
     sendRecaps(email, notes, objective, roomName);
   });
-
-  res.send('Success');
-
 });
 
-//add firebase listener: listen for on child added to email route
-
 //cron job for room expiration:
-
-var CronJob = require('cron').CronJob;
-var firebase = require('firebase');
-
-var config = {
-  apiKey: "AIzaSyAGlJNi77LCyxRye_4--6FM-sAP4uRFccM",
-  authDomain: "shhh-lack.firebaseapp.com",
-  databaseURL: "https://shhh-lack.firebaseio.com",
-  storageBucket: "shhh-lack.appspot.com",
-};
-
-firebase.initializeApp(config);
 
 var checkDate = function (date) {
   var today = new Date();
