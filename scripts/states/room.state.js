@@ -2,16 +2,22 @@ var angular = require('angular');
 var app = angular.module('lack');
 var firebase = require('firebase');
 
-module.exports = function($stateProvider) {
+module.exports = function ($stateProvider) {
   $stateProvider.state('home.room', {
     url: '/rooms/:roomId',
     templateUrl: '/templates/room.html',
-    controller: function($scope, $state, $firebaseArray, $stateParams, UserFactory) {
+    controller: function ($scope, $state, $firebaseArray, $stateParams, UserFactory, AdminUserFactory) {
+
+        $scope.isRoomAdmin = false;
+
+        AdminUserFactory.checkIfRoomAdmin($stateParams.roomId)
+        .then(function (res) {
+           $scope.isRoomAdmin = res;
+        });
 
       $scope.roomId = $stateParams.roomId;
-      console.log($scope.roomId);
 
-      function createMessages() {
+      function createMessages () {
         var newMessagesRef = firebase.database().ref('messages').child($scope.roomId);
         return $firebaseArray(newMessagesRef);
       }
@@ -20,24 +26,22 @@ module.exports = function($stateProvider) {
       $scope.currentDate = new Date();
 
       $scope.messages = createMessages();
-      $scope.saveMessage = function(message) {
-        console.log('room Id ', $scope.roomId)
+      $scope.saveMessage = function (message) {
         var newMessageRef = firebase.database().ref('messages').child($scope.roomId);
         newMessageRef.push({
           sender: user.displayName,
           photo: user.photoURL,
-          text: message,
-
+          text: message
         });
         $scope.message.text = '';
         // message.input.$setPristine(true);
       };
 
       // Scroll bar
-      var out = document.getElementById("out");
+      var out = document.getElementById('out');
       var isScrolledToBottom = true;
-      out.addEventListener('scroll', function() { isScrolledToBottom = out.scrollHeight - out.clientHeight <= out.scrollTop + 1; });
-      $scope.scroller = function() {
+      out.addEventListener('scroll', function () { isScrolledToBottom = out.scrollHeight - out.clientHeight <= out.scrollTop + 1; });
+      $scope.scroller = function () {
         // allow 1px inaccuracy by adding 1
         // console.log(isScrolledToBottom);
         // scroll to bottom if isScrolledToBotto
@@ -46,7 +50,7 @@ module.exports = function($stateProvider) {
         }
       };
 
-      $scope.messages.$watch(function() {
+      $scope.messages.$watch(function () {
         $scope.$$postDigest($scope.scroller);
       });
 

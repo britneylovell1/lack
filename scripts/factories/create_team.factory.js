@@ -5,10 +5,10 @@ var firebase = require('firebase');
 // TODO:
 // remove setCurrentTeam?
 
-module.exports = function($firebaseObject, $firebaseArray) {
+module.exports = function ($firebaseObject, $firebaseArray) {
 
 	return {
-		createTeam: function() {
+		createTeam: function () {
 
 			// create the team obj in firebase + get the reference to it
 			var newTeamRef = firebase.database().ref('teams').push();
@@ -18,7 +18,7 @@ module.exports = function($firebaseObject, $firebaseArray) {
 			return $firebaseObject(newTeamRef);
 		},
 
-		setCurrentTeam: function(currentTeamId) {
+		setCurrentTeam: function (currentTeamId) {
 			// set the current team
 			// don't need this function?
 			var currentTeamRef = firebase.database().ref('teams').child(currentTeamId);
@@ -27,7 +27,7 @@ module.exports = function($firebaseObject, $firebaseArray) {
 		getCurrentTeam: function () {
 			var currentUserId = firebase.auth().currentUser.uid;
 			var teamRef = firebase.database().ref('users').child(currentUserId).child('teams');
-			var teamArr =  $firebaseArray(teamRef);
+			var teamArr = $firebaseArray(teamRef);
 
 			return teamArr.$loaded()
 			.then(function () {
@@ -44,7 +44,7 @@ module.exports = function($firebaseObject, $firebaseArray) {
 
     },
 
-		addTeamAdmin: function(user, team) {
+		addTeamAdmin: function (user, team) {
 			// add a user as an admin on the teams model
 
 			// set up association variables
@@ -61,5 +61,5 @@ module.exports = function($firebaseObject, $firebaseArray) {
 
 		}
 
-	}
-}
+	};
+};

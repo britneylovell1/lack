@@ -6,79 +6,73 @@ module.exports = function ($firebaseObject, $firebaseArray, $state) {
 
   return {
 
-    fetchTeamObj: function () {
+    checkIfAdmin: function (team) {
 
       var currentUserId = firebase.auth().currentUser.uid;
-      var ref = firebase.database().ref('users').child(currentUserId);
-      var obj = $firebaseObject(ref);
+      var adminRef = firebase.database().ref().child('teams/' + team.$id + '/admin');
+      var adminList = $firebaseArray(adminRef);
 
-      obj.$loaded().then(function () {
+      return adminList.$loaded()
+      .then(function () {
 
-        var teams = obj.teams;
-        var firstTeamIndex = Object.keys(teams)[0];
-        var teamId = teams[firstTeamIndex].teamId;
-
-        var teamRef = firebase.database().ref('teams').child(teamId);
-        var teamObj = $firebaseObject(teamRef);
-
-        teamObj.$loaded().then(function () {
-          return teamObj;
-        });
+        for (var i = 0; i < adminList.length; i++){
+          var admin = adminList[i];
+          if (admin.$id === currentUserId) {
+            return true;
+          }
+        }
+        return false;
 
       });
 
     },
 
-    checkIfAdmin: function (userId, team, shouldRedirect) {
+    checkIfRoomAdmin: function (roomId) {
 
-      var adminRef = firebase.database().ref().child('teams/' + team.$id + '/admin');
-      var adminList = $firebaseArray(adminRef);
+      var currentUserId = firebase.auth().currentUser.uid;
+      var adminRef = firebase.database().ref().child('rooms/' + roomId + '/admin');
+      var adminArr = $firebaseArray(adminRef);
 
-      adminList.$loaded()
+      return adminArr.$loaded()
       .then(function () {
-
-        for (var i = 0; i < adminList.length; i++){
-          var admin = adminList[i];
-          if (admin.userId === userId) {
-            return true;
-          } else {
-            if (shouldRedirect){
-              $state.go('landing');
-            }
-            return false;
-          }
+        if (adminArr[0].$id === currentUserId) {
+          return true;
+        } else {
+          return false;
         }
       });
 
     },
 
-    fetchCurrentUserId: function () {
+    removeFromTeam: function (teamId, membersArr, userToRemove) {
 
-      return firebase.auth().currentUser.uid;
+      membersArr.$remove(userToRemove).then(function () {
 
-    },
+        var userTeamsRef = firebase.database().ref().child('users/' + userToRemove.$id + '/teams');
+        var userTeams = $firebaseArray(userTeamsRef);
 
-    fetchAllTeamMembers: function () {
+        userTeams.$loaded().then(function () {
 
-      var currentUserId = firebase.auth().currentUser.uid;
-      var ref = firebase.database().ref('users').child(currentUserId);
-      var obj = $firebaseObject(ref);
+          var teamRec = userTeams.$getRecord(teamId);
 
-      obj.$loaded().then(function () {
+          userTeams.$remove(teamRec).then(function () {
 
-        var teams = obj.teams;
-        var firstTeamIndex = Object.keys(teams)[0];
-        var teamId = teams[firstTeamIndex].teamId;
+            var refAdmin = firebase.database().ref().child('teams/' + teamId + '/admin');
+            var adminArr = $firebaseArray(refAdmin);
 
-        var teamUsersRef = firebase.database().ref('teams').child(teamId + '/users');
-        var membersArr = $firebaseArray(teamUsersRef);
+            adminArr.$loaded().then(function () {
 
-        membersArr.$loaded().then(function () {
-          return membersArr;
+              var record = adminArr.$getRecord(userToRemove.$id);
+
+              adminArr.$remove(record).then(function () {
+
+                console.log('User successfully removed');
+
+              });
+            });
+          });
         });
-
       });
-
     }
   };
 };
