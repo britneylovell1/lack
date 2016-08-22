@@ -1,5 +1,6 @@
 var angular = require('angular');
 var app = angular.module('lack');
+// this is gonna cause a merge conflict!!!
 
 module.exports = function ($scope, $state, $firebaseArray, $stateParams, UserFactory, AdminUserFactory, MessageFactory) {
 
