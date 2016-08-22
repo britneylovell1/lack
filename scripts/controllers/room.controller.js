@@ -38,6 +38,8 @@ module.exports = function($log, $rootScope, $scope, $state, $stateParams, $fireb
 
   $scope.saveRoom = function() {
 
+    $scope.room.date = $scope.room.date.toString();
+
     $scope.room.$save()
       //console.log('chips', $scope.chipsmembers);
       .then(function() {
