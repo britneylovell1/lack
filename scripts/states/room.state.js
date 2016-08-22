@@ -7,5 +7,6 @@ module.exports = function($stateProvider) {
     url: '/rooms/:roomId',
     templateUrl: '/templates/room.html',
     controller: RoomController
+    
   });
 };
