@@ -3,7 +3,7 @@ var app = angular.module('lack');
 var firebase = require('firebase');
 
 
-module.exports = function ($state, AdminUserFactory, $rootScope, TeamFactory) {
+module.exports = function ($state, AdminUserFactory, $rootScope, TeamFactory, $location) {
 
   return {
 
@@ -36,7 +36,9 @@ module.exports = function ($state, AdminUserFactory, $rootScope, TeamFactory) {
           scope.goHome();
         } else {
           scope.loggedIn = false;
-          $state.go('landing');
+          if (!$location.search().teamId) {
+            $state.go('landing');
+          }
         }
       });
 
