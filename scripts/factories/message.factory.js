@@ -24,7 +24,8 @@ module.exports = function ($firebaseArray, UserFactory) {
   	return $firebaseArray(memberSettingsRef);
   }
 
-  function notifyUser() {
+  // 
+  function notifyUser(user, room) {
   	// lets the user know that they got a message
   	console.log('hey! I\'m notifying you!');
   }
