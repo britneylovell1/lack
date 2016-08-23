@@ -28,9 +28,10 @@ module.exports = function ($log, $rootScope, $scope, $state, $stateParams, $fire
   // create the room
   $scope.room = roomFactory.createRoom();
   $scope.user = UserFactory.getCurrentUser();
+  $scope.user.display = $scope.user.displayName;
 
   // we'd want to lookup the members in the database and then send those with the room to the database
-  $scope.chipsmembers = [];
+  $scope.chipsmembers = [$scope.user];
 
   $scope.saveRoom = function () {
 
