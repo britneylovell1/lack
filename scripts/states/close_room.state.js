@@ -83,7 +83,7 @@ module.exports = function ($stateProvider) {
 
                           if (index === $scope.data.members.length - 1){
                             $mdToast.show($mdToast.simple().textContent('Room closed!'));
-                            $state.go('home');
+                            $state.go('home', {teamId: $stateParams.teamId});
                           }
                         });
                       });
