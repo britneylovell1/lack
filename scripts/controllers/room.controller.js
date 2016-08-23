@@ -1,67 +1,74 @@
 var angular = require('angular');
 var app = angular.module('lack');
 
-// TODO:
-// put teamMembers in the resolve
-// associate rooms with teams
+module.exports = function($scope, $state, $firebaseArray, $stateParams, UserFactory, AdminUserFactory, MessageFactory, $firebaseObject) {
 
-module.exports = function($log, $rootScope, $scope, $state, $stateParams, $firebaseObject, roomFactory, UserFactory, AssocFactory, $mdToast, $location, TeamFactory) {
+  $scope.isRoomAdmin = false;
 
-  var members = [];
-  // get the team members
-  TeamFactory.getCurrentTeam()
-    .then(function(team) {
-      // put the current team on the scope for room association
-      $scope.team = team;
-      return TeamFactory.getTeamMembers(team.$id).$loaded();
-
-    })
-    .then(function(teamMembers) {
-      // Reformat teamMembers array for the query
-      console.log('teamMembers', teamMembers);
-      members = roomFactory.members(teamMembers);
-
-      $scope.querySearch = function(query) {
-        var results = query ? members.filter(roomFactory.createFilterFor(query)) : null;
-        return results;
-      };
-
+  AdminUserFactory.checkIfRoomAdmin($stateParams.roomId)
+    .then(function(res) {
+      $scope.isRoomAdmin = res;
     });
 
-  // create the room
-  $scope.room = roomFactory.createRoom();
-  $scope.user = UserFactory.getCurrentUser();
-  $scope.user.display = $scope.user.displayName;
+  $scope.roomId = $stateParams.roomId;
 
-  console.log('user', $scope.user);
-  $scope.chipsmembers = [$scope.user];
+  var roomRef = firebase.database().ref('rooms/' + $stateParams.roomId);
 
-  $scope.saveRoom = function() {
+  $scope.theRoom = $firebaseObject(roomRef);
+  $scope.theRoom.date = new Date($scope.theRoom.date);
 
-    $scope.room.date = $scope.room.date.toString();
-
-    $scope.room.$save()
-      //console.log('chips', $scope.chipsmembers);
-      .then(function() {
-        $mdToast.show($mdToast.simple().textContent('Room created!'));
-
-        // create user-room associations
-        $scope.chipsmembers.forEach(function(member) {
-          console.log('members', member);
-          AssocFactory.assocUserRoom(member, $scope.room);
-        });
-        // make this user the admin
-        roomFactory.addRoomAdmin($scope.user, $scope.room);
-        // add the team to the room
-        AssocFactory.assocTeamRoom($scope.team, $scope.room)
-          .then(function() {
-            // go to home room
-            $state.go('home.room', { roomId: $scope.room.$id });
-          });
-
-      })
-      .catch(function(error) {
-        $mdToast.show($mdToast.simple().textContent('Error!'));
-      });
+  $scope.isRoom = function() {
+    return $scope.roomId;
   };
-};
+
+  function createMessages() {
+    var newMessagesRef = firebase.database().ref('messages').child($scope.roomId);
+    return $firebaseArray(newMessagesRef);
+  }
+
+  var user = UserFactory.getCurrentUser();
+
+  var userPic = function() {
+    return user.photoURL ? user.photoURL : 'https://3.bp.blogspot.com/-W__wiaHUjwI/Vt3Grd8df0I/AAAAAAAAA78/7xqUNj8ujtY/s1600/image02.png';
+  };
+
+  $scope.messages = createMessages();
+  $scope.saveMessage = function(message) {
+
+    // Send notifications based on each room member's settings
+    MessageFactory.checkBuzzWords(message, $scope.roomId)
+    MessageFactory.checkVIPs(user.displayName, $scope.roomId)
+
+    var newMessageRef = firebase.database().ref('messages').child($scope.roomId);
+    newMessageRef.push({
+      sender: user.displayName,
+      photo: userPic(),
+      text: message,
+      timeSent: new Date().toString()
+    });
+    $scope.message.text = '';
+  };
+
+  $scope.toJsDate = function(str) {
+    if (!str) return null;
+    return new Date(str);
+  };
+
+  // Scroll bar
+  var out = document.getElementById('out');
+  var isScrolledToBottom = true;
+  out.addEventListener('scroll', function() { isScrolledToBottom = out.scrollHeight - out.clientHeight <= out.scrollTop + 1; });
+  $scope.scroller = function() {
+    // allow 1px inaccuracy by adding 1
+    // console.log(isScrolledToBottom);
+    // scroll to bottom if isScrolledToBotto
+    if (isScrolledToBottom) {
+      out.scrollTop = out.scrollHeight - out.clientHeight;
+    }
+  };
+
+  $scope.messages.$watch(function() {
+    $scope.$$postDigest($scope.scroller);
+  });
+
+}

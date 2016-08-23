@@ -1,11 +1,11 @@
 var angular = require('angular');
 var app = angular.module('lack');
-var RoomController = require('../controllers/room.controller.js');
+var CreateRoomController = require('../controllers/create_room.controller.js');
 
 module.exports = function($stateProvider) {
   $stateProvider.state('createRoom', {
-    url: '/create-room',
+    url: '/home/teams/:teamId/create-room',
     templateUrl: '/templates/create_room.html',
-    controller: RoomController
+    controller: CreateRoomController
   });
 };

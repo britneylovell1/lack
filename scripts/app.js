@@ -31,12 +31,15 @@ module.exports = angular.module('lack', [
 .factory('UserFactory', require('./factories/user.factory.js'))
 .factory('TeamFactory', require('./factories/create_team.factory.js'))
 .factory('AssocFactory', require('./factories/association.factory.js'))
+.factory('MessageFactory', require('./factories/message.factory.js'))
 
 //controllers:
 .controller('AdminController', require('./controllers/admin.controller.js'))
 .controller('TeamController', require('./controllers/team.controller.js'))
+.controller('CreateRoomController', require('./controllers/create_room.controller.js'))
 .controller('RoomController', require('./controllers/room.controller.js'))
 .controller('SettingsController', require('./controllers/settings.controller.js'))
+.controller('LoginController', require('./controllers/login.controller.js'))
 
 //prettify URLs - comment back in for deployment:
 // .config(function ($locationProvider) {
