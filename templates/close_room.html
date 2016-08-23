@@ -3,11 +3,11 @@
   <form class="lackform" name="close-room-form">
     <md-input-container class="md-block">
       <label>Notes: </label>
-     <textarea id="notes" ng-model="data.notes" placeholder="Enter meeting minutes, follow-ups, etc. here..."></textarea>
+     <textarea required id="notes" ng-model="data.notes" placeholder="Enter meeting minutes, follow-ups, etc. here..."></textarea>
     </md-input-container>
     <md-input-container class="md-block">
       <label>Email to: </label>
-      <md-select multiple ng-model="data.members">
+      <md-select required multiple ng-model="data.members">
         <md-option ng-repeat="member in allMembers" value={{member.$id}}>
           {{ member.userName }}
         </md-option>
