@@ -41,7 +41,7 @@ module.exports = function($firebaseArray, $firebaseObject) {
 
   fac.addRoomAdmin = function(user, room) {
     // add a user as an admin on the teams model
-    console.log('in room admin')
+    // console.log('in room admin')
 
     // set up association variables
     var userInfo = {
