@@ -2,16 +2,22 @@
 
   <h1>Create new room</h1>
 
-  <form class="lackform" name="new-room-form">
+  <form class="lackform" name="createRoom" ng-submit="createRoom.$valid && saveRoom()" novalidate>
 
     <md-input-container class="md-block">
       <label>What is the name of this room?</label>
-      <input required ng-model="room.name" />
+      <input required ng-model="room.name" name="roomName" />
+      <div ng-messages="createRoom.roomName.$error" ng-if="createRoom.$submitted || createRoom.roomName.$touched">
+        <div ng-message="required">Please enter a name for your room.</div>
+      </div>
     </md-input-container>
 
     <md-input-container class="md-block">
       <label>What is the objective of this room?</label>
-      <input required ng-model="room.objective" />
+      <input required ng-model="room.objective" name="roomObjective" />
+      <div ng-messages="createRoom.roomObjective.$error" ng-if="createRoom.$submitted || createRoom.roomObjective.$touched">
+        <div ng-message="required">Please enter an objective for your room.</div>
+      </div>
     </md-input-container>
 
     <md-chips ng-model="chipsmembers" md-autocomplete-snap>
@@ -34,15 +40,16 @@
 
     <div>
       <p>When should this room expire?</p>
-      <md-datepicker required ng-model="room.date" md-placeholder="Select a date"></md-datepicker>
+      <md-datepicker required ng-model="room.date" md-placeholder="Select a date" name="roomExp"></md-datepicker>
+      <div ng-messages="createRoom.roomExp.$error" ng-if="createRoom.$submitted || createRoom.roomExp.$touched">
+        <div ng-message="required">Please select an expiration date for your room.</div>
+      </div>
     </div>
 
     <br>
-    <a ng-click="saveRoom()">
-      <md-button class="md-raised md-primary" layout-fill>
-        Create room
-      </md-button>
-    </a>
+    <md-button type="submit" class="md-raised md-primary" layout-fill>
+      Create room
+    </md-button>
 
   </form>
 

@@ -1,24 +1,28 @@
 <div layout="column" flex layout-align="center center" layout-padding>
   <h1>Close {{ currentRoom.name }}</h1>
-  <form class="lackform" name="close-room-form">
+  <form class="lackform" name="deleteRoom" ng-submit="deleteRoom.$valid && closeRoom()" novalidate>
     <md-input-container class="md-block">
       <label>Notes: </label>
-     <textarea required id="notes" ng-model="data.notes" placeholder="Enter meeting minutes, follow-ups, etc. here..."></textarea>
+      <textarea name="roomNotes" required id="notes" ng-model="data.notes" placeholder="Enter meeting minutes, follow-ups, etc. here..."></textarea>
+      <div ng-messages="deleteRoom.roomNotes.$error" ng-if="deleteRoom.$submitted || deleteRoom.roomNotes.$touched">
+        <div ng-message="required">Please enter notes for your room.</div>
+      </div>
     </md-input-container>
     <md-input-container class="md-block">
       <label>Email to: </label>
-      <md-select required multiple ng-model="data.members">
+      <md-select name="roomEmails" required multiple ng-model="data.members">
         <md-option ng-repeat="member in allMembers" value={{member.$id}}>
           {{ member.userName }}
         </md-option>
       </md-select>
+      <div ng-messages="deleteRoom.roomEmails.$error" ng-if="deleteRoom.$submitted || deleteRoom.roomEmails.$touched">
+        <div ng-message="required">Please select at least one team member.</div>
+      </div>
     </md-input-container>
     <br>
-    <a ng-click="closeRoom()">
-      <md-button class="md-raised md-primary" layout-fill>
-          Close room
-      </md-button>
-    </a>
+    <md-button type="submit" class="md-raised md-primary" layout-fill>
+        Close room
+    </md-button>
   </form>
 </div>
 
