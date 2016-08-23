@@ -25,11 +25,21 @@ module.exports = function ($firebaseArray, UserFactory) {
   }
 
   // 
-  function notifyUser(user, room) {
+  function notifyUserBuzz(userId, roomId) {
   	// lets the user know that they got a message
+  	// event listener???
   	console.log('hey! I\'m notifying you!');
+  	var buzzRef = firebase.database().ref('users/' + userId).child('rooms/' + roomId + '/buzzWord');
+  	buzzRef.set(true);
   }
 
+  function notifyUserVIP(userId, roomId) {
+  	// lets the user know that they got a message
+  	// event listener???
+  	console.log('hey! I\'m notifying you!');
+  	var VipRef = firebase.database().ref('users/' + userId).child('rooms/' + roomId + '/VIP');
+  	VipRef.set(true);
+  }
 
 
 	return {
@@ -52,7 +62,7 @@ module.exports = function ($firebaseArray, UserFactory) {
 	  				// notify user is message contains a buzzword
 	  				buzzWords.forEach(function(wordObj) {
 				  		if (text.includes(wordObj.$id)) {
-				  			notifyUser();
+				  			notifyUserBuzz(member.$id, roomId);
 				  		}
 				  	})
 
@@ -78,7 +88,7 @@ module.exports = function ($firebaseArray, UserFactory) {
 	  			.then(function(vips) {
 
 	  				if (vips.$getRecord(sender)){
-	  					notifyUser();
+	  					notifyUserVIP(member.$id, roomId);
 	  				}
 
 	  			})
