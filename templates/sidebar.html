@@ -4,8 +4,8 @@
   </md-toolbar>
   <md-content layout-padding>
     <div ng-repeat="room in rooms">
-      <a ui-sref="home.room({roomId: room.$id})">
-        <md-button>
+      <a ui-sref="home.room({roomId: room.$id})" ng-click="resetNotification(room.$id)">
+        <md-button >
           {{ room.roomName }}
         </md-button>
       </a>

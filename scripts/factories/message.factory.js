@@ -26,17 +26,13 @@ module.exports = function ($firebaseArray, UserFactory) {
 
   // 
   function notifyUserBuzz(userId, roomId) {
-  	// lets the user know that they got a message
-  	// event listener???
-  	console.log('hey! I\'m notifying you!');
+  	// lets the user know that they got a message containing a buzz word
   	var buzzRef = firebase.database().ref('users/' + userId).child('rooms/' + roomId + '/buzzWord');
   	buzzRef.set(true);
   }
 
   function notifyUserVIP(userId, roomId) {
-  	// lets the user know that they got a message
-  	// event listener???
-  	console.log('hey! I\'m notifying you!');
+  	// lets the user know that they got a message from VIP
   	var VipRef = firebase.database().ref('users/' + userId).child('rooms/' + roomId + '/VIP');
   	VipRef.set(true);
   }
