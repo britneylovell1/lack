@@ -4,7 +4,8 @@ module.exports = angular.module('lack', [
   require('angular-animate'),
   require('angular-aria'),
   require('angular-material'),
-  require('angularfire')
+  require('angularfire'),
+  require('angular-messages')
 ])
 
 //states:

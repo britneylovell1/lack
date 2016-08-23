@@ -1,24 +1,19 @@
 <div layout="column" flex layout-align="center center" layout-padding>
+  <h1>Create your team</h1>
+  <form class="lackform" id="create-team" name="createTeam" ng-submit="createTeam.$valid && saveTeam()" novalidate>
+    <md-input-container class="md-block">
+      <label>Team name</label>
+      <input required ng-model="team.name" name="teamName" />
+      <div ng-messages="createTeam.teamName.$error" ng-if="createTeam.$submitted || createTeam.teamName.$touched">
+        <div ng-message="required">Please enter a name for your team.</div>
+      </div>
+    </md-input-container>
 
-    <h1>Create your team</h1>
-
-    <form class="lackform" id="create-team">
-
-      <md-input-container class="md-block">
-        <label>Team name</label>
-        <input required ng-model="team.name" />
-      </md-input-container>
-
-        <label>Send email invites to your teammates:</label>
-       	<md-chips ng-model="emails" readonly="false" md-require-match="false" placeholder="Enter emails..."></md-chips>
-      </md-input-container>
-
-      <br>
-      <a ng-click="saveTeam()">
-        <md-button class="md-raised md-primary">
-            Sign up with Google to finish creating your team
-        </md-button>
-      </a>
-
-    </form>
+    <label>Send email invites to your teammates:</label>
+    <md-chips ng-model="emails" readonly="false" md-require-match="false" placeholder="Enter emails..."></md-chips>
+    <br>
+    <md-button type="submit" class="md-raised md-primary">
+        Sign up with Google to finish creating your team
+    </md-button>
+  </form>
 </div>
