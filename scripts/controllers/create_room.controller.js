@@ -49,7 +49,7 @@ module.exports = function ($log, $rootScope, $scope, $state, $stateParams, $fire
       AssocFactory.assocTeamRoom($scope.team, $scope.room)
       .then(function () {
         // go to home room
-        $state.go('home.room', { roomId: $scope.room.$id});
+        $state.go('home.room', { teamId: $stateParams.teamId, roomId: $scope.room.$id});
       });
 
     })
