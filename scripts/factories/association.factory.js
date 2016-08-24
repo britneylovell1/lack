@@ -79,7 +79,8 @@ module.exports = function($firebaseArray, $firebaseObject) {
         [roomId]: { 
           roomName: room.name,
           VIP: false,
-          buzzWord: false
+          buzzWord: false,
+          unread: false
            }
       };
 

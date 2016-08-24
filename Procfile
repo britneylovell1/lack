@@ -1,3 +1,3 @@
-web: npm start
-worker: node server/app
+web: echo Hello
+worker: npm start
 

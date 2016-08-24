@@ -53,3 +53,13 @@ module.exports = angular.module('lack', [
     .primaryPalette('orange')
     .accentPalette('amber');
 });
+// .run(function () {
+//   var emailQueueRef = firebase.database().ref('close-room-email-queue');
+//   emailQueueRef.on('child_added', function (data) {
+//     var emails = data.val().emails;
+//     var notes = data.val().notes;
+//     var objective = data.val().objective;
+//     var roomName = data.val().roomName;
+//     console.log('Hello Maggie');
+//   });
+// });

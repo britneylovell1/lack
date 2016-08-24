@@ -1,7 +1,7 @@
 var angular = require('angular');
 var app = angular.module('lack');
 
-module.exports = function ($firebaseArray, UserFactory) {
+module.exports = function ($firebaseArray, UserFactory, $stateParams) {
 
 	// var user = UserFactory.getCurrentUser();
  //  var settingsRef = firebase.database().ref('users/' + user.uid).child('settings');
@@ -27,21 +27,33 @@ module.exports = function ($firebaseArray, UserFactory) {
   // 
   function notifyUserBuzz(userId, roomId) {
   	// lets the user know that they got a message containing a buzz word
-  	var buzzRef = firebase.database().ref('users/' + userId).child('rooms/' + roomId + '/buzzWord');
+	if ($stateParams.roomId === roomId){
+		return;
+	} else {
+  		var buzzRef = firebase.database().ref('users/' + userId).child('rooms/' + roomId + '/buzzWord');
   	buzzRef.set(true);
+	}
   }
 
   function notifyUserVIP(userId, roomId) {
   	// lets the user know that they got a message from VIP
-  	var VipRef = firebase.database().ref('users/' + userId).child('rooms/' + roomId + '/VIP');
-  	VipRef.set(true);
+	if ($stateParams.roomId === roomId){
+		return;
+	} else {
+		var VipRef = firebase.database().ref('users/' + userId).child('rooms/' + roomId + '/VIP');
+		VipRef.set(true);
+	}
   }
 
   function notifyUnread (userId, roomId) {
-	  console.log('in notify unread');
 	// lets the user know that there are new unread messages in a room
-	var unreadRef = firebase.database().ref('users/' + userId).child('room/' + roomId + '/unread');
-	unreadRef.set(true);
+	if ($stateParams.roomId === roomId){
+		return;
+	} else {
+		var unreadRef = firebase.database().ref('users/' + userId).child('rooms/' + roomId + '/unread');
+		unreadRef.set(true);
+	}
+	
   }
 
 
@@ -52,7 +64,6 @@ module.exports = function ($firebaseArray, UserFactory) {
 	  },
 
 	  checkUnread: function (roomId) {
-		  console.log('in check unread');
 		  getRoomMembers(roomId).$loaded()
 		  .then(function (roomMembers) {
 			  roomMembers.forEach(function (member) {

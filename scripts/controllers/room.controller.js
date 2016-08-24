@@ -23,15 +23,6 @@ module.exports = function($scope, $state, $firebaseArray, $stateParams, UserFact
     return $scope.roomId;
   };
 
-  // Reset notifications
-  // var roomSettingsRef = firebase.database().ref('users/' + user.uid).child('rooms/' + $scope.roomId);
-  // roomSettingsRef.on('child_changed', function() {
-  //   roomSettingsRef.child('buzzWord').set(false);
-  //   roomSettingsRef.child('VIP').set(false);
-  // })
-
-
-
   function createMessages() {
     var newMessagesRef = firebase.database().ref('messages').child($scope.roomId);
     return $firebaseArray(newMessagesRef);
