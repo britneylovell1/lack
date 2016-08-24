@@ -30,6 +30,9 @@ module.exports = function ($state, $firebaseArray, $rootScope, UserFactory, $sta
 
         var VipRef = firebase.database().ref('users/' + scope.userId).child('rooms/' + roomId + '/VIP');
         VipRef.set(false);
+
+        var unreadRef = firebase.database().ref('users/' + scope.userId).child('rooms/' + roomId + '/unread');
+        unreadRef.set(false);
       };
     }
   };

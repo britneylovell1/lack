@@ -1,5 +1,6 @@
 var angular = require('angular');
 var app = angular.module('lack');
+var firebase = require('firebase');
 
 module.exports = function($scope, $state, $firebaseArray, $stateParams, UserFactory, AdminUserFactory, MessageFactory, $firebaseObject) {
 
@@ -7,7 +8,7 @@ module.exports = function($scope, $state, $firebaseArray, $stateParams, UserFact
   $scope.isRoomAdmin = false;
 
   AdminUserFactory.checkIfRoomAdmin($stateParams.roomId)
-    .then(function(res) {
+    .then(function (res) {
       $scope.isRoomAdmin = res;
     });
 
@@ -18,18 +19,9 @@ module.exports = function($scope, $state, $firebaseArray, $stateParams, UserFact
   $scope.theRoom = $firebaseObject(roomRef);
   $scope.theRoom.date = new Date($scope.theRoom.date);
 
-  $scope.isRoom = function() {
+  $scope.isRoom = function () {
     return $scope.roomId;
   };
-
-  // Reset notifications
-  var roomSettingsRef = firebase.database().ref('users/' + user.uid).child('rooms/' + $scope.roomId);
-  roomSettingsRef.on('child_changed', function() {
-    roomSettingsRef.child('buzzWord').set(false);
-    roomSettingsRef.child('VIP').set(false);
-  })
-
-
 
   function createMessages() {
     var newMessagesRef = firebase.database().ref('messages').child($scope.roomId);
@@ -45,8 +37,9 @@ module.exports = function($scope, $state, $firebaseArray, $stateParams, UserFact
   $scope.saveMessage = function(message) {
 
     // Send notifications based on each room member's settings
-    MessageFactory.checkBuzzWords(message, $scope.roomId)
-    MessageFactory.checkVIPs(user.displayName, $scope.roomId)
+    MessageFactory.checkBuzzWords(message, $scope.roomId);
+    MessageFactory.checkVIPs(user.displayName, $scope.roomId);
+    MessageFactory.checkUnread($scope.roomId);
 
     var newMessageRef = firebase.database().ref('messages').child($scope.roomId);
     newMessageRef.push({
