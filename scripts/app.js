@@ -43,9 +43,9 @@ module.exports = angular.module('lack', [
 .controller('LoginController', require('./controllers/login.controller.js'))
 
 //prettify URLs - comment back in for deployment:
-// .config(function ($locationProvider) {
-//   $locationProvider.html5Mode(true);
-// })
+ .config(function ($locationProvider) {
+   $locationProvider.html5Mode(true);
+})
 
 //set themes:
 .config(function($mdThemingProvider) {
