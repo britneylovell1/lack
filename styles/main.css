@@ -59,3 +59,17 @@ md-card-content.right {
   margin-top: 0;
   margin-bottom: 0;
 }
+
+.notify-buzz {
+  color: green;
+  background-color: #e4e4e4;
+}
+
+.notify-vip {
+  color: red;
+  background-color: #e4e4e4;
+}
+
+.unread-messages {
+  background-color: #e4e4e4;
+}

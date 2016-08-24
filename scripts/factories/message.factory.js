@@ -37,11 +37,28 @@ module.exports = function ($firebaseArray, UserFactory) {
   	VipRef.set(true);
   }
 
+  function notifyUnread (userId, roomId) {
+	  console.log('in notify unread');
+	// lets the user know that there are new unread messages in a room
+	var unreadRef = firebase.database().ref('users/' + userId).child('room/' + roomId + '/unread');
+	unreadRef.set(true);
+  }
+
 
 	return {
 		createMessages: function (roomId) {
 	    var newMessagesRef = firebase.database().ref('messages').child(roomId);
 	    return $firebaseArray(newMessagesRef);
+	  },
+
+	  checkUnread: function (roomId) {
+		  console.log('in check unread');
+		  getRoomMembers(roomId).$loaded()
+		  .then(function (roomMembers) {
+			  roomMembers.forEach(function (member) {
+				  notifyUnread(member.$id, roomId);
+			  })
+		  })
 	  },
 
 	  checkBuzzWords: function (text, roomId) {
