@@ -10,11 +10,13 @@ module.exports = function($http, $firebaseArray) {
       }
     },
     inviteNewMembers: function (data) {
+      console.log('data: ', data);
       var emailQueueRef = firebase.database().ref().child('new-members-email-queue');
       var emailQueue = $firebaseArray(emailQueueRef);
       emailQueue.$loaded()
       .then(function () {
         emailQueue.$add(data);
+        console.log('email queue: ', emailQueue);
       })
       .then(function () {
         return;

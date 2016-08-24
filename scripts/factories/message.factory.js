@@ -27,32 +27,32 @@ module.exports = function ($firebaseArray, UserFactory, $stateParams) {
   // 
   function notifyUserBuzz(userId, roomId) {
   	// lets the user know that they got a message containing a buzz word
-	if ($stateParams.roomId === roomId){
-		return;
-	} else {
+	// if ($stateParams.roomId === roomId){
+	// 	return;
+	// } else {
   		var buzzRef = firebase.database().ref('users/' + userId).child('rooms/' + roomId + '/buzzWord');
   	buzzRef.set(true);
-	}
+	// }
   }
 
   function notifyUserVIP(userId, roomId) {
   	// lets the user know that they got a message from VIP
-	if ($stateParams.roomId === roomId){
-		return;
-	} else {
+	// if ($stateParams.roomId === roomId){
+	// 	return;
+	// } else {
 		var VipRef = firebase.database().ref('users/' + userId).child('rooms/' + roomId + '/VIP');
 		VipRef.set(true);
-	}
+	// }
   }
 
   function notifyUnread (userId, roomId) {
 	// lets the user know that there are new unread messages in a room
-	if ($stateParams.roomId === roomId){
-		return;
-	} else {
+	// if ($stateParams.roomId === roomId){
+	// 	return;
+	// } else {
 		var unreadRef = firebase.database().ref('users/' + userId).child('rooms/' + roomId + '/unread');
 		unreadRef.set(true);
-	}
+	// }
 	
   }
 

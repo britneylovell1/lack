@@ -26,7 +26,7 @@ module.exports = function ($scope, EmailFactory, AdminUserFactory, $firebaseObje
     $scope.selectedMember = null;
 
     $scope.inviteNewMembers = function () {
-      var data = {$id: $scope.currentTeam.$id, name: $scope.currentTeam.teamName, emails: $scope.newMemberEmails};
+      var data = {teamId: $scope.currentTeam.$id, name: $scope.currentTeam.teamName, emails: $scope.newMemberEmails};
       EmailFactory.inviteNewMembers(data);
       $scope.newMemberEmails = [];
       $mdToast.show($mdToast.simple().textContent('Your invitations are on their way!'));
