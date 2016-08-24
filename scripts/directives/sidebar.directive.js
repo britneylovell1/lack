@@ -15,14 +15,21 @@ module.exports = function ($state, $firebaseArray, $rootScope, UserFactory, $sta
       scope.teamId = $stateParams.teamId;
 
       function getRooms () {
-        var user = UserFactory.getCurrentUser();
-        var roomsRef = firebase.database().ref('users').child(user.uid + '/rooms');
+        scope.userId = UserFactory.getCurrentUser().uid;
+        var roomsRef = firebase.database().ref('users').child(scope.userId + '/rooms');
         return $firebaseArray(roomsRef);
       }
       scope.rooms = getRooms();
 
-      scope.setCurrentRoom = function (room) {
-        $rootScope.currentRoom = room;
+      // this function isn't getting invoked. why? 
+      scope.resetNotification = function (roomId) {
+        console.log('in reset')
+        // reset the notification status
+        var buzzRef = firebase.database().ref('users/' + scope.userId).child('rooms/' + roomId + '/buzzWord');
+        buzzRef.set(false);
+
+        var VipRef = firebase.database().ref('users/' + scope.userId).child('rooms/' + roomId + '/VIP');
+        VipRef.set(false);
       };
     }
   };

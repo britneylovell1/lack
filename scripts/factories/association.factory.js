@@ -76,7 +76,11 @@ module.exports = function($firebaseArray, $firebaseObject) {
 
       var roomId = room.id || room.$id;
       var roomInfo = {
-        [roomId]: { roomName: room.name }
+        [roomId]: { 
+          roomName: room.name,
+          VIP: false,
+          buzzWord: false
+           }
       };
 
       // create user + room entries and set up references to them

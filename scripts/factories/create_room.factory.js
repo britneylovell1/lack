@@ -4,8 +4,6 @@ var firebase = require('firebase');
 
 module.exports = function($firebaseArray, $firebaseObject) {
 
-  var currentRoomRef = null; //does this persist? - not when I refresh the page! Spend some time figuring out persistence
-
   // factory methods
 
   var fac = {};

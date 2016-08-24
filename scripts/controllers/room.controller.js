@@ -3,6 +3,7 @@ var app = angular.module('lack');
 
 module.exports = function($scope, $state, $firebaseArray, $stateParams, UserFactory, AdminUserFactory, MessageFactory, $firebaseObject) {
 
+  // Admin management
   $scope.isRoomAdmin = false;
 
   AdminUserFactory.checkIfRoomAdmin($stateParams.roomId)
@@ -11,8 +12,8 @@ module.exports = function($scope, $state, $firebaseArray, $stateParams, UserFact
     });
 
   $scope.roomId = $stateParams.roomId;
-
   var roomRef = firebase.database().ref('rooms/' + $stateParams.roomId);
+  var user = UserFactory.getCurrentUser();
 
   $scope.theRoom = $firebaseObject(roomRef);
   $scope.theRoom.date = new Date($scope.theRoom.date);
@@ -21,12 +22,20 @@ module.exports = function($scope, $state, $firebaseArray, $stateParams, UserFact
     return $scope.roomId;
   };
 
+  // Reset notifications
+  var roomSettingsRef = firebase.database().ref('users/' + user.uid).child('rooms/' + $scope.roomId);
+  roomSettingsRef.on('child_changed', function() {
+    roomSettingsRef.child('buzzWord').set(false);
+    roomSettingsRef.child('VIP').set(false);
+  })
+
+
+
   function createMessages() {
     var newMessagesRef = firebase.database().ref('messages').child($scope.roomId);
     return $firebaseArray(newMessagesRef);
   }
 
-  var user = UserFactory.getCurrentUser();
 
   var userPic = function() {
     return user.photoURL ? user.photoURL : 'https://3.bp.blogspot.com/-W__wiaHUjwI/Vt3Grd8df0I/AAAAAAAAA78/7xqUNj8ujtY/s1600/image02.png';
