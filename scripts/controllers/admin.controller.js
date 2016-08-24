@@ -9,7 +9,7 @@ module.exports = function ($scope, EmailFactory, AdminUserFactory, $firebaseObje
     }
 
     //fetch current userId:
-    $scope.currentUserId = firebase.auth().currentUser.uid;
+    //$scope.currentUserId = firebase.auth().currentUser.uid;
 
     //fetch team and all members
     TeamFactory.getCurrentTeam()

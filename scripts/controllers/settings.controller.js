@@ -8,8 +8,8 @@ module.exports = function ($scope, $mdToast, UserFactory) {
   $scope.vips = ['Maggie', 'Britney', 'Liz'];
 
   
-  var user = UserFactory.getCurrentUser();
-  var settingsRef = firebase.database().ref('users/' + user.uid).child('settings');
+  var settingsRef = (_ => firebase.database()
+                     .ref('users').child(UserFactory.getCurrentUser().uid).child('settings'))
 
 
   $scope.submitBuzzwords = function () {
@@ -18,7 +18,7 @@ module.exports = function ($scope, $mdToast, UserFactory) {
     $scope.buzzwords.forEach(function (word) {
       buzzInfo[word] = true;
     })
-    settingsRef.child('buzz-words').update(buzzInfo);
+    settingsRef().child('buzz-words').update(buzzInfo);
 
     $mdToast.show($mdToast.simple().textContent('Updated your buzzwords!'));
   };
@@ -28,7 +28,7 @@ module.exports = function ($scope, $mdToast, UserFactory) {
     $scope.vips.forEach(function (word) {
       vipInfo[word] = true;
     })
-    settingsRef.child('VIPs').update(vipInfo);
+    settingsRef().child('VIPs').update(vipInfo);
 
     $mdToast.show($mdToast.simple().textContent('Updated your VIPs!'));
   };

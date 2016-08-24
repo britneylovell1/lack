@@ -21,7 +21,7 @@ var config = {
 
 firebase.initializeApp(config);
 
-var transporter = nodemailer.createTransport('smtps://thelackteam%40gmail.com:Maggie43!@smtp.gmail.com');
+var transporter = nodemailer.createTransport(process.env.SMTP_URL);
 
 var mailOptions = {
   from: 'Team Lack <the.lack.team@gmail.com>',

@@ -5,7 +5,7 @@ module.exports = function ($scope, $rootScope, $state, $firebaseAuth, $firebaseO
 
 	// log in, duh
 	$scope.signIn = function() {
-		UserFactory.login()
+		UserFactory.signIn()
 		.then(function (home) {
 
 			// get the current team and go to that home state

@@ -21,7 +21,7 @@ module.exports = function ($state, AdminUserFactory, $rootScope, TeamFactory, $l
             AdminUserFactory.checkIfAdmin(team)
               .then(function (bool) {
                 $rootScope.isAdmin = bool;
-                $state.go('home', {teamId: scope.team.$id});
+                //$state.go('home', {teamId: scope.team.$id});
               });
           });
       };
@@ -33,7 +33,10 @@ module.exports = function ($state, AdminUserFactory, $rootScope, TeamFactory, $l
         // This prevents a user from creating a new team when they're signed in
         if (user) {
           scope.loggedIn = true;
-          scope.goHome();
+          TeamFactory.getCurrentTeam()
+            .then(team => scope.team = team)
+            .then(AdminUserFactory.checkIfAdmin)
+            .then(isAdmin => $rootScope.isAdmin = isAdmin)          
         } else {
           scope.loggedIn = false;
           if (!$location.search().teamId) {

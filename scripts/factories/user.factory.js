@@ -49,9 +49,7 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth, $mdTo
     }
 
     // why doesn't this function work in the catch block???
-    function signInError (error) {
-
-
+  function signInError (error) {
       $mdToast.show($mdToast.simple().textContent('Authentication failed'));
 
       // Handle Errors here.
@@ -60,93 +58,26 @@ module.exports = function ($firebaseArray, $firebaseObject, $firebaseAuth, $mdTo
 
       // alert(errorCode, "\nAuthentication failed:\n", errorMessage);
       $mdToast.show($mdToast.simple().textContent('Authentication failed'));
-
-    }
+  }
 
   return {
-
-		signIn: function() {
-
-      // Sign in Firebase using popup auth and Google as the identity provider.
-      authObj = $firebaseAuth();
-
-      return authObj.$signInWithPopup("google")
-        .then(function(result) {
-          var userId = result.user.uid;
-          var user = result.user;
-
-          userExists(userId)
-            .then(function(result) {
-
-              // create user if it doesn't exist in firebase
-              if (!result) {
-                createUser(user);
-              }
-            })
-
-           return user;
-
-        })
-        .catch(function(error) {
-
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-
-          // alert(errorCode, "\nAuthentication failed:\n", errorMessage);
-          $mdToast.show($mdToast.simple().textContent('Authentication failed'));
-          console.log(error);
-        });
-    },
-
-    getCurrentUser: function() {
-      return firebase.auth().currentUser;
-    },
-
-    login: function() {
-      // Sign in Firebase using popup auth and Google as the identity provider.
-      authObj = $firebaseAuth();
-
-      return authObj.$signInWithPopup("google")
-      .then(function(result) {
-        var userId = result.user.uid;
-        var user = result.user;
-        // var home;
-
-        // if user is not in database (i.e. they haven't created an account through sign-up), redirect them so they do sign-up.
-        return userExists(userId)
-        .then(function(result) {
-
-          if(!result) {
-            // alert('You do not have an account with us. Please make a team and sign up through Google');
-            $mdToast.show($mdToast.simple().textContent('You do not have an account with us. Please make a team and sign up through Google'));
-
-            // go to landing page
-            return home = false;
+    signIn() {
+      return new Promise((resolve, reject) => {
+        firebase.auth().onAuthStateChanged(function (user) {
+          if (user) {
+            userExists(user)
+              .then(result => result || createUser(user))
+              .then(_ => resolve(user))
+          } else {
+            $firebaseAuth().$signInWithRedirect('google')
           }
-          else {
-
-            // go to home state
-            return home = true;
-          }
-
         })
-
       })
-      .catch(function(error) {
+    },
 
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-
-        // alert(errorCode, "\nAuthentication failed:\n", errorMessage);
-        $mdToast.show($mdToast.simple().textContent('Authentication failed'));
-
-
-      });
-
-    }
-
+    getCurrentUser() {
+      return firebase.auth().currentUser
+    },
   }
 
 }
