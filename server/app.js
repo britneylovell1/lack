@@ -88,7 +88,7 @@ teamsRef.on('child_added', function (data) {
 var invitesRef = firebase.database().ref('new-members-email-queue');
 invitesRef.on('child_added', function (data) {
   var emails = data.val().emails;
-  var teamId = data.val().$id;
+  var teamId = data.val().teamId;
   var teamName = data.val().name;
   emails.forEach(function (email) {
     sendEmail(email, teamId, teamName);
