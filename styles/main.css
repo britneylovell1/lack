@@ -62,14 +62,14 @@ md-card-content.right {
 
 .notify-buzz {
   color: green;
-  background-color: #e4e4e4;
+  background-color: #ffd27f;;
 }
 
 .notify-vip {
   color: red;
-  background-color: #e4e4e4;
+  background-color: #ffd27f;;
 }
 
 .unread-messages {
-  background-color: #e4e4e4;
+  background-color: #ffd27f;
 }
