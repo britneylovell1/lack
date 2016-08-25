@@ -5,7 +5,7 @@
   <md-content layout-padding>
     <div ng-repeat="room in rooms">
       <a ui-sref="home.room({roomId: room.$id})" ng-click="resetNotification(room.$id)">
-        <md-button ng-class="{ 'notify-vip': room.VIP, 'notify-buzz': room.buzzWord, 'unread-messages': room.unread }">
+        <md-button ng-class="{ 'notify-vip': room.VIP, 'notify-buzz': room.buzzWord, 'unread-messages': room.unread, 'current-room': compareRoom(room) }">
           {{ room.roomName }}
         </md-button>
       </a>

@@ -77,3 +77,7 @@ md-card-content.right {
 #welcome {
   text-align: center;
 }
+
+.current-room {
+  background-color: #C5CAE9;
+}

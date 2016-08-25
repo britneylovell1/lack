@@ -21,9 +21,13 @@ module.exports = function ($state, $firebaseArray, $rootScope, UserFactory, $sta
       }
       scope.rooms = getRooms();
 
+      scope.compareRoom = function (room) {
+        return room.$id === $rootScope.currentRoomId;
+      };
+
       // this function isn't getting invoked. why? 
       scope.resetNotification = function (roomId) {
-        console.log('in reset')
+        $rootScope.currentRoomId = roomId;
         // reset the notification status
         var buzzRef = firebase.database().ref('users/' + scope.userId).child('rooms/' + roomId + '/buzzWord');
         buzzRef.set(false);
