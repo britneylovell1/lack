@@ -35,7 +35,7 @@ var sendEmail = function (email, teamId, teamName) {
   mailOptions.to = email;
   mailOptions.html = '<p>You have been invited to join '
                       + teamName +
-                      ' on Lack! Click <a href="http://localhost:5000/#/join-team?teamId='
+                      ' on Lack! Click <a href="https://lack.tech/join-team?teamId='
                       + teamId +
                       '&teamName='
                       + teamName +
