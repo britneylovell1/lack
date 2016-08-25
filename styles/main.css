@@ -76,6 +76,7 @@ md-card-content.right {
   padding-bottom: 2px;
   margin-top: 0;
   margin-bottom: 0;
+  background-color: #FFD740;
 }
 
 .notify-buzz {
@@ -97,8 +98,4 @@ md-card-content.right {
 md-card-content h3 {
   margin-bottom: 7px;
   margin-top: 7px;
-}
-
-.right {
-  background-color: #FFD740;
 }
