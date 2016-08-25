@@ -93,3 +93,12 @@ md-card-content.right {
 .unread-messages {
   background-color: #ffd27f;
 }
+
+md-card-content h3 {
+  margin-bottom: 7px;
+  margin-top: 7px;
+}
+
+.right {
+  background-color: #FFD740;
+}

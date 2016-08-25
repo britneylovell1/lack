@@ -41,18 +41,18 @@
 </div>
 <div flex="20">
   <md-content>
-    <div>
+    <div class="right">
       <md-card ng-show="isRoom()">
-        <md-card-content class="right">
+        <md-card-content>
           <h3>Objective: </h3>
         </md-card-content>
-        <md-card-content class="right">
+        <md-card-content>
           <span>{{ theRoom.objective }}</span>
         </md-card-content>
-        <md-card-content class="right">
+        <md-card-content>
           <h3>Closing on:</h3>
         </md-card-content>
-        <md-card-content class="right">
+        <md-card-content>
           <span>{{ toJsDate(theRoom.date) | date:'EEEE, MMMM d, y' }}</span>
         </md-card-content>
       </md-card>
