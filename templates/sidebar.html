@@ -3,11 +3,9 @@
     <h1 class="md-toolbar-tools">My rooms</h1>
   </md-toolbar>
   <md-content layout-padding>
-    <div ng-repeat="room in rooms">
-      <a ui-sref="home.room({roomId: room.$id})" ng-click="resetNotification(room.$id)">
-        <md-button ng-class="{ 'notify-vip': room.VIP, 'notify-buzz': room.buzzWord, 'unread-messages': room.unread }">
-          {{ room.roomName }}
-        </md-button>
+    <div class="sidebarRoom" ng-repeat="room in rooms">
+      <a class="sidebarRoomLink" ui-sref="home.room({roomId: room.$id})" ng-click="resetNotification(room.$id)" ng-class="{ 'notify-vip': room.VIP, 'notify-buzz': room.buzzWord, 'unread-messages': room.unread }">
+        {{ room.roomName }}
       </a>
     </div>
     <a ui-sref="createRoom({teamId: teamId})">

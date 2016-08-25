@@ -1,5 +1,5 @@
 html {
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 #hero {
@@ -32,6 +32,24 @@ html {
   max-width: 100%;
 }
 
+#sidebar a {
+  color: black;
+  text-decoration: none;
+}
+
+.sidebarRoomLink {
+  transition: all .2s ease;
+}
+
+.sidebarRoomLink:hover {
+  border-left: 8px solid #FFD740;
+  padding-left: 2px;
+}
+
+.sidebarRoom {
+  padding: 20px;
+}
+
 .centeredTitle {
   text-align: center;
 }
@@ -62,12 +80,14 @@ md-card-content.right {
 
 .notify-buzz {
   color: green;
-  background-color: #ffd27f;;
+  background-color: #ffd27f;
+  ;
 }
 
 .notify-vip {
   color: red;
-  background-color: #ffd27f;;
+  background-color: #ffd27f;
+  ;
 }
 
 .unread-messages {
