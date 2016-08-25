@@ -13,10 +13,10 @@ app.use(bodyParser.json());
 app.listen(process.env.PORT || 3000);
 
 var config = {
-  apiKey: "AIzaSyAGlJNi77LCyxRye_4--6FM-sAP4uRFccM",
-  authDomain: "shhh-lack.firebaseapp.com",
-  databaseURL: "https://shhh-lack.firebaseio.com",
-  storageBucket: "shhh-lack.appspot.com",
+  apiKey: 'AIzaSyAGlJNi77LCyxRye_4--6FM-sAP4uRFccM',
+  authDomain: 'shhh-lack.firebaseapp.com',
+  databaseURL: 'https://shhh-lack.firebaseio.com',
+  storageBucket: 'shhh-lack.appspot.com',
 };
 
 firebase.initializeApp(config);
