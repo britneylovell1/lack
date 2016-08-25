@@ -125,7 +125,7 @@ var checkDate = function (date) {
   }
 };
 
-var job = new CronJob('00 00 04 * * 0-6', function () {
+var job = new CronJob('00 00 03 * * 0-6', function () {
 
   var roomsRef = firebase.database().ref('rooms');
 
@@ -153,4 +153,4 @@ var job = new CronJob('00 00 04 * * 0-6', function () {
       });
     });
 
-}, null, true, 'America/Los_Angeles');
+}, null, true, 'America/New_York');
