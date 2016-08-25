@@ -73,3 +73,7 @@ md-card-content.right {
 .unread-messages {
   background-color: #ffd27f;
 }
+
+#welcome {
+  text-align: center;
+}

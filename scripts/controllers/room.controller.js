@@ -2,7 +2,10 @@ var angular = require('angular');
 var app = angular.module('lack');
 var firebase = require('firebase');
 
-module.exports = function($scope, $state, $firebaseArray, $stateParams, UserFactory, AdminUserFactory, MessageFactory, $firebaseObject) {
+module.exports = function ($scope, $rootScope, $state, $firebaseArray, $stateParams, UserFactory, AdminUserFactory, MessageFactory, $firebaseObject) {
+
+  //for turning off welcome message
+  $rootScope.inRoom = true;
 
   // Admin management
   $scope.isRoomAdmin = false;
