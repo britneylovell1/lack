@@ -1,5 +1,4 @@
 {
-  // If you went through the "Realtime Database Security Rules" step.
   "database": {
     "rules": "database-rules.json"
   },
@@ -19,6 +18,12 @@
           "key" : "Access-Control-Allow-Origin",
           "value" : "*"
         } ]
-    } ]
+    } ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]    
   }
 }

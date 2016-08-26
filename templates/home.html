@@ -2,6 +2,7 @@
   <sidebar flex="20" rooms="rooms" currentTeamId="currentTeamId">
   </sidebar>
   <div flex="80">
+    <h1 id="welcome" ng-show="!inRoom">Welcome to {{ currentTeam.teamName }}!</h1>
     <ui-view layout="row">
     </ui-view>
   </div>

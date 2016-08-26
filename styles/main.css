@@ -60,16 +60,22 @@ md-card-content.right {
   margin-bottom: 0;
 }
 
+.unread-messages {
+  background-color: #ffd27f;
+}
+
 .notify-buzz {
-  color: green;
-  background-color: #ffd27f;;
+  background-color: #A5D6A7;
 }
 
 .notify-vip {
-  color: red;
-  background-color: #ffd27f;;
+  background-color: #FFCDD2;
 }
 
-.unread-messages {
-  background-color: #ffd27f;
+.current-room {
+  background-color: #EEEEEE;
+}
+
+#welcome {
+  text-align: center;
 }

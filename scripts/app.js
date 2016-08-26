@@ -41,25 +41,16 @@ module.exports = angular.module('lack', [
 .controller('RoomController', require('./controllers/room.controller.js'))
 .controller('SettingsController', require('./controllers/settings.controller.js'))
 .controller('LoginController', require('./controllers/login.controller.js'))
+.controller('CloseRoomController', require('./controllers/close_room.controller.js'))
 
-//prettify URLs - comment back in for deployment:
-// .config(function ($locationProvider) {
-//   $locationProvider.html5Mode(true);
-// })
+//prettify URLs:
+.config(function ($locationProvider) {
+  $locationProvider.html5Mode(true);
+})
 
 //set themes:
-.config(function($mdThemingProvider) {
+.config(function ($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('orange')
     .accentPalette('amber');
 });
-// .run(function () {
-//   var emailQueueRef = firebase.database().ref('close-room-email-queue');
-//   emailQueueRef.on('child_added', function (data) {
-//     var emails = data.val().emails;
-//     var notes = data.val().notes;
-//     var objective = data.val().objective;
-//     var roomName = data.val().roomName;
-//     console.log('Hello Maggie');
-//   });
-// });

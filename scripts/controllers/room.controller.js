@@ -2,7 +2,10 @@ var angular = require('angular');
 var app = angular.module('lack');
 var firebase = require('firebase');
 
-module.exports = function($scope, $state, $firebaseArray, $stateParams, UserFactory, AdminUserFactory, MessageFactory, $firebaseObject) {
+module.exports = function ($scope, $rootScope, $state, $firebaseArray, $stateParams, UserFactory, AdminUserFactory, MessageFactory, $firebaseObject) {
+
+  //for turning off welcome message
+  $rootScope.inRoom = true;
 
   // Admin management
   $scope.isRoomAdmin = false;
@@ -24,12 +27,17 @@ module.exports = function($scope, $state, $firebaseArray, $stateParams, UserFact
   };
 
   // Reset notifications
-  // var roomSettingsRef = firebase.database().ref('users/' + user.uid).child('rooms/' + $scope.roomId);
-  // roomSettingsRef.on('child_changed', function() {
-  //   roomSettingsRef.child('buzzWord').set(false);
-  //   roomSettingsRef.child('VIP').set(false);
-  //   roomSettingsRef.child('unread').set(false);
-  // })
+  // var roomSettingsRef = firebase.database().ref('users/' + user.uid).child('rooms/' + $stateParams.roomId);
+  // if ($stateParams.roomId === $scope.roomId) {
+
+  //   roomSettingsRef.on('child_changed', function() {
+  //     roomSettingsRef.child('buzzWord').set(false);
+  //     roomSettingsRef.child('VIP').set(false);
+  //     roomSettingsRef.child('unread').set(false);
+  //   });
+  // } else {
+  //   roomSettingsRef.off();
+  // }
 
   function createMessages() {
     var newMessagesRef = firebase.database().ref('messages').child($scope.roomId);
@@ -81,4 +89,4 @@ module.exports = function($scope, $state, $firebaseArray, $stateParams, UserFact
     $scope.$$postDigest($scope.scroller);
   });
 
-}
+};
