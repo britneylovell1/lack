@@ -4,7 +4,7 @@
   </md-toolbar>
   <md-content layout-padding>
     <div class="sidebarRoom" ng-repeat="room in rooms">
-      <a class="sidebarRoomLink" ui-sref="home.room({roomId: room.$id})" ng-click="resetNotification(room.$id)" ng-class="{ 'notify-vip': room.VIP, 'notify-buzz': room.buzzWord, 'unread-messages': room.unread }">
+      <a class="sidebarRoomLink" ui-sref="home.room({roomId: room.$id})" ng-click="resetNotification(room.$id)" ng-class="{ 'notify-vip': room.VIP, 'notify-buzz': room.buzzWord, 'unread-messages': room.unread, 'current-room': compareRoom(room) }">
         {{ room.roomName }}
       </a>
     </div>
