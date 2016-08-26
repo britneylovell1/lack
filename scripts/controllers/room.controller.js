@@ -27,12 +27,17 @@ module.exports = function ($scope, $rootScope, $state, $firebaseArray, $statePar
   };
 
   // Reset notifications
-  // var roomSettingsRef = firebase.database().ref('users/' + user.uid).child('rooms/' + $scope.roomId);
-  // roomSettingsRef.on('child_changed', function() {
-  //   roomSettingsRef.child('buzzWord').set(false);
-  //   roomSettingsRef.child('VIP').set(false);
-  //   roomSettingsRef.child('unread').set(false);
-  // })
+  // var roomSettingsRef = firebase.database().ref('users/' + user.uid).child('rooms/' + $stateParams.roomId);
+  // if ($stateParams.roomId === $scope.roomId) {
+
+  //   roomSettingsRef.on('child_changed', function() {
+  //     roomSettingsRef.child('buzzWord').set(false);
+  //     roomSettingsRef.child('VIP').set(false);
+  //     roomSettingsRef.child('unread').set(false);
+  //   });
+  // } else {
+  //   roomSettingsRef.off();
+  // }
 
   function createMessages() {
     var newMessagesRef = firebase.database().ref('messages').child($scope.roomId);
@@ -84,4 +89,4 @@ module.exports = function ($scope, $rootScope, $state, $firebaseArray, $statePar
     $scope.$$postDigest($scope.scroller);
   });
 
-}
+};
