@@ -1,5 +1,5 @@
 html {
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 #hero {
@@ -32,6 +32,24 @@ html {
   max-width: 100%;
 }
 
+#sidebar a {
+  color: black;
+  text-decoration: none;
+}
+
+.sidebarRoomLink {
+  transition: all .2s ease;
+}
+
+.sidebarRoomLink:hover {
+  border-left: 8px solid #FFD740;
+  padding-left: 2px;
+}
+
+.sidebarRoom {
+  padding: 20px;
+}
+
 .centeredTitle {
   text-align: center;
 }
@@ -58,6 +76,7 @@ md-card-content.right {
   padding-bottom: 2px;
   margin-top: 0;
   margin-bottom: 0;
+  background-color: #FFD740;
 }
 
 .unread-messages {
@@ -78,4 +97,9 @@ md-card-content.right {
 
 #welcome {
   text-align: center;
+}
+
+md-card-content h3 {
+  margin-bottom: 7px;
+  margin-top: 7px;
 }
