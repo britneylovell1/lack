@@ -51,6 +51,7 @@ module.exports = function($log, $rootScope, $scope, $state, $stateParams, $fireb
         AssocFactory.assocTeamRoom($scope.team, $scope.room)
           .then(function() {
             // go to home room
+            $rootScope.currentRoomId = $scope.room.$id;
             $state.go('home.room', { teamId: $stateParams.teamId, roomId: $scope.room.$id });
           });
 

@@ -79,20 +79,24 @@ md-card-content.right {
   background-color: #FFD740;
 }
 
-.notify-buzz {
-  color: green;
+.unread-messages {
   background-color: #ffd27f;
-  ;
+}
+
+.notify-buzz {
+  background-color: #A5D6A7;
 }
 
 .notify-vip {
-  color: red;
-  background-color: #ffd27f;
-  ;
+  background-color: #FFCDD2;
 }
 
-.unread-messages {
-  background-color: #ffd27f;
+.current-room {
+  background-color: #EEEEEE;
+}
+
+#welcome {
+  text-align: center;
 }
 
 md-card-content h3 {

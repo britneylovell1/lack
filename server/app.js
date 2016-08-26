@@ -13,15 +13,15 @@ app.use(bodyParser.json());
 app.listen(process.env.PORT || 3000);
 
 var config = {
-  apiKey: "AIzaSyAGlJNi77LCyxRye_4--6FM-sAP4uRFccM",
-  authDomain: "shhh-lack.firebaseapp.com",
-  databaseURL: "https://shhh-lack.firebaseio.com",
-  storageBucket: "shhh-lack.appspot.com",
+  apiKey: 'AIzaSyAGlJNi77LCyxRye_4--6FM-sAP4uRFccM',
+  authDomain: 'shhh-lack.firebaseapp.com',
+  databaseURL: 'https://shhh-lack.firebaseio.com',
+  storageBucket: 'shhh-lack.appspot.com',
 };
 
 firebase.initializeApp(config);
 
-var transporter = nodemailer.createTransport('smtps://thelackteam%40gmail.com:Maggie43!@smtp.gmail.com');
+var transporter = nodemailer.createTransport(process.env.SMTP_URL);
 
 var mailOptions = {
   from: 'Team Lack <the.lack.team@gmail.com>',
@@ -35,7 +35,7 @@ var sendEmail = function (email, teamId, teamName) {
   mailOptions.to = email;
   mailOptions.html = '<p>You have been invited to join '
                       + teamName +
-                      ' on Lack! Click <a href="http://localhost:5000/#/join-team?teamId='
+                      ' on Lack! Click <a href="https://lack.tech/join-team?teamId='
                       + teamId +
                       '&teamName='
                       + teamName +
@@ -125,7 +125,7 @@ var checkDate = function (date) {
   }
 };
 
-var job = new CronJob('00 00 04 * * 0-6', function () {
+var job = new CronJob('00 00 03 * * 0-6', function () {
 
   var roomsRef = firebase.database().ref('rooms');
 
@@ -153,4 +153,4 @@ var job = new CronJob('00 00 04 * * 0-6', function () {
       });
     });
 
-}, null, true, 'America/Los_Angeles');
+}, null, true, 'America/New_York');
